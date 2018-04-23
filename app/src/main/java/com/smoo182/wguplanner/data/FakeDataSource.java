@@ -113,10 +113,10 @@ public class FakeDataSource implements DataSourceInterface {
         quotesArrayList.add(new Quote("“It always seems impossible until it's done. ”", "– Nelson Mandela"));
 
         return quotesArrayList;
-        }
+    }
 
     @Override
-    public Quote getRandomQuote(){
+    public Quote getRandomQuote() {
         ArrayList<Quote> list = (ArrayList<Quote>) getQuoteList();
         Random random = new Random();
         return list.get(random.nextInt(list.size()));

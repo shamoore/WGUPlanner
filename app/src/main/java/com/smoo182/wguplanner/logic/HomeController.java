@@ -12,8 +12,8 @@ public class HomeController {
 
     private DataSourceInterface dataSource;
 
-    public HomeController(HomeViewInterface view, DataSourceInterface dataSource){
-        this.view =view;
+    public HomeController(HomeViewInterface view, DataSourceInterface dataSource) {
+        this.view = view;
         this.dataSource = dataSource;
 
         getQuoteFromDataSource();

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="56dp"
+    android:layout_width="match_parent"
+    >
+
+    <item android:id="@+id/action_home"
+        app:showAsAction="always"
+        android:title="Home"
+        android:icon="@drawable/ic_action_home" />
+    <item android:id="@+id/action_terms"
+        android:title="Terms"
+        android:icon="@drawable/ic_action_term"
+        app:showAsAction="always" />
+    <item android:id="@+id/action_courses"
+        android:title="Courses"
+        android:icon="@drawable/ic_action_course"
+        app:showAsAction="always" />
+    <item android:id="@+id/action_assessments"
+        android:title="Assessments"
+        android:icon="@drawable/ic_action_assessment"
+        app:showAsAction="always" />
+    <item android:id="@+id/action_mentors"
+        android:title="Mentors"
+        android:icon="@drawable/ic_action_mentor"
+        app:showAsAction="always" />
+</menu>

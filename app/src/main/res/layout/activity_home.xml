@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_home_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activities.HomeActivity"
     android:background="@color/colorWindowBackground"
-    android:id="@+id/root_home_activity">
+    tools:context=".view.activities.HomeActivity">
 
     <ImageView
         android:id="@+id/wgulogo"
@@ -19,35 +19,33 @@
 
     <GridLayout
         android:id="@+id/grid_buttons"
-        android:layout_below="@+id/wgulogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/wgulogo"
         android:layout_centerHorizontal="true">
 
         <Button
             android:id="@+id/button_terms"
-            android:layout_height="wrap_content"
-            android:text="Terms"
             style="@style/Button"
-            />
+            android:layout_height="wrap_content"
+            android:text="Terms" />
 
         <Button
             android:id="@+id/button_courses"
-            android:layout_height="wrap_content"
-            android:text="Courses"
             style="@style/Button"
-            />
+            android:layout_height="wrap_content"
+            android:text="Courses" />
 
         <Button
             android:id="@+id/button_assessments"
-            android:layout_height="wrap_content"
-            android:text="Assessments"
             style="@style/Button"
-            />
+            android:layout_height="wrap_content"
+            android:text="Assessments" />
     </GridLayout>
 
     <TextView
         android:id="@+id/text_quote"
+        style="@style/QuoteText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/grid_buttons"
@@ -56,12 +54,12 @@
         android:layout_marginTop="32dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        style="@style/QuoteText"
 
         tools:text="“Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time.”" />
 
     <TextView
         android:id="@+id/text_quote_author"
+        style="@style/QuoteText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -69,7 +67,16 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:paddingRight="16dp"
-        style="@style/QuoteText"
         tools:text="Thomas A Edison" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-16dp"
+        android:layout_alignParentEnd="true"
+        app:menu="@menu/bottom_navigation"
+        />
 
 </RelativeLayout>

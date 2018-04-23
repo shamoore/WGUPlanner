@@ -12,26 +12,37 @@ import java.util.List;
 public interface DataSourceInterface {
 
     List<Term> getTermList();
+
     Term addNewTerm();
+
     void deleteTerm();
 
     List<Course> getCourseList();
+
     Course addNewCourse();
+
     void deleteCourse();
 
     List<Assessment> getAssessmentList();
+
     Assessment addNewAssessment();
+
     void deleteAssessment();
 
     List<Mentor> getMentorList();
+
     Mentor addNewMentor();
+
     void deleteMentor();
 
     List<Note> getNoteList();
+
     Note addNewNote();
+
     void deleteNote();
 
     List<Quote> getQuoteList();
+
     Quote getRandomQuote();
 
 }
