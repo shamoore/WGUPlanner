@@ -1,13 +1,20 @@
 package com.smoo182.wguplanner.view.activities;
 
+import com.smoo182.wguplanner.R;
+
 public class CourseListActivity extends BaseActivity {
     @Override
     int getContentViewId() {
-        return 0;
+        return R.layout.activity_course_list;
     }
 
     @Override
     int getNavigationMenuItemId() {
-        return 0;
+        return R.id.action_courses;
+    }
+
+    @Override
+    void populateScreen() {
+
     }
 }

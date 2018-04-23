@@ -25,20 +25,6 @@ public class HomeActivity extends BaseActivity implements HomeViewInterface {
     private TextView authorTextView;
     private HomeController homeController;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        contentTextView = (TextView) findViewById(R.id.text_quote);
-        authorTextView = (TextView) findViewById(R.id.text_quote_author);
-
-        homeController = new HomeController(this, new FakeDataSource());
-
-        navigationView = (BottomNavigationView) findViewById(R.id.navigation);
-        navigationView.setOnNavigationItemSelectedListener(this);
-    }
-
-
     @SuppressLint("RestrictedApi")
     @Override
     public void setUpAdapterAndView(Quote quote) {
@@ -54,5 +40,13 @@ public class HomeActivity extends BaseActivity implements HomeViewInterface {
     @Override
     int getNavigationMenuItemId() {
         return R.id.action_home;
+    }
+
+    public void populateScreen(){
+        contentTextView = (TextView) findViewById(R.id.text_quote);
+        authorTextView = (TextView) findViewById(R.id.text_quote_author);
+
+        homeController = new HomeController(this, new FakeDataSource());
+
     }
 }

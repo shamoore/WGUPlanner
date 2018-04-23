@@ -1,5 +1,6 @@
 package com.smoo182.wguplanner.view.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,14 +14,18 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
 
     protected BottomNavigationView navigationView;
 
-    //@Override
-    protected void OnCreate(Bundle savedInstanceState) {
+
+   @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
-
+        populateScreen();
         navigationView = (BottomNavigationView) findViewById(R.id.navigation);
-        navigationView.setOnNavigationItemSelectedListener(this);
+        if(navigationView != null) {
+            navigationView.setOnNavigationItemSelectedListener(this);
+        }
     }
+
 
     @Override
     protected void onStart(){
@@ -63,16 +68,19 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
     }
 
     private void updateNavigationBarState(){
-        selectBottomNavigationBarItem(getNavigationMenuItemId());
+        int actionID = getNavigationMenuItemId();
+        selectBottomNavigationBarItem(actionID);
 
     }
 
     void selectBottomNavigationBarItem(int itemId){
-        navigationView.getMenu().findItem(itemId).setChecked(true);
+        MenuItem item = navigationView.getMenu().findItem(itemId);
+        item.setChecked(true);
     }
 
     abstract int getContentViewId();
     abstract int getNavigationMenuItemId();
+    abstract void populateScreen();
 
 
 }
