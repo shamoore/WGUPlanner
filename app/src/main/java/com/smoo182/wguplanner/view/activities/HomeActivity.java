@@ -45,7 +45,6 @@ public class HomeActivity extends BaseActivity implements HomeViewInterface {
     public void populateScreen(){
         contentTextView = (TextView) findViewById(R.id.text_quote);
         authorTextView = (TextView) findViewById(R.id.text_quote_author);
-
         homeController = new HomeController(this, new FakeDataSource());
 
     }
