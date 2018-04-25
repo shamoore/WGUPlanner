@@ -24,23 +24,6 @@
         android:layout_below="@+id/wgulogo"
         android:layout_centerHorizontal="true">
 
-        <Button
-            android:id="@+id/button_terms"
-            style="@style/Button"
-            android:layout_height="wrap_content"
-            android:text="Terms" />
-
-        <Button
-            android:id="@+id/button_courses"
-            style="@style/Button"
-            android:layout_height="wrap_content"
-            android:text="Courses" />
-
-        <Button
-            android:id="@+id/button_assessments"
-            style="@style/Button"
-            android:layout_height="wrap_content"
-            android:text="Assessments" />
     </GridLayout>
 
     <TextView

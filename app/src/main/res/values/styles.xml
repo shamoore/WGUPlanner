@@ -8,13 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Button">
+    <style name="primary_button">
+    <item name="android:padding">6dp</item>
+    <item name="android:background">@color/colorPrimaryDark</item>
+    <item name="android:textColor">@color/colorWindowBackground</item>
+    <item name="android:layout_width">100dp</item>
+    <item name="android:textSize">12sp</item>
+</style>
+
+    <style name="warn_button">
         <item name="android:padding">6dp</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorWarn</item>
         <item name="android:textColor">@color/colorWindowBackground</item>
         <item name="android:layout_width">100dp</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:layout_margin">3dp</item>
     </style>
 
     <style name="QuoteText">
@@ -24,9 +31,20 @@
     </style>
 
     <style name="TitleText">
-        <item name="android:textSize">35dp</item>
+        <item name="android:textSize">25dp</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_height">60dp</item>
+        <item name="android:textColor">@color/colorWindowBackground</item>
+    </style>
+
+    <style name="ListItemTitle">
+        <item name="android:textSize">25dp</item>
+    </style>
+
+    <style name="FieldNameText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+
     </style>
 
 

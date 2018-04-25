@@ -7,18 +7,18 @@ import com.smoo182.wguplanner.data.datatypes.Note;
 import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.data.datatypes.Term;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
 //To be replaced with SQLite db
 public class FakeDataSource implements DataSourceInterface {
 
-
-    @Override
-    public List<Term> getTermList() {
-        return null;
-    }
 
     @Override
     public List<Course> getCourseList() {
@@ -112,6 +112,24 @@ public class FakeDataSource implements DataSourceInterface {
         quotesArrayList.add(new Quote("“It always seems impossible until it's done. ”", "– Nelson Mandela"));
 
         return quotesArrayList;
+    }
+
+    @Override
+    public List<Term> getTermList() throws ParseException {
+        ArrayList<Term> termArrayList = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        GregorianCalendar gc = new GregorianCalendar();
+        Date start = sdf.parse("01/01/2018");
+        Date stop = sdf.parse("06/30/2018");
+
+
+        termArrayList.add(new Term(1, "Term 1", start, start));
+        termArrayList.add(new Term(2, "Term 2", start, stop));
+        termArrayList.add(new Term(3, "Term 3", start, stop));
+        termArrayList.add(new Term(3, "Term 3", start, stop));
+        termArrayList.add(new Term(3, "Term 3", start, stop));
+
+        return termArrayList;
     }
 
     @Override

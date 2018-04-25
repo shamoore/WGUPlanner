@@ -7,11 +7,12 @@ import com.smoo182.wguplanner.data.datatypes.Note;
 import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.data.datatypes.Term;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface DataSourceInterface {
 
-    List<Term> getTermList();
+    List<Term> getTermList() throws ParseException;
 
     Term addNewTerm();
 
