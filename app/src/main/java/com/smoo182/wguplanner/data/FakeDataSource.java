@@ -10,7 +10,6 @@ import com.smoo182.wguplanner.data.datatypes.Term;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -123,11 +122,11 @@ public class FakeDataSource implements DataSourceInterface {
         Date stop = sdf.parse("06/30/2018");
 
 
-        termArrayList.add(new Term(1, "Term 1", start, start));
-        termArrayList.add(new Term(2, "Term 2", start, stop));
-        termArrayList.add(new Term(3, "Term 3", start, stop));
-        termArrayList.add(new Term(3, "Term 3", start, stop));
-        termArrayList.add(new Term(3, "Term 3", start, stop));
+        termArrayList.add(new Term(1, "Term 1", start, start, "this is description #1"));
+        termArrayList.add(new Term(2, "Term 2", start, stop, "this is description #2"));
+        termArrayList.add(new Term(3, "Term 3", start, stop, "this is description #3"));
+        termArrayList.add(new Term(3, "Term 3", start, stop, "this is description #4"));
+        termArrayList.add(new Term(3, "Term 3", start, stop, "this is description #5"));
 
         return termArrayList;
     }

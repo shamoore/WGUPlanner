@@ -2,7 +2,7 @@ package com.smoo182.wguplanner.view.activities;
 
 import com.smoo182.wguplanner.R;
 
-public class MentorListActivity extends BaseActivity {
+public class MentorListActivity extends BasePrimaryActivity {
     @Override
     int getContentViewId() {
         return R.layout.activity_mentor_list;

@@ -1,15 +1,6 @@
 package com.smoo182.wguplanner.view.activities;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenu;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.smoo182.wguplanner.R;
@@ -18,9 +9,8 @@ import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.logic.HomeController;
 import com.smoo182.wguplanner.view.interfaces.HomeViewInterface;
 
-public class HomeActivity extends BaseActivity implements HomeViewInterface {
+public class HomeActivity extends BasePrimaryActivity implements HomeViewInterface {
 
-    private LayoutInflater layoutInflater;
     private TextView contentTextView;
     private TextView authorTextView;
     private HomeController homeController;

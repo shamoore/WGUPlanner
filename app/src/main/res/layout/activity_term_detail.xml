@@ -8,80 +8,25 @@
 
 
     <TextView
-        android:id="@+id/text_term_startdate2"
+        android:id="@+id/text_term_courses"
         style="@style/FieldNameText"
-        android:layout_width="110dp"
+        android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="370dp"
-        android:text="End Date"
+        android:layout_marginTop="290dp"
+        android:text="Courses"
         android:textAlignment="viewEnd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_navigation" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/image_white_owl"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:contentDescription="white owl @android:string/fingerprint_icon_content_description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/whiteowl" />
-
-    <com.smoo182.wguplanner.view.KollektifTextView
-        android:id="@+id/text_term_details_page_title"
-        style="@style/TitleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="10dp"
-        android:text="TERM DETAILS"
-        app:layout_constraintEnd_toStartOf="@+id/toolbar"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="5dp"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="80dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_term_title"
         style="@style/FieldNameText"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="80dp"
         android:text="Title"
         android:textAlignment="viewEnd"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,10 +35,10 @@
     <TextView
         android:id="@+id/text_term_desc"
         style="@style/FieldNameText"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="150dp"
         android:text="Description"
         android:textAlignment="viewEnd"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,11 +47,11 @@
     <TextView
         android:id="@+id/text_term_startdate"
         style="@style/FieldNameText"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="300dp"
-        android:text="Start Date"
+        android:layout_marginTop="235dp"
+        android:text="Term Dates"
         android:textAlignment="viewEnd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -114,9 +59,9 @@
     <EditText
         android:id="@+id/editText_term_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="150dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="80dp"
         android:ems="10"
         android:hint="ex. Term 1"
         android:inputType="textPersonName"
@@ -127,8 +72,8 @@
         android:id="@+id/editText2_term_desc"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="Enter some info about the term"
         android:inputType="textMultiLine"
@@ -137,10 +82,10 @@
 
     <EditText
         android:id="@+id/editText_startdate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="300dp"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="235dp"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintStart_toStartOf="parent"
@@ -148,37 +93,51 @@
 
     <EditText
         android:id="@+id/editText_enddate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="370dp"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="255dp"
+        android:layout_marginTop="235dp"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        style="@style/warn_button"
-        android:id="@+id/button_delete"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
+        android:layout_marginStart="215dp"
+        android:layout_marginTop="240dp"
+        android:text="until"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/lv_term_courses"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Delete"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="280dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        style="@style/primary_button"
-        android:id="@+id/button_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        android:layout_marginEnd="100dp"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/details_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/details_toolbar"
+        app:titleTextColor="@color/colorWindowBackground"
+        tools:title="Term Details" />
 
 
 </android.support.constraint.ConstraintLayout>

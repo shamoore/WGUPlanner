@@ -8,13 +8,15 @@ public class Term {
     private String title;
     private Date startDate;
     private Date endDate;
+    private String description;
     private ArrayList<Course> courses;
 
-    public Term(Integer id, String title, Date startDate, Date endDate) {
+    public Term(Integer id, String title, Date startDate, Date endDate, String description) {
         this.id = id;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.description = description;
         this.courses = new ArrayList<>();
     }
 

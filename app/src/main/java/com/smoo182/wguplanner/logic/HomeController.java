@@ -6,8 +6,6 @@ import com.smoo182.wguplanner.view.interfaces.HomeViewInterface;
 
 public class HomeController {
 
-    private Quote tempQuote;
-
     private HomeViewInterface view;
 
     private DataSourceInterface dataSource;
