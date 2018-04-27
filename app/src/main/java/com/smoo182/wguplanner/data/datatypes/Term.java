@@ -1,12 +1,21 @@
 package com.smoo182.wguplanner.data.datatypes;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Date;
-
+@Entity
 public class Term {
+    @PrimaryKey
+    @NonNull
     private Integer id;
+    @NonNull
     private String title;
+    @NonNull
     private Date startDate;
+    @NonNull
     private Date endDate;
     private String description;
     private ArrayList<Course> courses;

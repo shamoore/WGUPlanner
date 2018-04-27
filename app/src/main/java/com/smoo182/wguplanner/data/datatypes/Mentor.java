@@ -1,11 +1,21 @@
 package com.smoo182.wguplanner.data.datatypes;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 
+@Entity
 public class Mentor {
+    @PrimaryKey
+    @NonNull
     Integer id;
+    @NonNull
     String name;
+    @NonNull
     String email;
+    @NonNull
     String phone;
     ArrayList<Course> mentors;
 

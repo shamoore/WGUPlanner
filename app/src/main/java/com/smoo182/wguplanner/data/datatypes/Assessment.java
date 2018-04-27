@@ -1,14 +1,31 @@
 package com.smoo182.wguplanner.data.datatypes;
 
-public class Assessment {
-    Integer id;
-    String name;
-    Boolean type;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
-    public Assessment(Integer id, String name, Boolean type) {
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
+@Entity(foreignKeys = @ForeignKey(entity = Course.class, parentColumns = "id", childColumns = "courseId", onDelete = CASCADE))
+public class Assessment {
+    @PrimaryKey
+    @NonNull
+    Integer id;
+    @NonNull
+    String name;
+    @NonNull
+    Boolean type;
+    @NonNull
+    String status;
+    int courseId;
+
+    public Assessment(Integer id, String name, Boolean type, String status, int courseId) {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.status = status;
+        this.courseId= courseId;
     }
 
     public Integer getId() {
@@ -34,4 +51,12 @@ public class Assessment {
     public void setType(Boolean type) {
         this.type = type;
     }
+
+    public String getStatus() { return status; }
+
+    public void setStatus(String status){ this.status = status; }
+
+    public int getCourseId(){ return this.courseId;}
+
+    public void setCourseId(int courseId){ this.courseId = courseId; }
 }
