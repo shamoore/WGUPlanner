@@ -28,4 +28,29 @@
          android:layout_marginTop="153dp"
          android:text="Mentor List Goes Here" />
 
+     <android.support.design.widget.FloatingActionButton
+         android:id="@+id/fab_add_mentor"
+         android:layout_width="50dp"
+         android:layout_height="50dp"
+         android:layout_alignParentRight="true"
+         android:layout_margin="16dp"
+         android:layout_above="@id/navigation"
+
+         android:clickable="true"
+         app:backgroundTint="@color/colorPrimaryDark"
+         app:srcCompat="@drawable/ic_action_add" />
+     <android.support.v7.widget.Toolbar
+         android:id="@+id/details_toolbar"
+         android:layout_width="match_parent"
+         android:layout_height="60dp"
+         android:background="?attr/colorPrimary"
+         android:minHeight="?attr/actionBarSize"
+         android:theme="?attr/actionBarTheme"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         app:menu="@menu/details_toolbar"
+         app:titleTextColor="@color/colorWindowBackground"
+         tools:title="Mentor List" />
+
 </RelativeLayout>

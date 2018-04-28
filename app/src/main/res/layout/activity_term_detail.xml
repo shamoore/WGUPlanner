@@ -126,18 +126,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/details_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/details_toolbar"
-        app:titleTextColor="@color/colorWindowBackground"
-        tools:title="Term Details" />
+    android:id="@+id/details_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="?attr/colorPrimary"
+    android:minHeight="?attr/actionBarSize"
+    android:theme="?attr/actionBarTheme"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:menu="@menu/details_toolbar"
+    app:titleTextColor="@color/colorWindowBackground"
+    tools:title="Term Details" />
 
 
 </android.support.constraint.ConstraintLayout>

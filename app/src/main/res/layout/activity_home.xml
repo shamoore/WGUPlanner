@@ -13,7 +13,7 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_centerHorizontal="true"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:contentDescription="@string/app_name"
         app:srcCompat="@drawable/planner2tone" />
 
@@ -34,7 +34,7 @@
         android:layout_below="@+id/grid_buttons"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="0dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
 

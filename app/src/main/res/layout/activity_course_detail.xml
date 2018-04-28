@@ -1,96 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activities.AssessmentDetailActivity">
+    tools:context=".view.activities.CourseDetailActivity">
 
 
     <TextView
-        android:id="@+id/text_assessment_course"
+        android:id="@+id/text_course_title"
         style="@style/FieldNameText"
         android:layout_width="85dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="315dp"
-        android:text="Course"
-        android:textAlignment="viewEnd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editText_assessment_course"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="315dp"
-        android:ems="10"
-        android:hint="ex. C196"
-        android:inputType="textAutoComplete"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_assessment_title"
-        style="@style/FieldNameText"
-        android:layout_width="85dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="150dp"
         android:text="Title"
         android:textAlignment="viewEnd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/editText_course_title"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="150dp"
+        android:ems="10"
+        android:hint="ex. C196"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-        android:id="@+id/text_assessment_status"
+        android:id="@+id/text_course_assessments"
+        style="@style/FieldNameText"
+        android:layout_width="101dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:text="Assessments"
+        android:textAlignment="viewEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/text_course_code"
         style="@style/FieldNameText"
         android:layout_width="85dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="150dp"
-        android:text="Status"
+        android:layout_marginTop="80dp"
+        android:text="Code"
         android:textAlignment="viewEnd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_assessment_type"
+        android:id="@+id/text_course_dates"
         style="@style/FieldNameText"
         android:layout_width="85dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="235dp"
-        android:text="Type"
+        android:text="Dates"
+        android:textAlignment="viewEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_term_note"
+        style="@style/FieldNameText"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="300dp"
+        android:text="Notes"
         android:textAlignment="viewEnd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText_assessment_title"
+        android:id="@+id/editText_course_code"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="80dp"
         android:ems="10"
-        android:hint="ex. Term 1"
+        android:hint="ex. C196"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText2_term_desc"
+        android:id="@+id/editText2_term_notes"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:layout_marginStart="120dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="300dp"
         android:ems="10"
-        android:hint="Ex. Passed, Failed, 2nd Attempt"
+        android:hint="Enter some info about the course"
         android:inputType="textMultiLine"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_startdate"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="235dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_enddate"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="255dp"
+        android:layout_marginTop="235dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_until"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="215dp"
+        android:layout_marginTop="240dp"
+        android:text="until"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/details_toolbar"
@@ -104,31 +149,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/details_toolbar"
         app:titleTextColor="@color/colorWindowBackground"
-        tools:title="Assessment Details" />
+        tools:title="Course Details" />
 
-    <RadioGroup
-        android:id="@+id/radioGropuAssessmentType"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="235dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-        <RadioButton
-            android:id="@+id/radioButtonPA"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Performance" />
-
-        <RadioButton
-            android:id="@+id/radioButtonOA"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Objective" />
-    </RadioGroup>
 
 
 </android.support.constraint.ConstraintLayout>

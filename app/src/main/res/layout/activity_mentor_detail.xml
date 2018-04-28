@@ -1,94 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activities.AssessmentDetailActivity">
+    tools:context=".view.activities.MentorDetailActivity">
 
 
-    <TextView
-        android:id="@+id/text_assessment_course"
-        style="@style/FieldNameText"
-        android:layout_width="85dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="315dp"
-        android:text="Course"
-        android:textAlignment="viewEnd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editText_assessment_course"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+    <ListView
+        android:id="@+id/lv_mentor_courses"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="315dp"
-        android:ems="10"
-        android:hint="ex. C196"
-        android:inputType="textAutoComplete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_assessment_title"
+        android:id="@+id/text_mentor_courses"
         style="@style/FieldNameText"
         android:layout_width="85dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
-        android:text="Title"
+        android:layout_marginTop="315dp"
+        android:text="Courses"
         android:textAlignment="viewEnd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_assessment_status"
-        style="@style/FieldNameText"
-        android:layout_width="85dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="150dp"
-        android:text="Status"
-        android:textAlignment="viewEnd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_assessment_type"
+        android:id="@+id/text_mentor_phone"
         style="@style/FieldNameText"
         android:layout_width="85dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="235dp"
-        android:text="Type"
+        android:text="Phone"
         android:textAlignment="viewEnd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText_assessment_title"
+        android:id="@+id/editText_mentor_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="235dp"
+        android:ems="10"
+        android:hint="ex. 555-555-5555"
+        android:inputType="textAutoComplete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_mentor_name"
+        style="@style/FieldNameText"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="80dp"
+        android:text="Name"
+        android:textAlignment="viewEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_mentor_email"
+        style="@style/FieldNameText"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="150dp"
+        android:text="Email"
+        android:textAlignment="viewEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_mentor_title"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="80dp"
         android:ems="10"
-        android:hint="ex. Term 1"
+        android:hint="ex. John Doe"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText2_term_desc"
+        android:id="@+id/editText_mentor_email"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="40dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="150dp"
         android:ems="10"
-        android:hint="Ex. Passed, Failed, 2nd Attempt"
-        android:inputType="textMultiLine"
+        android:hint="ex. johndoe@example.org"
+        android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -104,31 +116,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/details_toolbar"
         app:titleTextColor="@color/colorWindowBackground"
-        tools:title="Assessment Details" />
-
-    <RadioGroup
-        android:id="@+id/radioGropuAssessmentType"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="235dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RadioButton
-            android:id="@+id/radioButtonPA"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Performance" />
-
-        <RadioButton
-            android:id="@+id/radioButtonOA"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Objective" />
-    </RadioGroup>
+        tools:title="Mentor Details" />
 
 
 </android.support.constraint.ConstraintLayout>
+
