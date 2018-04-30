@@ -12,19 +12,18 @@ import com.smoo182.wguplanner.data.datatypes.Note;
 import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.data.datatypes.Term;
 
-import java.text.ParseException;
 import java.util.List;
 @Dao
 public interface DataSourceInterface {
 
     @Query("SELECT * from Term")
-    List<Term> getTermList() throws ParseException;
+    List<Term> getTermList();
 
     @Insert
     Term addNewTerm();
 
     @Delete
-    void deleteTerm();
+    void deleteTerm(String title);
 
     @Query("SELECT * from Course")
     List<Course> getCourseList();

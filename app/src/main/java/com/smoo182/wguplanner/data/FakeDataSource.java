@@ -7,11 +7,7 @@ import com.smoo182.wguplanner.data.datatypes.Note;
 import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.data.datatypes.Term;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
@@ -45,7 +41,7 @@ public class FakeDataSource implements DataSourceInterface {
     }
 
     @Override
-    public void deleteTerm() {
+    public void deleteTerm(String title) {
 
     }
 
@@ -94,7 +90,6 @@ public class FakeDataSource implements DataSourceInterface {
         ArrayList<Quote> quotesArrayList = new ArrayList<>();
         quotesArrayList.add(new Quote("“If you hear a voice within you say ‘you cannot paint,’ then by all means paint, and that voice will be silenced.”", "– Vincent Van Gogh", 1));
         quotesArrayList.add(new Quote("“Don’t go around saying the world owes you a living. The world owes you nothing. It was here first.”", "– Mark Twain", 2));
-        quotesArrayList.add(new Quote("“Your time is limited, don’t waste it living someone else’s life. Don’t be trapped by dogma, which is living the result of other people’s thinking. Don’t let the noise of other’s opinion drowned your own inner voice. And most important, have the courage to follow your heart and intuition, they somehow already know what you truly want to become. Everything else is secondary.”", "– Steve Jobs", 3));
         quotesArrayList.add(new Quote("“When one door closes, another opens; but we often look so long and so regretfully upon the closed door that we do not see the one which has opened for us.”", "– Alexander Graham Bell", 4));
         quotesArrayList.add(new Quote("“Don’t say you don’t have enough time. You have exactly the same number of hours per day that were given to Helen Keller, Pasteur, Michelangelo, Mother Teresa, Leonardo da Vinci, Thomas Jefferson, and Albert Einstein.”", "– H. Jackson Brown Jr.", 5));
         quotesArrayList.add(new Quote("“Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time.”", "– Thomas A. Edison", 6));
@@ -114,19 +109,18 @@ public class FakeDataSource implements DataSourceInterface {
     }
 
     @Override
-    public List<Term> getTermList() throws ParseException {
+    public List<Term> getTermList()  {
         ArrayList<Term> termArrayList = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        GregorianCalendar gc = new GregorianCalendar();
-        Date start = sdf.parse("01/01/2018");
-        Date stop = sdf.parse("06/30/2018");
+
+        String start = "01/01/2018";
+        String stop = "06/30/2018";
 
 
-        termArrayList.add(new Term(1, "Term 1", start, start, "this is description #1"));
-        termArrayList.add(new Term(2, "Term 2", start, stop, "this is description #2"));
-        termArrayList.add(new Term(3, "Term 3", start, stop, "this is description #3"));
-        termArrayList.add(new Term(3, "Term 3", start, stop, "this is description #4"));
-        termArrayList.add(new Term(3, "Term 3", start, stop, "this is description #5"));
+        termArrayList.add(new Term( "Term 1", start, start, "this is description #1"));
+        termArrayList.add(new Term( "Term 2", start, stop, "this is description #2"));
+        termArrayList.add(new Term("Term 3", start, stop, "this is description #3"));
+        termArrayList.add(new Term( "Term 4", start, stop, "this is description #4"));
+        termArrayList.add(new Term( "Term 5", start, stop, "this is description #5"));
 
         return termArrayList;
     }
