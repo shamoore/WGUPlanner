@@ -1,5 +1,6 @@
 package com.smoo182.wguplanner.data.datatypes;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -11,20 +12,30 @@ public class Term {
     @PrimaryKey (autoGenerate = true)
     @NonNull
     private Integer id;
+
+    @ColumnInfo(name = "title")
     @NonNull
     private String title;
+
+    @ColumnInfo(name = "startDate")
     @NonNull
     private String startDate;
+
+    @ColumnInfo(name = "stopDate")
     @NonNull
-    private String endDate;
+    private String stopDate;
+
+
+    @ColumnInfo(name = "description")
     private String description;
+
     private ArrayList<Course> courses;
 
-    public Term(String title, String startDate, String endDate, String description) {
+    public Term(String title, String startDate, String stopDate, String description) {
 
         this.title = title;
         this.startDate = startDate;
-        this.endDate = endDate;
+        this.stopDate = stopDate;
         this.description = description;
         this.courses = new ArrayList<>();
     }
@@ -53,11 +64,11 @@ public class Term {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public String getStopDate() {
+        return stopDate;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setStopDate(String stopDate) {
+        this.stopDate = stopDate;
     }
 }

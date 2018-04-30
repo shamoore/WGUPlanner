@@ -1,5 +1,6 @@
 package com.smoo182.wguplanner.data.datatypes;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -8,15 +9,22 @@ import java.util.ArrayList;
 
 @Entity
 public class Mentor {
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
     @NonNull
     Integer id;
+
+    @ColumnInfo(name = "name")
     @NonNull
     String name;
+
+    @ColumnInfo(name ="email")
     @NonNull
     String email;
+
+    @ColumnInfo(name ="phone)")
     @NonNull
     String phone;
+
     ArrayList<Course> mentors;
 
     public Mentor(Integer id, String name, String email, String phone) {

@@ -1,5 +1,6 @@
 package com.smoo182.wguplanner.data.datatypes;
 
+
 public class ListItem {
     private String title;
     private String subtitle;

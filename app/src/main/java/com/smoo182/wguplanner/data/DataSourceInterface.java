@@ -68,4 +68,17 @@ public interface DataSourceInterface {
     @Query("SELECT  * from Quote ORDER BY RANDOM() LIMIT 1")
     Quote getRandomQuote();
 
+    @Query("SELECT * FROM term WHERE title LIKE :title LIMIT 1")
+    Term findTermByTitle(String title);
+
+    @Query("SELECT * FROM course where termid LIKE :id")
+    List<Course> findCoursesByTermId(int id);
+
+    @Query("SELECT * FROM assessment where courseId LIKE :id")
+    List<Assessment> findAssessmentsByCourseId(int id);
+
+    @Query("SELECT * FROM mentorcourses where mentorId like :id")
+    List<Course> findCoursesByMentorId(int id);
+
+
 }

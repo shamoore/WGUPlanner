@@ -1,5 +1,6 @@
 package com.smoo182.wguplanner.data.datatypes;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -9,28 +10,43 @@ import java.util.Date;
 
 @Entity
 public class Course {
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
     @NonNull
     Integer id;
+
+    @ColumnInfo(name = "code")
     @NonNull
     String code;
+
+    @ColumnInfo(name = "name")
     @NonNull
     String name;
+
+    @ColumnInfo(name = "description")
     @NonNull
     String description;
+
+    @ColumnInfo(name = "startDate")
     @NonNull
     Date startDate;
+
+    @ColumnInfo(name = "stopDate")
     @NonNull
-    Date endDate;
+    Date stopDate;
+
+    @ColumnInfo(name = "termId")
+    int termId;
+
     ArrayList<Assessment> assessments;
 
-    public Course(Integer id, String code, String name, String description, Date startDate, Date endDate) {
+    public Course(Integer id, String code, String name, String description, Date startDate, Date stopDate, int termId) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
-        this.endDate = endDate;
+        this.stopDate = stopDate;
+        this.termId = termId;
         this.assessments = new ArrayList<Assessment>();
     }
 
@@ -74,12 +90,12 @@ public class Course {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Date getStopDate() {
+        return stopDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setStopDate(Date stopDate) {
+        this.stopDate = stopDate;
     }
 
     public ArrayList<Assessment> getAssessments() {
@@ -88,5 +104,14 @@ public class Course {
 
     public void setAssessments(ArrayList<Assessment> assessments) {
         this.assessments = assessments;
+
+    }
+
+    public int getTermId() {
+        return termId;
+    }
+
+    public void setTermId(int termId) {
+        this.termId = termId;
     }
 }

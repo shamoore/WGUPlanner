@@ -133,5 +133,25 @@ public class FakeDataSource implements DataSourceInterface {
         return list.get(random.nextInt(list.size()));
 
     }
+
+    @Override
+    public Term findTermByTitle(String title) {
+        return null;
+    }
+
+    @Override
+    public List<Course> findCoursesByTermId(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Assessment> findAssessmentsByCourseId(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Course> findCoursesByMentorId(int id) {
+        return null;
+    }
 }
 
