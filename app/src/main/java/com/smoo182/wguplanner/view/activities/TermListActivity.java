@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -87,7 +86,7 @@ public class TermListActivity extends BasePrimaryActivity implements ListViewInt
 
     @Override
     public void addNewListItemToView(Term newItem) {
-        ListItem listtem = new ListItem(newItem.getTitle(),  newItem.getStartDate() + " - " + newItem.getEndDate());
+        ListItem listtem = new ListItem(newItem.getTitle(),  newItem.getStartDate() + " - " + newItem.getStopDate());
         listOfData.add(listtem);
         int endOfList = listOfData.size() - 1;
         adapter.notifyItemInserted(endOfList);

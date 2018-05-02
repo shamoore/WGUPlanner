@@ -1,15 +1,20 @@
 package com.smoo182.wguplanner.data.datatypes;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 @Entity
 public class Quote {
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
     @NonNull
     private int quoteId;
+
+    @ColumnInfo(name = "content")
     private String content;
+
+    @ColumnInfo(name = "author")
     private String author;
 
     public Quote(String content, String author, int id) {

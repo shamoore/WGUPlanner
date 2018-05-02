@@ -46,7 +46,7 @@ public class TermsController {
         List<Term> termList = dataSource.getTermList();
         for (Term term : termList) {
 
-            listItems.add(new ListItem(term.getTitle(), (term.getStartDate() + " - " + term.getEndDate())));
+            listItems.add(new ListItem(term.getTitle(), (term.getStartDate() + " - " + term.getStopDate())));
         }
         return listItems;
     }

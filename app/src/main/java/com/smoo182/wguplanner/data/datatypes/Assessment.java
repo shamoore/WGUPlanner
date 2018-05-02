@@ -1,5 +1,6 @@
 package com.smoo182.wguplanner.data.datatypes;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
@@ -9,19 +10,26 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys = @ForeignKey(entity = Course.class, parentColumns = "id", childColumns = "courseId", onDelete = CASCADE))
 public class Assessment {
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
     @NonNull
     Integer id;
+
+    @ColumnInfo(name = "name")
     @NonNull
     String name;
+
+    @ColumnInfo(name = "type")
     @NonNull
     Boolean type;
+
+    @ColumnInfo(name = "status")
     @NonNull
     String status;
+
+    @ColumnInfo(name = "courseId")
     int courseId;
 
-    public Assessment(Integer id, String name, Boolean type, String status, int courseId) {
-        this.id = id;
+    public Assessment( String name, Boolean type, String status, int courseId) {
         this.name = name;
         this.type = type;
         this.status = status;
