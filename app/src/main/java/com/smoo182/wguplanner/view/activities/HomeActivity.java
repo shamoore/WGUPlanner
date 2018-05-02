@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.widget.TextView;
 
 import com.smoo182.wguplanner.R;
-import com.smoo182.wguplanner.data.FakeDataSource;
 import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.logic.HomeController;
 import com.smoo182.wguplanner.view.interfaces.HomeViewInterface;
@@ -35,7 +34,7 @@ public class HomeActivity extends BasePrimaryActivity implements HomeViewInterfa
     public void populateScreen(){
         contentTextView = (TextView) findViewById(R.id.text_quote);
         authorTextView = (TextView) findViewById(R.id.text_quote_author);
-        homeController = new HomeController(this, new FakeDataSource());
+       // homeController = new HomeController(this, application.getD { });
 
     }
 }

@@ -8,17 +8,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.smoo182.wguplanner.R;
-import com.smoo182.wguplanner.data.FakeDataSource;
 import com.smoo182.wguplanner.data.datatypes.ListItem;
 import com.smoo182.wguplanner.data.datatypes.Term;
-import com.smoo182.wguplanner.logic.TermsController;
 import com.smoo182.wguplanner.view.interfaces.ListViewInterface;
 
 import java.util.List;
 
 public class TermDetailActivity extends BaseSecondaryActivity implements ListViewInterface{
 
-    private static final String EXTRA_TERM_TITLE = "EXTRA_TERM_TITLE";
+    private static final String EXTRA_TERM_ID = "EXTRA_TERM_ID";
 
     private TextView termTitle;
     private TextView termDescription;
@@ -27,7 +25,7 @@ public class TermDetailActivity extends BaseSecondaryActivity implements ListVie
     private ListView termCourseList;
 
     private LayoutInflater layoutInflater;
-    private TermsController controller;
+
 
 
 
@@ -35,7 +33,7 @@ public class TermDetailActivity extends BaseSecondaryActivity implements ListVie
     @Override
     void populateScreen() {
         layoutInflater = getLayoutInflater();
-        controller = new TermsController(this,new FakeDataSource());
+
 
         setContentView(R.layout.activity_term_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.details_toolbar);
@@ -43,14 +41,11 @@ public class TermDetailActivity extends BaseSecondaryActivity implements ListVie
         setSupportActionBar(toolbar);
 
         Intent i = getIntent();
-        String termTitleExtra = i.getStringExtra(EXTRA_TERM_TITLE);
-
-
-
+     //   int termTitleExtra=  i.getIntExtra(EXTRA_TERM_ID);
 
 
         termTitle = findViewById(R.id.editText_term_title);
-        termTitle.setText(termTitleExtra);
+    //    termTitle.setText(termTitleExtra);
 
         termDescription =  (TextView) findViewById(R.id.editText_term_desc);
        // termDescription.setText(termDescExtra);

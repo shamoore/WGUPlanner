@@ -22,7 +22,7 @@ public interface PlannerDao {
 
     //Get Full Lists.
     @Query("SELECT * from Term")
-    ArrayList<Term> getTermList();
+    LiveData<List<Term>> getTermList();
 
 
     @Query("SELECT * from Course")
@@ -50,10 +50,10 @@ public interface PlannerDao {
     @Query("SELECT * FROM Assessment where courseId= :courseId")
     LiveData<List<Assessment>> getAssessmentsByCourse(int courseId);
 
-    @Query("SELECT * FROM Mentor m INNER JOIN MentorCourses mc where mc.courseId = :courseId")
+    @Query("SELECT m.id, m.name, m.email, m.phone FROM Mentor m INNER JOIN MentorCourses mc where mc.courseId = :courseId")
     LiveData<List<Mentor>> getMentorsByCourse(int courseId);
 
-    @Query("SELECT * FROM Course c INNER JOIN MentorCourses mc where mc.mentorId = :mentorId")
+    @Query("SELECT c.id, c.code, c.name, c.description, c.startDate, c.endDate, c.termId FROM Course c INNER JOIN MentorCourses mc where mc.mentorId = :mentorId")
     LiveData<List<Course>> getCoursesByMentor(int mentorId);
 
     @Query("SELECT * FROM Note where courseId = :courseId")
@@ -106,15 +106,15 @@ public interface PlannerDao {
     Term getTermById(int id);
 
     @Query("SELECT * from Course where id = :id")
-    Term getCourseById(int id);
+    Course getCourseById(int id);
 
     @Query("SELECT * from Mentor where id = :id")
-    Term getMentorById(int id);
+    Mentor getMentorById(int id);
 
     @Query("SELECT * from Assessment where id = :id")
-    Term getAssesmentById(int id);
+    Assessment getAssesmentById(int id);
 
     @Query("SELECT * from Note where id = :id")
-    Term getNoteById(int id);
+    Note getNoteById(int id);
 
 }

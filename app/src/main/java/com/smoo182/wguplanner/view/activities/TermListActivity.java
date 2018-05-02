@@ -1,8 +1,13 @@
 package com.smoo182.wguplanner.view.activities;
 
 import android.app.ActivityOptions;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -13,26 +18,30 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.smoo182.wguplanner.R;
-import com.smoo182.wguplanner.data.FakeDataSource;
-import com.smoo182.wguplanner.data.datatypes.ListItem;
 import com.smoo182.wguplanner.data.datatypes.Term;
-import com.smoo182.wguplanner.logic.TermsController;
-import com.smoo182.wguplanner.view.interfaces.ListViewInterface;
+import com.smoo182.wguplanner.logic.TermListViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
 
-public class TermListActivity extends BasePrimaryActivity implements ListViewInterface, View.OnClickListener {
-    private static final String EXTRA_TITLE = "EXTRA_TITLE";
-    private static final String EXTRA_SUBTITLE = "EXTRA_SUBTITLE";
+import dagger.Provides;
 
-    private List<ListItem> listOfData;
+
+public class TermListActivity extends BasePrimaryActivity {
+    private static final String EXTRA_TERM_ID = "EXTRA_TERM_ID";
+
+    private List<Term> listOfTerms;
 
     private LayoutInflater layoutInflater;
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
 
-    private TermsController controller;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    TermListViewModel termListViewModel;
+
 
 
     @Override
@@ -48,73 +57,68 @@ public class TermListActivity extends BasePrimaryActivity implements ListViewInt
     @Override
     void populateScreen() {
         FloatingActionButton addFab = findViewById(R.id.fab_add_term);
-        addFab.setOnClickListener(addFabListener);
-
+        addFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startDetailActivity();
+            }
+        });
         recyclerView = (RecyclerView) findViewById(R.id.rv_term_list);
         layoutInflater = getLayoutInflater();
 
-        controller = new TermsController(this, new FakeDataSource());
+        termListViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(TermListViewModel.class);
+
+        termListViewModel.getListOfTerms().observe(this, new Observer<List<Term>>() {
+            @Override
+            public void onChanged(@Nullable List<Term> terms) {
+                if (listOfTerms == null) {
+                    setListTerms(listOfTerms);
+                }
+            }
+        });
     }
 
-    private View.OnClickListener addFabListener = v -> startActivity(new Intent(TermListActivity.this, TermDetailActivity.class));
-
-
     @Override
-    public void startDetailActivity(String title, View viewRoot) {
-        Intent i = new Intent(this, TermDetailActivity.class);
-        i.putExtra(EXTRA_TITLE, title);
+    public void onResume() {
+        super.onResume();
+    }
 
+    public void startDetailActivity(int termId, View viewRoot) {
+        Intent i = new Intent(this, TermDetailActivity.class);
+        i.putExtra(EXTRA_TERM_ID, termId);
 
         ActivityOptions options = ActivityOptions
                 .makeSceneTransitionAnimation(this,
                 new Pair<View, String>(viewRoot.findViewById(R.id.list_item_title), "title"));
+                new Pair<View, String>(viewRoot.findViewById(R.id.list_item_subtitle), "subtitle");
         startActivity(i, options.toBundle());
     }
 
 
-    @Override
-    public void setUpAdapterAndView(List<ListItem> listOfData) {
-        this.listOfData = listOfData;
+    public void setListTerms(List<Term> listofTerms){
+        this.listOfTerms = listofTerms;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(
+                recyclerView.getContext(),
+                layoutManager.getOrientation()
+        );
+
+        recyclerView.addItemDecoration(itemDecoration);
+
+    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+    itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
-    public void addNewListItemToView(Term newItem) {
-        ListItem listtem = new ListItem(newItem.getTitle(),  newItem.getStartDate() + " - " + newItem.getStopDate());
-        listOfData.add(listtem);
-        int endOfList = listOfData.size() - 1;
-        adapter.notifyItemInserted(endOfList);
-        recyclerView.smoothScrollToPosition(endOfList);
+    public void onClick(View view) {
 
     }
 
-    @Override
-    public void deleteListItemAt(int position) {
-        listOfData.remove(position);
-        adapter.notifyItemRemoved(position);
-
-    }
-
-
-    @Override
-    public void insertListItemAt(int temporaryListItemPosition, ListItem temporaryListItem) {
-        listOfData.add(temporaryListItemPosition, temporaryListItem);
-        adapter.notifyItemInserted(temporaryListItemPosition);
-
-    }
-
-    public void onClick(View v) {
-        int viewId = v.getId();
-        if (viewId == R.id.fab_add_term) {
-            controller.createNewListItem();
-        }
-    }
 
     private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
         public CustomAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -123,14 +127,16 @@ public class TermListActivity extends BasePrimaryActivity implements ListViewInt
         }
 
         public void onBindViewHolder(CustomAdapter.CustomViewHolder holder, int position) {
-            ListItem currentItem = listOfData.get(position);
+            Term currentItem = listOfTerms.get(position);
+
             holder.title.setText(currentItem.getTitle());
-            holder.subTitle.setText(currentItem.getSubtitle());
+
+            holder.subTitle.setText("from " + currentItem.getStartDate() + " to " + currentItem.getEndDate());
         }
 
         @Override
         public int getItemCount() {
-            return listOfData.size();
+            return listOfTerms.size();
         }
 
 
@@ -145,13 +151,12 @@ public class TermListActivity extends BasePrimaryActivity implements ListViewInt
                 this.title = (TextView) itemView.findViewById(R.id.list_item_title);
                 this.subTitle = (TextView) itemView.findViewById(R.id.list_item_subtitle);
                 this.container = (ViewGroup) itemView.findViewById(R.id.root_list_item);
-
                 this.container.setOnClickListener(this);
             }
 
             public void onClick(View v) {
-                ListItem listItem = listOfData.get(this.getAdapterPosition());
-                controller.onListItemClick(listItem, v);
+                Term listTerm = listOfTerms.get(this.getAdapterPosition());
+                startDetailActivity(listTerm.getId(), v);
             }
         }
     }
@@ -162,16 +167,7 @@ public class TermListActivity extends BasePrimaryActivity implements ListViewInt
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
             }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-                controller.onListItemSwiped(
-                        position, listOfData.get(position));
-
-            }
         };
         return simpleItemCouchCallback;
     }
-
 }

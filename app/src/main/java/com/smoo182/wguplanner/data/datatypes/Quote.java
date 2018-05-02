@@ -8,13 +8,8 @@ import android.support.annotation.NonNull;
 @Entity
 public class Quote {
     @PrimaryKey (autoGenerate = true)
-    @NonNull
     private int quoteId;
-
-    @ColumnInfo(name = "content")
     private String content;
-
-    @ColumnInfo(name = "author")
     private String author;
 
     public Quote(String content, String author, int id) {

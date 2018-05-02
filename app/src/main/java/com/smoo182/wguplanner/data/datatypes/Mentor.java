@@ -9,14 +9,10 @@ import java.util.ArrayList;
 @Entity
 public class Mentor {
     @PrimaryKey
-    @NonNull
-    Integer id;
-    @NonNull
-    String name;
-    @NonNull
-    String email;
-    @NonNull
-    String phone;
+    private Integer id;
+    private String name;
+    private String email;
+    private String phone;
 
     public Mentor(Integer id, String name, String email, String phone) {
         this.id = id;

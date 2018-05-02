@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'idea'
+idea {
+    module {
+        sourceDirs += file("$buildDir/generated/source/apt/main")
+        testSourceDirs += file("$buildDir/generated/source/apt/test")
+    }
+}
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -35,5 +43,14 @@ dependencies {
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
-    implementation 'com.google.dagger:dagger:2.15'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    annotationProcessor 'android.arch.lifecycle:common-java8:1.0.0'
+
+
+    def daggerVer = 2.15
+    // or latest version
+    implementation "com.google.dagger:dagger:$daggerVer"
+    implementation "com.google.dagger:dagger-android-support:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
 }

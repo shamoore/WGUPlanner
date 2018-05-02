@@ -9,13 +9,9 @@ import java.util.ArrayList;
 @Entity
 public class Term {
     @PrimaryKey (autoGenerate = true)
-    @NonNull
     private Integer id;
-    @NonNull
     private String title;
-    @NonNull
     private String startDate;
-    @NonNull
     private String endDate;
     private String description;
 

@@ -15,10 +15,11 @@ import com.smoo182.wguplanner.view.activities.TermListActivity;
 
 import javax.inject.Singleton;
 import dagger.Component;
-
+import dagger.Module;
+import dagger.Provides;
 
 @Singleton
-@Component(modules = { ApplicationModule.class, RoomModule.class})
+@Component(modules= { ApplicationModule.class, RoomModule.class})
 public interface ApplicationComponent {
     void inject (AssessmentDetailActivity assessmentDetailActivity);
     void inject (AssessmentListActivity assessmentListActivity);

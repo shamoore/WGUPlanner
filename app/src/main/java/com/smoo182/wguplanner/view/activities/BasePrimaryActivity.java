@@ -81,5 +81,4 @@ public abstract class BasePrimaryActivity extends AppCompatActivity implements B
     abstract int getNavigationMenuItemId();
     abstract void populateScreen();
 
-
 }

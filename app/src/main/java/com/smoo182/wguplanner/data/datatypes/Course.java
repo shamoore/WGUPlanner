@@ -9,19 +9,13 @@ import java.util.ArrayList;
 @Entity
 public class Course {
     @PrimaryKey
-    @NonNull
-    Integer id;
-    @NonNull
-    String code;
-    @NonNull
-    String name;
-    @NonNull
-    String description;
-    @NonNull
-    String startDate;
-    @NonNull
-    String endDate;
-    int termId;
+    private int id;
+    private String code;
+    private String name;
+    private String description;
+    private String startDate;
+    private String endDate;
+    private int termId;
 
     public Course(Integer id, String code, String name, String description, String startDate, String endDate) {
         this.id = id;
