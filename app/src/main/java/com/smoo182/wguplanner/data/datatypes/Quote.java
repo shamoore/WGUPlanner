@@ -37,4 +37,10 @@ public class Quote {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+    public Quote(@NonNull int quoteId, String content, String author) {
+        this.quoteId = quoteId;
+        this.content = content;
+        this.author = author;
+    }
 }

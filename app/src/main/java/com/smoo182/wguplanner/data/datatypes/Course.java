@@ -5,7 +5,6 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 @Entity
 public class Course {
@@ -19,19 +18,18 @@ public class Course {
     @NonNull
     String description;
     @NonNull
-    Date startDate;
+    String startDate;
     @NonNull
-    Date endDate;
-    ArrayList<Assessment> assessments;
+    String endDate;
+    int termId;
 
-    public Course(Integer id, String code, String name, String description, Date startDate, Date endDate) {
+    public Course(Integer id, String code, String name, String description, String startDate, String endDate) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.assessments = new ArrayList<Assessment>();
     }
 
     public Integer getId() {
@@ -66,27 +64,28 @@ public class Course {
         this.description = description;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-    public ArrayList<Assessment> getAssessments() {
-        return assessments;
+    public int getTermId() {
+        return termId;
     }
 
-    public void setAssessments(ArrayList<Assessment> assessments) {
-        this.assessments = assessments;
+    public void setTermId(int termId) {
+        this.termId = termId;
     }
 }
+

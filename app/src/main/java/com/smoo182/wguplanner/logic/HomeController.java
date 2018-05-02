@@ -1,16 +1,15 @@
 package com.smoo182.wguplanner.logic;
 
-import com.smoo182.wguplanner.data.DataSourceInterface;
-import com.smoo182.wguplanner.data.datatypes.Quote;
+import com.smoo182.wguplanner.data.PlannerDao;
 import com.smoo182.wguplanner.view.interfaces.HomeViewInterface;
 
 public class HomeController {
 
     private HomeViewInterface view;
 
-    private DataSourceInterface dataSource;
+    private PlannerDao dataSource;
 
-    public HomeController(HomeViewInterface view, DataSourceInterface dataSource) {
+    public HomeController(HomeViewInterface view, PlannerDao dataSource) {
         this.view = view;
         this.dataSource = dataSource;
 

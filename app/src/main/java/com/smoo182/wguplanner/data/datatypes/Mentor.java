@@ -17,14 +17,12 @@ public class Mentor {
     String email;
     @NonNull
     String phone;
-    ArrayList<Course> mentors;
 
     public Mentor(Integer id, String name, String email, String phone) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.mentors = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -59,11 +57,4 @@ public class Mentor {
         this.phone = phone;
     }
 
-    public ArrayList<Course> getMentors() {
-        return mentors;
-    }
-
-    public void setMentors(ArrayList<Course> mentors) {
-        this.mentors = mentors;
-    }
 }

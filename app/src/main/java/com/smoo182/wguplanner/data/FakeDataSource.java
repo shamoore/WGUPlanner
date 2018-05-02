@@ -1,5 +1,7 @@
 package com.smoo182.wguplanner.data;
 
+import android.arch.lifecycle.LiveData;
+
 import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.data.datatypes.Mentor;
@@ -12,80 +14,104 @@ import java.util.List;
 import java.util.Random;
 
 //To be replaced with SQLite db
-public class FakeDataSource implements DataSourceInterface {
+public class FakeDataSource implements PlannerDao {
 
 
     @Override
-    public List<Course> getCourseList() {
+    public LiveData<List<Course>> getCourseList() {
         return null;
     }
 
     @Override
-    public List<Assessment> getAssessmentList() {
+    public LiveData<List<Assessment>> getAssessmentList() {
         return null;
     }
 
     @Override
-    public List<Mentor> getMentorList() {
+    public LiveData<List<Mentor>> getMentorList() {
         return null;
     }
 
     @Override
-    public List<Note> getNoteList() {
+    public LiveData<List<Note>> getNoteList() {
         return null;
     }
 
     @Override
-    public Term addNewTerm() {
+    public LiveData<List<Course>> getCoursesByTerm(int termId) {
         return null;
     }
 
     @Override
-    public void deleteTerm(String title) {
-
-    }
-
-    @Override
-    public Course addNewCourse() {
+    public LiveData<List<Assessment>> getAssessmentsByCourse(int courseId) {
         return null;
     }
 
     @Override
-    public void deleteCourse() {
-
-    }
-
-    @Override
-    public Assessment addNewAssessment() {
+    public LiveData<List<Mentor>> getMentorsByCourse(int courseId) {
         return null;
     }
 
     @Override
-    public void deleteAssessment() {
-
-    }
-
-    @Override
-    public Mentor addNewMentor() {
+    public LiveData<List<Course>> getCoursesByMentor(int mentorId) {
         return null;
     }
 
     @Override
-    public void deleteMentor() {
-
-    }
-
-    @Override
-    public Note addNewNote() {
+    public LiveData<List<Note>> getNotesByCourse(int courseId) {
         return null;
     }
 
     @Override
-    public void deleteNote() {
+    public void insertTerm(Term term) {
 
     }
 
     @Override
+    public void insertCourse(Course course) {
+
+    }
+
+    @Override
+    public void insertMentor(Mentor mentor) {
+
+    }
+
+    @Override
+    public void insertAssessment(Assessment assessment) {
+
+    }
+
+    @Override
+    public void insertNote(Note note) {
+
+    }
+
+    @Override
+    public void deleteTerm(Term term) {
+
+    }
+
+    @Override
+    public void deleteCourse(Course course) {
+
+    }
+
+    @Override
+    public void deleteMentor(Mentor mentor) {
+
+    }
+
+    @Override
+    public void deleteAssessment(Assessment assessment) {
+
+    }
+
+    @Override
+    public void deleteNote(Note note) {
+
+    }
+
     public List<Quote> getQuoteList() {
         ArrayList<Quote> quotesArrayList = new ArrayList<>();
         quotesArrayList.add(new Quote("“If you hear a voice within you say ‘you cannot paint,’ then by all means paint, and that voice will be silenced.”", "– Vincent Van Gogh", 1));
@@ -109,7 +135,7 @@ public class FakeDataSource implements DataSourceInterface {
     }
 
     @Override
-    public List<Term> getTermList()  {
+    public ArrayList<Term> getTermList()  {
         ArrayList<Term> termArrayList = new ArrayList<>();
 
         String start = "01/01/2018";
@@ -132,6 +158,31 @@ public class FakeDataSource implements DataSourceInterface {
         Random random = new Random();
         return list.get(random.nextInt(list.size()));
 
+    }
+
+    @Override
+    public Term getTermById(int id) {
+        return null;
+    }
+
+    @Override
+    public Term getCourseById(int id) {
+        return null;
+    }
+
+    @Override
+    public Term getMentorById(int id) {
+        return null;
+    }
+
+    @Override
+    public Term getAssesmentById(int id) {
+        return null;
+    }
+
+    @Override
+    public Term getNoteById(int id) {
+        return null;
     }
 }
 

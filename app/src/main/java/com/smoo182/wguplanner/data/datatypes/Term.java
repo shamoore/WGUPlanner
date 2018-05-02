@@ -18,7 +18,6 @@ public class Term {
     @NonNull
     private String endDate;
     private String description;
-    private ArrayList<Course> courses;
 
     public Term(String title, String startDate, String endDate, String description) {
 
@@ -26,11 +25,14 @@ public class Term {
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
-        this.courses = new ArrayList<>();
     }
 
     public Integer getId() {
         return id;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setId(Integer id) {
