@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 
+import com.smoo182.wguplanner.PlannerApplication;
 import com.smoo182.wguplanner.R;
+import com.smoo182.wguplanner.data.PlannerRepository;
 import com.smoo182.wguplanner.data.datatypes.Course;
 
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public abstract class BaseSecondaryActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
+
+
         populateScreen();
 
     }

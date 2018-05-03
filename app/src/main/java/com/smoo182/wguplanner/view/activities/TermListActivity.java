@@ -54,7 +54,7 @@ public class TermListActivity extends BasePrimaryActivity {
     @Override
     void populateScreen() {
         FloatingActionButton addFab = findViewById(R.id.fab_add_term);
-        addFab.setOnClickListener(view -> startDetailActivity(Integer.parseInt(EXTRA_TERM_ID), view));
+        addFab.setOnClickListener(view -> startDetailActivity(null, view));
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_term_list);
         layoutInflater = getLayoutInflater();
@@ -79,94 +79,103 @@ public class TermListActivity extends BasePrimaryActivity {
         super.onResume();
     }
 
-    public void startDetailActivity(int termId, View viewRoot) {
+    public void startDetailActivity(String termId, View viewRoot) {
         Intent i = new Intent(this, TermDetailActivity.class);
         i.putExtra(EXTRA_TERM_ID, termId);
 
-        ActivityOptions options = ActivityOptions
-                .makeSceneTransitionAnimation(this,
-                        new Pair<View, String>(viewRoot.findViewById(R.id.list_item_title), "title"),
-                        new Pair<View, String>(viewRoot.findViewById(R.id.list_item_subtitle), "subtitle"));
-        startActivity(i, options.toBundle());
-    }
+        if (termId != null) {
+            ActivityOptions options = ActivityOptions
+                    .makeSceneTransitionAnimation(this,
+                            new Pair<View, String>(viewRoot.findViewById(R.id.list_item_title),
+                                    "title"),
+                            new Pair<View, String>(viewRoot.findViewById(R.id.list_item_subtitle)
+                                    , "subtitle"));
+            startActivity(i, options.toBundle());
+        } else {
+            startActivity(i);
+        }}
 
 
-    public void setListTerms(List<Term> listOfTerms) {
-        this.listOfTerms = listOfTerms;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new CustomAdapter();
-        recyclerView.setAdapter(adapter);
+        public void setListTerms (List < Term > listOfTerms) {
+            this.listOfTerms = listOfTerms;
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            adapter = new CustomAdapter();
+            recyclerView.setAdapter(adapter);
 
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(
-                recyclerView.getContext(),
-                layoutManager.getOrientation()
-        );
+            DividerItemDecoration itemDecoration = new DividerItemDecoration(
+                    recyclerView.getContext(),
+                    layoutManager.getOrientation()
+            );
 
-        recyclerView.addItemDecoration(itemDecoration);
+            recyclerView.addItemDecoration(itemDecoration);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    public void onClick(View view) {
-
-    }
-
-
-    private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
-        public CustomAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = layoutInflater.inflate(R.layout.list_item_term, parent, false);
-            return new CustomViewHolder(v);
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+            itemTouchHelper.attachToRecyclerView(recyclerView);
         }
 
-        public void onBindViewHolder(CustomAdapter.CustomViewHolder holder, int position) {
-            Term currentItem = listOfTerms.get(position);
+        public void onClick (View view){
 
-            holder.title.setText(currentItem.getTitle());
-
-            holder.subTitle.setText("from " + currentItem.getStartDate() + " to " + currentItem.getEndDate());
-        }
-
-        @Override
-        public int getItemCount() {
-            return listOfTerms.size();
         }
 
 
-        class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            private TextView title;
-            private TextView subTitle;
-            private ViewGroup container;
-
-            public CustomViewHolder(View itemView) {
-                super(itemView);
-                this.title = (TextView) itemView.findViewById(R.id.list_item_title);
-                this.subTitle = (TextView) itemView.findViewById(R.id.list_item_subtitle);
-                this.container = (ViewGroup) itemView.findViewById(R.id.root_list_item);
-                this.container.setOnClickListener(this);
+        private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
+            public CustomAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int
+                    viewType) {
+                View v = layoutInflater.inflate(R.layout.list_item_term, parent, false);
+                return new CustomViewHolder(v);
             }
 
-            public void onClick(View v) {
-                Term listTerm = listOfTerms.get(this.getAdapterPosition());
-                startDetailActivity(listTerm.getId(), v);
-            }
-        }
-    }
+            public void onBindViewHolder(CustomAdapter.CustomViewHolder holder, int position) {
+                Term currentItem = listOfTerms.get(position);
 
-    private ItemTouchHelper.Callback createHelperCallback() {
-        ItemTouchHelper.SimpleCallback simpleItemCouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
+                holder.title.setText(currentItem.getTitle());
+
+                holder.subTitle.setText("from " + currentItem.getStartDate() + " to " +
+                        currentItem.getEndDate());
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
+            public int getItemCount() {
+                return listOfTerms.size();
             }
-        };
-        return simpleItemCouchCallback;
+
+
+            class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+                private TextView title;
+                private TextView subTitle;
+                private ViewGroup container;
+
+                public CustomViewHolder(View itemView) {
+                    super(itemView);
+                    this.title = (TextView) itemView.findViewById(R.id.list_item_title);
+                    this.subTitle = (TextView) itemView.findViewById(R.id.list_item_subtitle);
+                    this.container = (ViewGroup) itemView.findViewById(R.id.root_list_item);
+                    this.container.setOnClickListener(this);
+                }
+
+                public void onClick(View v) {
+                    Term listTerm = listOfTerms.get(this.getAdapterPosition());
+                    startDetailActivity(listTerm.getId().toString(), v);
+                }
+            }
+        }
+
+        private ItemTouchHelper.Callback createHelperCallback () {
+            ItemTouchHelper.SimpleCallback simpleItemCouchCallback = new ItemTouchHelper
+                    .SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder
+                        viewHolder, RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+                }
+            };
+            return simpleItemCouchCallback;
+        }
     }
-}

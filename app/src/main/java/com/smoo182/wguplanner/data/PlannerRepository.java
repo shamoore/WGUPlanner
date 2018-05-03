@@ -56,18 +56,6 @@ public class PlannerRepository {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 //Inserts
 
     public void createNewTerm(Term term){
@@ -119,9 +107,9 @@ public class PlannerRepository {
         plannerDao.getRandomQuote();
     }
 
-    public void getTermById(int id){
-        plannerDao.getTermById(id);
-        }
+    public LiveData<Term> getTermById(int id){
+        return plannerDao.getTermById(id);
+    }
 
     public void getCourseById(int id){
         plannerDao.getCourseById(id);
