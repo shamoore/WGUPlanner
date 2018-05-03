@@ -13,7 +13,7 @@ public class PlannerApplication extends Application {
     private ApplicationComponent applicationComponent;
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
 
         applicationComponent = DaggerApplicationComponent
@@ -24,7 +24,8 @@ public class PlannerApplication extends Application {
     }
 
     public ApplicationComponent getApplicationComponent() {
-             return applicationComponent;
-        }
+        return applicationComponent;
     }
+
+}
 

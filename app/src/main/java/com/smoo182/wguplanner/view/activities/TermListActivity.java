@@ -4,7 +4,6 @@ import android.app.ActivityOptions;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.persistence.room.Insert;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -27,14 +26,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.Provides;
-
 
 public class TermListActivity extends BasePrimaryActivity {
     private static final String EXTRA_TERM_ID = "EXTRA_TERM_ID";
 
     private List<Term> listOfTerms;
-
     private LayoutInflater layoutInflater;
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
@@ -43,7 +39,6 @@ public class TermListActivity extends BasePrimaryActivity {
     ViewModelProvider.Factory viewModelFactory;
 
     TermListViewModel termListViewModel;
-
 
 
     @Override
@@ -59,7 +54,7 @@ public class TermListActivity extends BasePrimaryActivity {
     @Override
     void populateScreen() {
         FloatingActionButton addFab = findViewById(R.id.fab_add_term);
-        addFab.setOnClickListener(view -> startDetailActivity(Integer.parseInt(EXTRA_TERM_ID), view ));
+        addFab.setOnClickListener(view -> startDetailActivity(Integer.parseInt(EXTRA_TERM_ID), view));
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_term_list);
         layoutInflater = getLayoutInflater();
@@ -68,9 +63,13 @@ public class TermListActivity extends BasePrimaryActivity {
         termListViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(TermListViewModel.class);
 
-        termListViewModel.getListOfTerms().observe(this, terms -> {
-            if (listOfTerms == null) {
-                setListTerms(listOfTerms);
+        termListViewModel.getListOfTerms().observe(this, new Observer<List<Term>>() {
+            @Override
+            public void onChanged(@Nullable List<Term> terms) {
+                if (listOfTerms == null) {
+                    setListTerms(terms);
+                }
+
             }
         });
     }
@@ -86,13 +85,13 @@ public class TermListActivity extends BasePrimaryActivity {
 
         ActivityOptions options = ActivityOptions
                 .makeSceneTransitionAnimation(this,
-                new Pair<View, String>(viewRoot.findViewById(R.id.list_item_title), "title"),
-                new Pair<View, String>(viewRoot.findViewById(R.id.list_item_subtitle), "subtitle"));
+                        new Pair<View, String>(viewRoot.findViewById(R.id.list_item_title), "title"),
+                        new Pair<View, String>(viewRoot.findViewById(R.id.list_item_subtitle), "subtitle"));
         startActivity(i, options.toBundle());
     }
 
 
-    public void setListTerms(List<Term> listOfTerms){
+    public void setListTerms(List<Term> listOfTerms) {
         this.listOfTerms = listOfTerms;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -106,8 +105,8 @@ public class TermListActivity extends BasePrimaryActivity {
 
         recyclerView.addItemDecoration(itemDecoration);
 
-    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-    itemTouchHelper.attachToRecyclerView(recyclerView);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     public void onClick(View view) {
@@ -156,8 +155,8 @@ public class TermListActivity extends BasePrimaryActivity {
         }
     }
 
-    private ItemTouchHelper.Callback createHelperCallback(){
-        ItemTouchHelper.SimpleCallback simpleItemCouchCallback  = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+    private ItemTouchHelper.Callback createHelperCallback() {
+        ItemTouchHelper.SimpleCallback simpleItemCouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
