@@ -4,8 +4,10 @@ import android.app.Application;
 
 import com.smoo182.wguplanner.dependencyinjection.ApplicationComponent;
 import com.smoo182.wguplanner.dependencyinjection.ApplicationModule;
-import com.smoo182.wguplanner.dependencyinjection.*;
+import com.smoo182.wguplanner.dependencyinjection.DaggerApplicationComponent;
 import com.smoo182.wguplanner.dependencyinjection.RoomModule;
+
+
 
 public class PlannerApplication extends Application {
     private ApplicationComponent applicationComponent;
@@ -14,7 +16,7 @@ public class PlannerApplication extends Application {
     public void onCreate(){
         super.onCreate();
 
-        applicationComponent = DaggerApp
+        applicationComponent = DaggerApplicationComponent
                 .builder()
                 .applicationModule(new ApplicationModule(this))
                 .roomModule(new RoomModule(this))

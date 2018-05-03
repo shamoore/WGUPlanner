@@ -52,5 +52,7 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVer"
     implementation "com.google.dagger:dagger-android-support:$daggerVer"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
 }

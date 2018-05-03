@@ -8,6 +8,8 @@ import android.arch.persistence.room.Room;
 import com.smoo182.wguplanner.data.PlannerDao;
 import com.smoo182.wguplanner.data.PlannerDatabase;
 import com.smoo182.wguplanner.data.PlannerRepository;
+import com.smoo182.wguplanner.logic.CustomViewModelFactory;
+import com.smoo182.wguplanner.logic.TermListViewModel;
 
 import javax.inject.Singleton;
 
@@ -41,9 +43,9 @@ public class RoomModule {
         return database;
     }
 
-  //  @Provides
- //   @Singleton
-  //  ViewModelProvider.Factory provideViewModelFactory(PlannerRepository repository){
-  //      return new CustomViewModelFactory(repository);
-   // }
+    @Provides
+    @Singleton
+    ViewModelProvider.Factory provideViewModelFactory(PlannerRepository repository){
+        return new CustomViewModelFactory(repository);
+    }
 }

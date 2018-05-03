@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.persistence.room.Insert;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.smoo182.wguplanner.PlannerApplication;
 import com.smoo182.wguplanner.R;
 import com.smoo182.wguplanner.data.datatypes.Term;
 import com.smoo182.wguplanner.logic.TermListViewModel;
@@ -39,7 +41,7 @@ public class TermListActivity extends BasePrimaryActivity {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-    @Inject
+
     TermListViewModel termListViewModel;
 
 
@@ -57,24 +59,18 @@ public class TermListActivity extends BasePrimaryActivity {
     @Override
     void populateScreen() {
         FloatingActionButton addFab = findViewById(R.id.fab_add_term);
-        addFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startDetailActivity();
-            }
-        });
+        addFab.setOnClickListener(view -> startDetailActivity(Integer.parseInt(EXTRA_TERM_ID), view ));
+
         recyclerView = (RecyclerView) findViewById(R.id.rv_term_list);
         layoutInflater = getLayoutInflater();
 
+        ((PlannerApplication) getApplication()).getApplicationComponent().inject(this);
         termListViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(TermListViewModel.class);
 
-        termListViewModel.getListOfTerms().observe(this, new Observer<List<Term>>() {
-            @Override
-            public void onChanged(@Nullable List<Term> terms) {
-                if (listOfTerms == null) {
-                    setListTerms(listOfTerms);
-                }
+        termListViewModel.getListOfTerms().observe(this, terms -> {
+            if (listOfTerms == null) {
+                setListTerms(listOfTerms);
             }
         });
     }
@@ -90,14 +86,14 @@ public class TermListActivity extends BasePrimaryActivity {
 
         ActivityOptions options = ActivityOptions
                 .makeSceneTransitionAnimation(this,
-                new Pair<View, String>(viewRoot.findViewById(R.id.list_item_title), "title"));
-                new Pair<View, String>(viewRoot.findViewById(R.id.list_item_subtitle), "subtitle");
+                new Pair<View, String>(viewRoot.findViewById(R.id.list_item_title), "title"),
+                new Pair<View, String>(viewRoot.findViewById(R.id.list_item_subtitle), "subtitle"));
         startActivity(i, options.toBundle());
     }
 
 
-    public void setListTerms(List<Term> listofTerms){
-        this.listOfTerms = listofTerms;
+    public void setListTerms(List<Term> listOfTerms){
+        this.listOfTerms = listOfTerms;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new CustomAdapter();
@@ -114,7 +110,6 @@ public class TermListActivity extends BasePrimaryActivity {
     itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    @Override
     public void onClick(View view) {
 
     }
@@ -166,6 +161,11 @@ public class TermListActivity extends BasePrimaryActivity {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
             }
         };
         return simpleItemCouchCallback;
