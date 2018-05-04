@@ -28,7 +28,7 @@ import javax.inject.Inject;
 
 
 public class TermListActivity extends BasePrimaryActivity {
-    private static final String EXTRA_TERM_ID = "EXTRA_TERM_ID";
+    private static final String EXTRA_TERM_TITLE = "EXTRA_TERM_TITLE";
 
     private List<Term> listOfTerms;
     private LayoutInflater layoutInflater;
@@ -79,11 +79,11 @@ public class TermListActivity extends BasePrimaryActivity {
         super.onResume();
     }
 
-    public void startDetailActivity(String termId, View viewRoot) {
+    public void startDetailActivity(String termTitle, View viewRoot) {
         Intent i = new Intent(this, TermDetailActivity.class);
-        i.putExtra(EXTRA_TERM_ID, termId);
+        i.putExtra(EXTRA_TERM_TITLE, termTitle);
 
-        if (termId != null) {
+        if (termTitle != null) {
             ActivityOptions options = ActivityOptions
                     .makeSceneTransitionAnimation(this,
                             new Pair<View, String>(viewRoot.findViewById(R.id.list_item_title),
@@ -157,7 +157,7 @@ public class TermListActivity extends BasePrimaryActivity {
 
                 public void onClick(View v) {
                     Term listTerm = listOfTerms.get(this.getAdapterPosition());
-                    startDetailActivity(listTerm.getId().toString(), v);
+                    startDetailActivity(String.valueOf(listTerm.getTitle()), v);
                 }
             }
         }

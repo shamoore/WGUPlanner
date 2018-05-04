@@ -14,7 +14,6 @@ import com.smoo182.wguplanner.data.datatypes.Note;
 import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.data.datatypes.Term;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -102,9 +101,6 @@ public interface PlannerDao {
     @Query("SELECT  * from Quote ORDER BY RANDOM() LIMIT 1")
     Quote getRandomQuote();
 
-    @Query("SELECT * from Term where id = :id")
-    Term getTermById(int id);
-
     @Query("SELECT * from Course where id = :id")
     Course getCourseById(int id);
 
@@ -117,4 +113,6 @@ public interface PlannerDao {
     @Query("SELECT * from Note where id = :id")
     Note getNoteById(int id);
 
+    @Query("SELECT * from Term where title = :termTitleExtra")
+    LiveData<Term> getTermByTitle(String termTitleExtra);
 }

@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import com.smoo182.wguplanner.data.PlannerRepository;
+import com.smoo182.wguplanner.view.activities.TermDetailActivity;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,6 +24,8 @@ public class CustomViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if(modelClass.isAssignableFrom(TermListViewModel.class))
             return (T) new TermListViewModel(repository);
+        else if(modelClass.isAssignableFrom(TermDetailViewModel.class))
+            return (T) new TermDetailViewModel(repository);
         else {
             throw new IllegalArgumentException("ViewModel Not Found");
         }

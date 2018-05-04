@@ -107,9 +107,6 @@ public class PlannerRepository {
         plannerDao.getRandomQuote();
     }
 
-    public LiveData<Term> getTermById(int id){
-        return plannerDao.getTermById(id);
-    }
 
     public void getCourseById(int id){
         plannerDao.getCourseById(id);
@@ -127,4 +124,5 @@ public class PlannerRepository {
         plannerDao.getNoteById(id);
     }
 
+    public LiveData<Term> getTermByTitle(String termTitleExtra) { return plannerDao.getTermByTitle(termTitleExtra); }
 }

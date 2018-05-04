@@ -139,5 +139,14 @@
     app:titleTextColor="@color/colorWindowBackground"
     tools:title="Term Details" />
 
+    <TextView
+        android:id="@+id/text_termId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="id"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="335dp"
+        tools:layout_editor_absoluteY="80dp" />
+
 
 </android.support.constraint.ConstraintLayout>

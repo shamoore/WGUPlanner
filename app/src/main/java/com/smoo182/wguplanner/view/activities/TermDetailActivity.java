@@ -1,37 +1,35 @@
 package com.smoo182.wguplanner.view.activities;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.View;
+import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.smoo182.wguplanner.PlannerApplication;
 import com.smoo182.wguplanner.R;
-import com.smoo182.wguplanner.data.PlannerDao;
-import com.smoo182.wguplanner.data.datatypes.ListItem;
 import com.smoo182.wguplanner.data.datatypes.Term;
 import com.smoo182.wguplanner.logic.TermDetailViewModel;
-import com.smoo182.wguplanner.view.interfaces.ListViewInterface;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
-public class TermDetailActivity extends BaseSecondaryActivity implements ListViewInterface{
+public class TermDetailActivity extends BaseSecondaryActivity {
 
-    private static final String EXTRA_TERM_ID = "EXTRA_TERM_ID";
-    private String termId;
-    private Term term;
+    private static final String EXTRA_TERM_TITLE = "EXTRA_TERM_TITLE";
 
     private TextView termTitle;
     private TextView termDescription;
     private TextView termStartDate;
     private TextView termStopDate;
     private ListView termCourseList;
+
 
     private LayoutInflater layoutInflater;
 
@@ -41,10 +39,10 @@ public class TermDetailActivity extends BaseSecondaryActivity implements ListVie
     private TermDetailViewModel termDetailViewModel;
 
 
-    public TermDetailActivity newInstance(String termId) {
+    public TermDetailActivity newInstance(String termTitle) {
         TermDetailActivity termDetailActivity = new TermDetailActivity();
         Bundle args = new Bundle();
-        args.putString(EXTRA_TERM_ID, termId);
+        args.putString(EXTRA_TERM_TITLE, termTitle);
         return this;
     }
 
@@ -56,61 +54,67 @@ public class TermDetailActivity extends BaseSecondaryActivity implements ListVie
                 .getApplicationComponent()
                 .inject((TermDetailActivity) this);
 
-        Bundle args = getArguments();
-
-        this.termId = args.getString(EXTRA_TERM_ID);
-
         layoutInflater = getLayoutInflater();
         setContentView(R.layout.activity_term_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.details_toolbar);
         toolbar.setTitle("Term Details");
         setSupportActionBar(toolbar);
 
+        termDetailViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(TermDetailViewModel.class);
+
         Intent i = getIntent();
-     //   int termTitleExtra=  i.getIntExtra(EXTRA_TERM_ID);
-
-
+        String termTitleExtra = i.getStringExtra(EXTRA_TERM_TITLE);
+        termDetailViewModel.getTermByTitle(termTitleExtra).observe(this, new Observer<Term>() {
+            @Override
+            public void onChanged(@Nullable Term term) {
+                if(term != null) {
+                    termTitle.setText(term.getTitle());
+                    termDescription.setText(term.getDescription());
+                    termStartDate.setText(term.getStartDate());
+                    termStopDate.setText(term.getEndDate());
+                    //TODO: termCourseList needs population
+                }
+            }
+        });
         termTitle = findViewById(R.id.editText_term_title);
-    //    termTitle.setText(termTitleExtra);
-
-        termDescription =  (TextView) findViewById(R.id.editText_term_desc);
-       // termDescription.setText(termDescExtra);
-
+        termDescription = (TextView) findViewById(R.id.editText_term_desc);
         termStartDate = findViewById(R.id.editText_startdate);
-      //  termStartDate.setText(termStartExtra);
-
         termStopDate = findViewById(R.id.editText_enddate);
-      //  termStopDate.setText(termStopExtra);
-
         termCourseList = findViewById(R.id.lv_term_courses);
-     //   termCourseList.set something....
-
     }
+
 
     @Override
-    public void startDetailActivity(String title, View viewRoot) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        Term activeTerm = new Term(
+                termTitle.getText().toString(),
+                termStartDate.getText().toString(),
+                termStopDate.getText().toString(),
+                termDescription.getText().toString());
+        //TODO: termCourseList needs populating
 
+        switch (menuItem.getItemId()) {
+            case R.id.action_add:
+
+                termDetailViewModel.addTerm(activeTerm);
+                startTermListActivity();
+                return true;
+            case R.id.action_delete:
+                termDetailViewModel.deleteTerm(activeTerm);
+                startTermListActivity();
+                return true;
+            default:
+                startTermListActivity();
+                return super.onOptionsItemSelected(menuItem);
+        }
     }
 
-    @Override
-    public void setUpAdapterAndView(List<ListItem> listOfData) {
-
+    private void startTermListActivity() {
+        startActivity(new Intent(this, TermListActivity.class));
     }
 
-    @Override
-    public void addNewListItemToView(Term newItem) {
 
-    }
-
-    @Override
-    public void deleteListItemAt(int position) {
-
-    }
-
-    @Override
-    public void insertListItemAt(int temporaryListItemPosition, ListItem temporaryListItem) {
-
-    }
 }
 
 

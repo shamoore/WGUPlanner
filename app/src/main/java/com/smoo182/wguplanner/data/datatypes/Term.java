@@ -4,12 +4,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-
 @Entity
 public class Term {
-    @PrimaryKey (autoGenerate = true)
-    private Integer id;
+    @PrimaryKey
+    @NonNull
     private String title;
     private String startDate;
     private String endDate;
@@ -23,16 +21,12 @@ public class Term {
         this.description = description;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTitle() {
