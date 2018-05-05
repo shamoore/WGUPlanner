@@ -43,16 +43,16 @@ public interface PlannerDao {
 
     //Get Filtered Lists
 
-    @Query("SELECT * FROM Course where termId= :termId")
-    LiveData<List<Course>> getCoursesByTerm(int termId);
+    @Query("SELECT * FROM Course where termTitle= :termTitle")
+    LiveData<List<Course>> getCoursesByTerm(String termTitle);
 
-    @Query("SELECT * FROM Assessment where courseId= :courseId")
+    @Query("SELECT * FROM Assessment where courseCode= :courseId")
     LiveData<List<Assessment>> getAssessmentsByCourse(int courseId);
 
     @Query("SELECT m.id, m.name, m.email, m.phone FROM Mentor m INNER JOIN MentorCourses mc where mc.courseId = :courseId")
     LiveData<List<Mentor>> getMentorsByCourse(int courseId);
 
-    @Query("SELECT c.id, c.code, c.name, c.description, c.startDate, c.endDate, c.termId FROM Course c INNER JOIN MentorCourses mc where mc.mentorId = :mentorId")
+    @Query("SELECT c.code, c.name, c.note, c.startDate, c.endDate, c.termTitle FROM Course c INNER JOIN MentorCourses mc where mc.mentorId = :mentorId")
     LiveData<List<Course>> getCoursesByMentor(int mentorId);
 
     @Query("SELECT * FROM Note where courseId = :courseId")
@@ -77,6 +77,9 @@ public interface PlannerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertNote(Note note);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertQuote(Quote quote);
+
 
     //Deletes
 
@@ -99,10 +102,10 @@ public interface PlannerDao {
     //Get Individuals
 
     @Query("SELECT  * from Quote ORDER BY RANDOM() LIMIT 1")
-    Quote getRandomQuote();
+    LiveData<Quote> getRandomQuote();
 
-    @Query("SELECT * from Course where id = :id")
-    Course getCourseById(int id);
+    @Query("SELECT * from Course where code = :code")
+    LiveData<Course> getCourseByCode(String code);
 
     @Query("SELECT * from Mentor where id = :id")
     Mentor getMentorById(int id);
@@ -115,4 +118,5 @@ public interface PlannerDao {
 
     @Query("SELECT * from Term where title = :termTitleExtra")
     LiveData<Term> getTermByTitle(String termTitleExtra);
+
 }

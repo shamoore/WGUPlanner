@@ -12,8 +12,7 @@ public class Quote {
     private String content;
     private String author;
 
-    public Quote(String content, String author, int id) {
-        this.quoteId = id;
+    public Quote(String content, String author) {
         this.content = content;
         this.author = author;
     }
@@ -38,9 +37,4 @@ public class Quote {
         this.author = author;
     }
 
-    public Quote(@NonNull int quoteId, String content, String author) {
-        this.quoteId = quoteId;
-        this.content = content;
-        this.author = author;
-    }
 }

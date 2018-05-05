@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 
 import com.smoo182.wguplanner.R;
@@ -12,7 +14,6 @@ import com.smoo182.wguplanner.R;
 public abstract class BasePrimaryActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     protected BottomNavigationView navigationView;
-
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,5 +81,22 @@ public abstract class BasePrimaryActivity extends AppCompatActivity implements B
     abstract int getContentViewId();
     abstract int getNavigationMenuItemId();
     abstract void populateScreen();
+
+    public ItemTouchHelper.Callback createHelperCallback () {
+        ItemTouchHelper.SimpleCallback simpleItemCouchCallback = new ItemTouchHelper
+                .SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder
+                    viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+            }
+        };
+        return simpleItemCouchCallback;
+    }
 
 }

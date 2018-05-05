@@ -122,7 +122,7 @@ public class TermListActivity extends BasePrimaryActivity {
         private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
             public CustomAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int
                     viewType) {
-                View v = layoutInflater.inflate(R.layout.list_item_term, parent, false);
+                View v = layoutInflater.inflate(R.layout.list_item, parent, false);
                 return new CustomViewHolder(v);
             }
 
@@ -162,20 +162,5 @@ public class TermListActivity extends BasePrimaryActivity {
             }
         }
 
-        private ItemTouchHelper.Callback createHelperCallback () {
-            ItemTouchHelper.SimpleCallback simpleItemCouchCallback = new ItemTouchHelper
-                    .SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-                @Override
-                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder
-                        viewHolder, RecyclerView.ViewHolder target) {
-                    return false;
-                }
 
-                @Override
-                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
-                }
-            };
-            return simpleItemCouchCallback;
-        }
     }

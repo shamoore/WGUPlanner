@@ -1,26 +1,33 @@
 package com.smoo182.wguplanner.view.activities;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.widget.TextView;
 
+import com.smoo182.wguplanner.PlannerApplication;
 import com.smoo182.wguplanner.R;
-import com.smoo182.wguplanner.data.PlannerRepository;
 import com.smoo182.wguplanner.data.datatypes.Quote;
-import com.smoo182.wguplanner.logic.HomeController;
-import com.smoo182.wguplanner.view.interfaces.HomeViewInterface;
+import com.smoo182.wguplanner.logic.HomeViewModel;
 
-public class HomeActivity extends BasePrimaryActivity implements HomeViewInterface {
+import javax.inject.Inject;
+
+public class HomeActivity extends BasePrimaryActivity {
 
     private TextView contentTextView;
     private TextView authorTextView;
-    private HomeController homeController;
 
-    @SuppressLint("RestrictedApi")
-    @Override
-    public void setUpAdapterAndView(Quote quote) {
-        this.contentTextView.setText(quote.getContent());
-        this.authorTextView.setText(quote.getAuthor());
-    }
+    private LayoutInflater layoutInflater;
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
+    HomeViewModel homeViewModel;
+
 
     @Override
     int getContentViewId() {
@@ -35,6 +42,20 @@ public class HomeActivity extends BasePrimaryActivity implements HomeViewInterfa
     public void populateScreen(){
         contentTextView = (TextView) findViewById(R.id.text_quote);
         authorTextView = (TextView) findViewById(R.id.text_quote_author);
+        layoutInflater = getLayoutInflater();
+
+        ((PlannerApplication) getApplication()).getApplicationComponent().inject(this);
+
+        homeViewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel.class);
+        homeViewModel.InsertQuotes();
+        homeViewModel.getRandomQuote().observe(this, new Observer<Quote>() {
+            @Override
+            public void onChanged(@Nullable Quote quote) {
+                authorTextView.setText(quote.getAuthor());
+                contentTextView.setText(quote.getContent());
+            }
+        });
+
 
     }
 }

@@ -6,6 +6,7 @@ import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.data.datatypes.Mentor;
 import com.smoo182.wguplanner.data.datatypes.Note;
+import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.data.datatypes.Term;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class PlannerRepository {
     }
 
 // Get Lists
-    public LiveData<List<Term>> getListofTerms(){
+    public LiveData<List<Term>> getListOfTerms(){
         return plannerDao.getTermList();
     }
     public LiveData<List<Course>> getListofCourses(){
@@ -37,8 +38,8 @@ public class PlannerRepository {
 
 //Get Filtered Lists
 
-    public LiveData<List<Course>> getCoursesByTerm(int termId){
-        return plannerDao.getCoursesByTerm(termId);
+    public LiveData<List<Course>> getCoursesByTerm(String termTitle){
+        return plannerDao.getCoursesByTerm(termTitle);
     }
 
     public LiveData<List<Course>> getCoursesByMentor(int mentorId){
@@ -62,13 +63,9 @@ public class PlannerRepository {
         plannerDao.insertTerm(term);
     }
 
-    public void createNewCourse(Course course){
-        plannerDao.insertCourse(course);
-    }
+    public void createNewCourse(Course course){ plannerDao.insertCourse(course); }
 
-    public void createNewAssessment(Assessment assessment){
-        plannerDao.insertAssessment(assessment);
-    }
+    public void createNewAssessment(Assessment assessment){ plannerDao.insertAssessment(assessment); }
 
     public void createNewMentor(Mentor mentor){
         plannerDao.insertMentor(mentor);
@@ -103,14 +100,9 @@ public class PlannerRepository {
 
 //Get Individuals
 
-    public void getRandomQuote(){
-        plannerDao.getRandomQuote();
-    }
+    public LiveData<Quote> getRandomQuote(){ return plannerDao.getRandomQuote(); }
 
-
-    public void getCourseById(int id){
-        plannerDao.getCourseById(id);
-    }
+    public LiveData<Course> getCourseByCode(String code){ return plannerDao.getCourseByCode(code); }
 
     public void getMentorById(int id){
         plannerDao.getMentorById(id);
@@ -125,4 +117,6 @@ public class PlannerRepository {
     }
 
     public LiveData<Term> getTermByTitle(String termTitleExtra) { return plannerDao.getTermByTitle(termTitleExtra); }
+
+    public void createNewQuote(Quote quote) { plannerDao.insertQuote(quote); }
 }

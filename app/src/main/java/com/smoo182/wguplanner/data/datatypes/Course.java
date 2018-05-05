@@ -1,38 +1,35 @@
 package com.smoo182.wguplanner.data.datatypes;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
+import static android.arch.persistence.room.ForeignKey.SET_NULL;
 
-@Entity
+@Entity (foreignKeys = @ForeignKey(entity = Term.class, parentColumns = "title", childColumns = "termTitle", onDelete = SET_NULL))
 public class Course {
     @PrimaryKey
-    private int id;
+    @NonNull
     private String code;
     private String name;
-    private String description;
+    private String note;
     private String startDate;
     private String endDate;
-    private int termId;
+    private String termTitle;
 
-    public Course(Integer id, String code, String name, String description, String startDate, String endDate) {
-        this.id = id;
+    public Course(String code, String name, String note, String startDate, String endDate) {
+
         this.code = code;
         this.name = name;
-        this.description = description;
+        this.note = note;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public Integer getId() {
-        return id;
-    }
+    public String getTermTitle() { return termTitle; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public void setTermTitle(String termTitle) { this.termTitle = termTitle; }
 
     public String getCode() {
         return code;
@@ -50,12 +47,12 @@ public class Course {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getNote() {
+        return note;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public String getStartDate() {
@@ -74,12 +71,5 @@ public class Course {
         this.endDate = endDate;
     }
 
-    public int getTermId() {
-        return termId;
-    }
-
-    public void setTermId(int termId) {
-        this.termId = termId;
-    }
 }
 
