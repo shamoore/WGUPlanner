@@ -1,11 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".view.activities.CourseDetailActivity">
 
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/details_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/details_toolbar"
+        app:titleTextColor="@color/colorWindowBackground"
+        tools:title="Course Details"
+        app:layout_scrollFlags="enterAlways"
+        app:layout_collapseMode="pin"
+        />
+    </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        android:id="@+id/text_course_mentors"
+        style="@style/FieldNameText"
+        android:layout_width="101dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="630dp"
+        android:text="Mentors"
+        android:textAlignment="viewEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/lv_course_mentors"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="630dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_course_title"
@@ -61,7 +106,7 @@
         android:layout_width="85dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="235dp"
+        android:layout_marginTop="205dp"
         android:text="Dates"
         android:textAlignment="viewEnd"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +118,7 @@
         android:layout_width="85dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="250dp"
         android:text="Notes"
         android:textAlignment="viewEnd"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,35 +138,33 @@
 
     <EditText
         android:id="@+id/editText_course_note"
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="120dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="250dp"
         android:ems="10"
-        android:hint="Enter some info about the course"
+        android:hint="Enter your notes about the course"
         android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:gravity="bottom"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <Button
         android:id="@+id/editText_startdate"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        style="@style/button_date"
         android:layout_marginStart="120dp"
-        android:layout_marginTop="235dp"
-        android:ems="10"
-        android:inputType="date"
+        android:layout_marginTop="205dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <Button
         android:id="@+id/editText_enddate"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        style="@style/button_date"
         android:layout_marginStart="255dp"
-        android:layout_marginTop="235dp"
-        android:ems="10"
-        android:inputType="date"
+        android:layout_marginTop="205dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -129,40 +172,73 @@
         android:id="@+id/text_until"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="215dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginStart="224dp"
+        android:layout_marginTop="215dp"
         android:text="until"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/details_toolbar"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_course_assessments"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/details_toolbar"
-        app:titleTextColor="@color/colorWindowBackground"
-        tools:title="Course Details" />
-
-    <ListView
-        android:id="@+id/lv_course_assessments"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="220dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="400dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/text_no_assessments"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="450dp"
+        android:text="There are no unassigned assessments available."
+        android:textAlignment="center"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_no_mentors"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="680dp"
+        android:text="There are no mentors available."
+        android:textAlignment="center"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_check_explanation"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="425dp"
+        android:alpha="65"
+        android:text="Checked assessments and mentors are assigned to this term. Tap to toggle."
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_share"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="275dp"
+        android:backgroundTint="@color/colorWindowBackground"
+        android:text="Share"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+

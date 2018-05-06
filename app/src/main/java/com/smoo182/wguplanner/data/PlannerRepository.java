@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.data.datatypes.Mentor;
+import com.smoo182.wguplanner.data.datatypes.MentorCourses;
 import com.smoo182.wguplanner.data.datatypes.Note;
 import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.data.datatypes.Term;
@@ -42,14 +43,14 @@ public class PlannerRepository {
         return plannerDao.getCoursesByTerm(termTitle);
     }
 
-    public LiveData<List<Course>> getCoursesByMentor(int mentorId){
-        return plannerDao.getCoursesByMentor(mentorId);
+    public LiveData<List<Course>> getCoursesByMentor(String mentorName){
+        return plannerDao.getCoursesByMentor(mentorName);
     }
-    public LiveData<List<Assessment>> getAssessmentsByCourse(int courseId){
-        return plannerDao.getAssessmentsByCourse(courseId);
+    public LiveData<List<Assessment>> getAssessmentsByCourse(String courseCode){
+        return plannerDao.getAssessmentsByCourse(courseCode);
     }
-    public LiveData<List<Mentor>> getMentorsByCourse(int courseId){
-        return plannerDao.getMentorsByCourse(courseId);
+    public LiveData<List<Mentor>> getMentorsByCourse(String courseCode){
+        return plannerDao.getMentorsByCourse(courseCode);
     }
 
     public LiveData<List<Note>> getNotesByCourse(int courseId){
@@ -119,4 +120,20 @@ public class PlannerRepository {
     public LiveData<Term> getTermByTitle(String termTitleExtra) { return plannerDao.getTermByTitle(termTitleExtra); }
 
     public void createNewQuote(Quote quote) { plannerDao.insertQuote(quote); }
+
+    public void assignMentorToCourse(Mentor listMentor, String courseCodeExtra) {
+        plannerDao.insertMentorCourses(new MentorCourses(listMentor.getName(), courseCodeExtra));
+    }
+
+    public void unAssignMentorFromCourse(Mentor listMentor, String courseCodeExtra) {
+        plannerDao.deleteMentorCourses(new MentorCourses(listMentor.getEmail(), courseCodeExtra));
+    }
+
+    public boolean isMentorAssigned(Mentor mentor, String courseCode) {
+        boolean assigned = false;
+        if(plannerDao.isMentorAssigned(mentor.getName(), courseCode)>0){
+            assigned = true;
+        }
+        return assigned;
+    }
 }

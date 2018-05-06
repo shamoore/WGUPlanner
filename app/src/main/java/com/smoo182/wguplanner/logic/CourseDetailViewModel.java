@@ -5,7 +5,11 @@ import android.arch.lifecycle.ViewModel;
 import android.os.AsyncTask;
 
 import com.smoo182.wguplanner.data.PlannerRepository;
+import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.data.datatypes.Course;
+import com.smoo182.wguplanner.data.datatypes.Mentor;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -23,6 +27,22 @@ public class CourseDetailViewModel extends ViewModel {
 
     public LiveData<Course> getCourseByCode(String courseCode) {
         return plannerRepository.getCourseByCode(courseCode);
+    }
+
+    public LiveData<List<Assessment>> getAssessmentsByCourse(String courseCodeExtra) {
+        return plannerRepository.getAssessmentsByCourse(courseCodeExtra);
+    }
+
+    public void assignMentorToCourse(Mentor listMentor, String courseCodeExtra) {
+        plannerRepository.assignMentorToCourse(listMentor, courseCodeExtra);
+    }
+
+    public void unAssignMentorFromCourse(Mentor listMentor, String courseCodeExtra) {
+        plannerRepository.unAssignMentorFromCourse(listMentor, courseCodeExtra );
+    }
+
+    public boolean IsMentorAssigned(Mentor mentor, String courseCode) {
+        return plannerRepository.isMentorAssigned(mentor, courseCode);
     }
 
     private class AddCourseTask extends AsyncTask<Course, Void, Void> {

@@ -4,19 +4,29 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.smoo182.wguplanner.PlannerApplication;
 import com.smoo182.wguplanner.R;
 import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.data.datatypes.Course;
+import com.smoo182.wguplanner.data.datatypes.Mentor;
 import com.smoo182.wguplanner.logic.CourseDetailViewModel;
 
 import java.util.List;
@@ -29,19 +39,31 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
 
     private EditText courseCode;
     private EditText courseTitle;
-    private EditText courseStartDate;
-    private EditText courseStopDate;
+    private Button courseStartDate;
+    private Button courseStopDate;
     private EditText courseNote;
-    private List<Assessment> courseAssessments;
+    private RecyclerView courseAssessments;
+    private RecyclerView courseMentors;
+
+    public List<Assessment> listOfAssessments;
+    public List<Mentor> listOfMentors;
+
+    private TextView zeroStateAssessments;
+    private TextView zeroStateMentors;
+    private Button shareNotes;
 
     private LayoutInflater layoutInflater;
+    private AssessmentListAdapter assessmentListAdapter;
+    private MentorListAdapter mentorListAdapter;
+
+    private String courseCodeExtra;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
     private CourseDetailViewModel courseDetailViewModel;
 
-    public CourseDetailActivity newInstance(String courseCode){
+    public CourseDetailActivity newInstance(String courseCode) {
         CourseDetailActivity courseDetailActivity = new CourseDetailActivity();
         Bundle args = new Bundle();
         args.putString(EXTRA_COURSE_CODE, courseCode);
@@ -65,17 +87,16 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
                 .get(CourseDetailViewModel.class);
 
         Intent i = getIntent();
-        String courseCodeExtra = i.getStringExtra(EXTRA_COURSE_CODE);
+        courseCodeExtra = i.getStringExtra(EXTRA_COURSE_CODE);
         courseDetailViewModel.getCourseByCode(courseCodeExtra).observe(this, new Observer<Course>() {
             @Override
             public void onChanged(@Nullable Course course) {
-                if(course != null){
+                if (course != null) {
                     courseTitle.setText(course.getName());
                     courseCode.setText(course.getCode());
                     courseStartDate.setText(course.getStartDate());
                     courseStopDate.setText(course.getEndDate());
                     courseNote.setText(course.getNote());
-                    //TODO: courseAssessments needs to be handled
                 }
             }
         });
@@ -85,7 +106,50 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
         courseNote = findViewById(R.id.editText_course_note);
         courseStartDate = findViewById(R.id.editText_startdate);
         courseStopDate = findViewById(R.id.editText_enddate);
-        // TODO: courseAssessments = findViewById(R.id.lv_course_assessments);
+        courseAssessments = findViewById(R.id.rv_course_assessments);
+        zeroStateAssessments = findViewById(R.id.text_no_assessments);
+        zeroStateMentors = findViewById(R.id.text_no_mentors);
+        shareNotes = findViewById(R.id.button_share);
+
+        courseStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lastActiveButton = courseStartDate;
+                datePicker(v);
+            }
+        });
+
+        courseStopDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lastActiveButton = courseStopDate;
+                datePicker(v);
+            }
+        });
+
+        shareNotes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                String shareString = "Course Notes for" + courseCode.getText().toString() + ": " + courseTitle.getText().toString() + "\r\n" + courseNote.getText().toString();
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareString);
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, courseCode.getText().toString() + " Notes");
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(Intent.createChooser(shareIntent, "Share Notes"));
+            }
+        });
+
+
+        courseDetailViewModel.getAssessmentsByCourse(courseCodeExtra).observe(this, new Observer<List<Assessment>>() {
+            @Override
+            public void onChanged(@Nullable List<Assessment> assessments) {
+                if (listOfAssessments == null) {
+                    setCourseAssessments(assessments);
+                }
+            }
+
+        });
 
     }
 
@@ -97,7 +161,6 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
                 courseNote.getText().toString(),
                 courseStartDate.getText().toString(),
                 courseStopDate.getText().toString());
-        //TODO: termCourseList needs populating
 
         switch (menuItem.getItemId()) {
             case R.id.action_add:
@@ -112,6 +175,152 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
             default:
                 startCourseListActivity();
                 return super.onOptionsItemSelected(menuItem);
+        }
+    }
+
+
+    private void setCourseAssessments(List<Assessment> assessments) {
+        if (assessments.size() == 0) {
+            zeroStateAssessments.setVisibility(View.VISIBLE);
+        } else {
+            this.listOfAssessments = assessments;
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            courseAssessments.setLayoutManager(layoutManager);
+            assessmentListAdapter = new AssessmentListAdapter();
+
+            DividerItemDecoration itemDecoration = new DividerItemDecoration(
+                    courseAssessments.getContext(),
+                    layoutManager.getOrientation()
+            );
+
+            courseAssessments.addItemDecoration(itemDecoration);
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+            itemTouchHelper.attachToRecyclerView(courseAssessments);
+        }
+    }
+
+    private class AssessmentListAdapter extends RecyclerView.Adapter<AssessmentListAdapter.AssessmentListViewHolder> {
+
+        public AssessmentListAdapter.AssessmentListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View v = layoutInflater.inflate(R.layout.sublist_item, parent, false);
+            return new AssessmentListViewHolder(v);
+        }
+
+        public void onBindViewHolder(@NonNull AssessmentListAdapter.AssessmentListViewHolder holder, int position) {
+            Assessment currentAssessment = listOfAssessments.get(position);
+
+            String type = "OA";
+            if (!currentAssessment.getType()) {
+                type = "PA";
+            }
+
+            holder.subListText.setText(type + ": " + currentAssessment.getName());
+            if (currentAssessment.getCourseCode() == null) {
+                holder.toggle.setChecked(false);
+                holder.checkmark.setVisibility(View.INVISIBLE);
+            } else {
+                holder.toggle.setChecked(true);
+                holder.checkmark.setVisibility(View.VISIBLE);
+            }
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return listOfAssessments.size();
+        }
+
+        class AssessmentListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            private TextView subListText;
+            private Switch toggle;
+            private ViewGroup container;
+            private ImageView checkmark;
+
+            public AssessmentListViewHolder(View itemView) {
+                super(itemView);
+                this.subListText = (TextView) itemView.findViewById(R.id.text_sublist_item);
+                this.toggle = (Switch) itemView.findViewById(R.id.termToggle);
+                this.checkmark = itemView.findViewById(R.id.checkmark);
+                this.container = (ViewGroup) itemView.findViewById(R.id.root_sublist_item);
+                this.container.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                Assessment listAssessment = listOfAssessments.get(this.getAdapterPosition());
+                if (toggle.isChecked()) {
+                    toggle.setChecked(false);
+                    checkmark.setVisibility(View.INVISIBLE);
+                    listAssessment.setCourseCode(courseCodeExtra);
+
+                } else {
+                    toggle.setChecked(true);
+                    checkmark.setVisibility(View.VISIBLE);
+                    listAssessment.setCourseCode(courseCodeExtra);
+                }
+            }
+        }
+    }
+
+
+    private class MentorListAdapter extends RecyclerView.Adapter<MentorListAdapter.MentorListViewHolder> {
+
+        public MentorListAdapter.MentorListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View v = layoutInflater.inflate(R.layout.sublist_item, parent, false);
+            return new MentorListViewHolder(v);
+        }
+
+        public void onBindViewHolder(@NonNull MentorListAdapter.MentorListViewHolder holder, int position) {
+            Mentor currentMentor = listOfMentors.get(position);
+
+
+            holder.subListText.setText(currentMentor.getName());
+            if (courseDetailViewModel.IsMentorAssigned(currentMentor, courseCodeExtra)) {
+                holder.toggle.setChecked(true);
+                holder.checkmark.setVisibility(View.VISIBLE);
+            } else {
+                holder.toggle.setChecked(false);
+                holder.checkmark.setVisibility(View.INVISIBLE);
+            }
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return listOfAssessments.size();
+        }
+
+        class MentorListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            private TextView subListText;
+            private Switch toggle;
+            private ViewGroup container;
+            private ImageView checkmark;
+
+            public MentorListViewHolder(View itemView) {
+                super(itemView);
+                this.subListText = (TextView) itemView.findViewById(R.id.text_sublist_item);
+                this.toggle = (Switch) itemView.findViewById(R.id.termToggle);
+                this.checkmark = itemView.findViewById(R.id.checkmark);
+                this.container = (ViewGroup) itemView.findViewById(R.id.root_sublist_item);
+                this.container.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                Mentor listMentor = listOfMentors.get(this.getAdapterPosition());
+                if (toggle.isChecked()) {
+                    toggle.setChecked(false);
+                    checkmark.setVisibility(View.INVISIBLE);
+                    courseDetailViewModel.unAssignMentorFromCourse(listMentor, courseCodeExtra);
+                } else {
+                    toggle.setChecked(true);
+                    checkmark.setVisibility(View.VISIBLE);
+                    courseDetailViewModel.assignMentorToCourse(listMentor, courseCodeExtra);
+
+                }
+            }
         }
     }
 

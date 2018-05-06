@@ -46,6 +46,7 @@ public class TermDetailActivity extends BaseSecondaryActivity {
     private Button termStartDate;
     private Button termStopDate;
     private RecyclerView termCourseList;
+    private TextView zeroState;
     private SubListAdapter adapter;
 
 
@@ -100,9 +101,7 @@ public class TermDetailActivity extends BaseSecondaryActivity {
         termStartDate = findViewById(R.id.editText_startdate);
         termStopDate = findViewById(R.id.editText_enddate);
         termCourseList = findViewById(R.id.rv_term_courses);
-
-        termStartDate.setShowSoftInputOnFocus(false);
-
+        zeroState = findViewById(R.id.text_zero_state);
 
 
         termStartDate.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +121,6 @@ public class TermDetailActivity extends BaseSecondaryActivity {
 
             }
         });
-
 
 
         termDetailViewModel.getCoursesByTerm(termTitleExtra).observe(this, new Observer<List<Course>>() {
@@ -168,20 +166,27 @@ public class TermDetailActivity extends BaseSecondaryActivity {
     }
 
     public void setCourseTerms(List<Course> listOfCourses) {
-        this.listOfCourses = listOfCourses;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        termCourseList.setLayoutManager(layoutManager);
-        adapter = new SubListAdapter();
-        termCourseList.setAdapter(adapter);
 
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(
-                termCourseList.getContext(),
-                layoutManager.getOrientation()
-        );
+        if(listOfCourses.size()==0){
+            zeroState.setVisibility(View.VISIBLE);
+        }
+        else {
 
-        termCourseList.addItemDecoration(itemDecoration);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-        itemTouchHelper.attachToRecyclerView(termCourseList);
+            this.listOfCourses = listOfCourses;
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            termCourseList.setLayoutManager(layoutManager);
+            adapter = new SubListAdapter();
+            termCourseList.setAdapter(adapter);
+
+            DividerItemDecoration itemDecoration = new DividerItemDecoration(
+                    termCourseList.getContext(),
+                    layoutManager.getOrientation()
+            );
+
+            termCourseList.addItemDecoration(itemDecoration);
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+            itemTouchHelper.attachToRecyclerView(termCourseList);
+        }
     }
 
     public void onClick(View view) {

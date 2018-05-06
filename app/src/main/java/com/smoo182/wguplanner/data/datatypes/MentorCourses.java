@@ -6,37 +6,28 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class MentorCourses {
 
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-    private int courseId;
-    private int mentorId;
+    @PrimaryKey
+    private String courseCode;
+    private String mentorName;
 
-    public MentorCourses(int courseId, int mentorId) {
-        this.courseId = courseId;
-        this.mentorId = mentorId;
+    public MentorCourses(String courseCode, String mentorName) {
+        this.courseCode = courseCode;
+        this.mentorName = mentorName;
     }
 
-    public int getId() {
-        return id;
+    public String getCourseCode() {
+        return courseCode;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
     }
 
-    public int getCourseId() {
-        return courseId;
+    public String getMentorName() {
+        return mentorName;
     }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
-    }
-
-    public int getMentorId() {
-        return mentorId;
-    }
-
-    public void setMentorId(int mentorId) {
-        this.mentorId = mentorId;
+    public void setMentorName(String mentorName) {
+        this.mentorName = mentorName;
     }
 }
