@@ -1,13 +1,8 @@
 package com.smoo182.wguplanner.view.activities;
 
-import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,24 +15,22 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.smoo182.wguplanner.PlannerApplication;
 import com.smoo182.wguplanner.R;
 import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.data.datatypes.Term;
 import com.smoo182.wguplanner.logic.TermDetailViewModel;
-import com.smoo182.wguplanner.view.fragments.DatePickerFragment;
 
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -50,8 +43,8 @@ public class TermDetailActivity extends BaseSecondaryActivity {
     private List<Course> listOfCourses;
     private TextView termTitle;
     private TextView termDescription;
-    private TextView termStartDate;
-    private TextView termStopDate;
+    private Button termStartDate;
+    private Button termStopDate;
     private RecyclerView termCourseList;
     private SubListAdapter adapter;
 
@@ -108,11 +101,26 @@ public class TermDetailActivity extends BaseSecondaryActivity {
         termStopDate = findViewById(R.id.editText_enddate);
         termCourseList = findViewById(R.id.rv_term_courses);
 
+        termStartDate.setShowSoftInputOnFocus(false);
+
+
+
         termStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lastActiveButton = termStartDate;
                 datePicker(v);
-                }
+
+            }
+        });
+
+        termStopDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lastActiveButton = termStopDate;
+                datePicker(v);
+
+            }
         });
 
 
@@ -237,6 +245,15 @@ public class TermDetailActivity extends BaseSecondaryActivity {
 
 
     }
+@Override
+     void returnDate(final Calendar calendar) {
+        String formattedDate = dateFormat.format(calendar.getTime());
+    if (lastActiveButton == termStartDate) {
+        termStartDate.setText(formattedDate);
+    } else if (lastActiveButton == termStopDate) {
+        termStopDate.setText(formattedDate);
+    }
+}
 
 }
 

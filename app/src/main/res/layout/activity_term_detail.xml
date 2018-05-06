@@ -80,11 +80,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <Button
         android:id="@+id/editText_startdate"
         android:hint="mm/dd/yy"
-        android:textSize="14sp"
-        android:layout_width="80dp"
+        android:backgroundTint="@color/colorWindowBackground"
+        android:padding="8dp"
+        android:textSize="12sp"
+        android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="235dp"
@@ -94,11 +96,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <Button
         android:hint="mm/dd/yy"
-        android:textSize="14sp"
+        android:padding="8dp"
+        android:textSize="12sp"
+        android:backgroundTint="@color/colorWindowBackground"
         android:id="@+id/editText_enddate"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginStart="255dp"
         android:layout_marginTop="235dp"
@@ -111,8 +115,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="215dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginStart="224dp"
+        android:layout_marginTop="245dp"
         android:text="until"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

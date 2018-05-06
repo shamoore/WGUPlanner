@@ -2,6 +2,7 @@ package com.smoo182.wguplanner.view.activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -30,8 +32,9 @@ import java.util.List;
 import java.util.Locale;
 
 public abstract class BaseSecondaryActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-    final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
-    public String selectedDate;
+    public Button lastActiveButton;
+    DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+
 
 
     @Override
@@ -80,18 +83,17 @@ public abstract class BaseSecondaryActivity extends AppCompatActivity implements
     public void datePicker(View view) {
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getFragmentManager(), "Date");
-    }
+
+        }
+
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        final Calendar calendar = Calendar.getInstance(Locale.US);
-
-        if (getCurrentFocus() != null) {
-            TextView currentElement = (TextView) findViewById(getCurrentFocus().getId());
-            currentElement.setText(dateFormat.format(calendar.getTime()));
-
+        returnDate(new GregorianCalendar(year,month,dayOfMonth));
         }
+     void returnDate(final Calendar calendar){
+        lastActiveButton.setText(dateFormat.format(calendar.getTime()));
     }
 
+    }
 
-}

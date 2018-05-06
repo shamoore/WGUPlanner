@@ -4,12 +4,24 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.DatePicker;
 
+import com.smoo182.wguplanner.R;
 import com.smoo182.wguplanner.view.activities.BaseSecondaryActivity;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class DatePickerFragment extends DialogFragment {
+
+    //datePicker types
+    static final int START_DATE = 1;
+    static final int STOP_DATE = 2;
+
+    private int originatingDatePicker;
+    int returningDatePicker = 0;
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -21,3 +33,6 @@ public class DatePickerFragment extends DialogFragment {
         return new DatePickerDialog(getActivity(), (BaseSecondaryActivity) getActivity(), year, month, day);
     }
 }
+
+
+
