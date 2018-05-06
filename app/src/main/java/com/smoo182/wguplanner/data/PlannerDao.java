@@ -43,7 +43,7 @@ public interface PlannerDao {
 
     //Get Filtered Lists
 
-    @Query("SELECT * FROM Course where termTitle= :termTitle")
+    @Query("SELECT * FROM Course where termTitle= :termTitle OR termTitle is NULL")
     LiveData<List<Course>> getCoursesByTerm(String termTitle);
 
     @Query("SELECT * FROM Assessment where courseCode= :courseId")
