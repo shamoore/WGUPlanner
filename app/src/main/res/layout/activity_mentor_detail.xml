@@ -7,8 +7,8 @@
     tools:context=".view.activities.MentorDetailActivity">
 
 
-    <ListView
-        android:id="@+id/lv_mentor_courses"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_mentor_courses"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
@@ -117,6 +117,18 @@
         app:menu="@menu/details_toolbar"
         app:titleTextColor="@color/colorWindowBackground"
         tools:title="Mentor Details" />
+
+    <TextView
+        android:id="@+id/text_zero_state"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="350dp"
+        android:text="There are no courses assigned to this mentor. To assign mentors, view the course details."
+        android:textAlignment="center"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

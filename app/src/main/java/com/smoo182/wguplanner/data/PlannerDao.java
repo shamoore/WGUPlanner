@@ -50,7 +50,7 @@ public interface PlannerDao {
     @Query("SELECT * FROM Assessment where courseCode= :courseCode OR courseCode is NULL")
     LiveData<List<Assessment>> getAssessmentsByCourse(String courseCode);
 
-    @Query("SELECT m.id, m.name, m.email, m.phone FROM Mentor m INNER JOIN MentorCourses mc where mc.courseCode = :courseCode")
+    @Query("SELECT m.name, m.email, m.phone FROM Mentor m INNER JOIN MentorCourses mc where mc.courseCode = :courseCode")
     LiveData<List<Mentor>> getMentorsByCourse(String courseCode);
 
     @Query("SELECT c.code, c.name, c.note, c.startDate, c.endDate, c.termTitle FROM Course c INNER JOIN MentorCourses mc where mc.mentorName = :mentorName")
@@ -113,8 +113,8 @@ public interface PlannerDao {
     @Query("SELECT * from Course where code = :code")
     LiveData<Course> getCourseByCode(String code);
 
-    @Query("SELECT * from Mentor where id = :id")
-    Mentor getMentorById(int id);
+    @Query("SELECT * from Mentor where name = :name")
+    LiveData<Mentor> getMentorByName(String name);
 
     @Query("SELECT * from Assessment where id = :id")
     Assessment getAssesmentById(int id);

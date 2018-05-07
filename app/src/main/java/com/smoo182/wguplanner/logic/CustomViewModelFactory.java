@@ -11,7 +11,6 @@ import javax.inject.Singleton;
 
 @Singleton
 public class CustomViewModelFactory implements ViewModelProvider.Factory {
-    private TermListViewModel termListViewModel;
     private final PlannerRepository repository;
 
     @Inject
@@ -31,6 +30,10 @@ public class CustomViewModelFactory implements ViewModelProvider.Factory {
             return (T) new CourseListViewModel(repository);
         else if(modelClass.isAssignableFrom(CourseDetailViewModel.class))
             return (T) new CourseDetailViewModel(repository);
+        else if(modelClass.isAssignableFrom(MentorListViewModel.class))
+            return (T) new MentorListViewModel(repository);
+        else if(modelClass.isAssignableFrom(MentorDetailViewModel.class))
+            return (T) new MentorDetailViewModel(repository);
         else {
             throw new IllegalArgumentException("ViewModel Not Found");
         }

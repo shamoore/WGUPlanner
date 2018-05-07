@@ -19,15 +19,6 @@
         app:menu="@menu/bottom_navigation"
         />
 
-     <TextView
-         android:id="@+id/textView"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignParentTop="true"
-         android:layout_centerHorizontal="true"
-         android:layout_marginTop="153dp"
-         android:text="Mentor List Goes Here" />
-
      <android.support.design.widget.FloatingActionButton
          android:id="@+id/fab_add_mentor"
          android:layout_width="50dp"
@@ -43,15 +34,24 @@
      <android.support.v7.widget.Toolbar
          android:id="@+id/details_toolbar"
          android:layout_width="match_parent"
-         android:layout_height="?attr/actionBarSize"
-         android:background="?attr/colorPrimary"
-         android:minHeight="?attr/actionBarSize"
-         android:theme="?attr/actionBarTheme"
+         android:layout_height="?android:attr/actionBarSize"
+         android:background="?android:attr/colorPrimary"
+         android:minHeight="?android:attr/actionBarSize"
+         android:theme="?android:attr/actionBarTheme"
          app:layout_constraintEnd_toEndOf="parent"
          app:layout_constraintStart_toStartOf="parent"
          app:layout_constraintTop_toTopOf="parent"
          app:menu="@menu/details_toolbar"
          app:titleTextColor="@color/colorWindowBackground"
          tools:title="Mentor List" />
+
+     <android.support.v7.widget.RecyclerView
+         android:id="@+id/rv_mentor_list"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_below="@id/details_toolbar"
+         android:layout_above="@id/navigation"
+         android:layout_margin="8dp"
+ />
 
 </RelativeLayout>

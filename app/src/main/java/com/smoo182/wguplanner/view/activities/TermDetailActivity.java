@@ -148,7 +148,8 @@ public class TermDetailActivity extends BaseSecondaryActivity {
             case R.id.action_add:
 
                 termDetailViewModel.addTerm(activeTerm);
-                for(Course course: listOfCourses){ termDetailViewModel.addCourse(course); }
+                if(listOfCourses != null){
+                    for(Course course: listOfCourses){ termDetailViewModel.addCourse(course); }}
                 startTermListActivity();
                 return true;
             case R.id.action_delete:
