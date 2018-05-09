@@ -115,8 +115,8 @@ public class PlannerRepository {
         return plannerDao.getMentorByName(name);
     }
 
-    public void getAssessmentById(int id){
-        plannerDao.getAssesmentById(id);
+    public LiveData<Assessment> getAssessmentByName(String name){
+       return plannerDao.getAssesmentByName(name);
     }
 
     public void getNoteById(int id){
@@ -136,4 +136,7 @@ public class PlannerRepository {
     }
 
 
+    public LiveData<String[]> getCourseCodes() {
+        return plannerDao.getCourseCodes();
+    }
 }

@@ -184,8 +184,13 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
 
                 courseDetailViewModel.addCourse(activeCourse);
 
+                if(listOfMentors.size()>0){
                 for (MentorAssignment mentorAssignment: listOfMentors ) {
-                    courseDetailViewModel.assignMentorToCourse(mentorAssignment);
+
+                    if(mentorAssignment.getCourseCode() != null){
+                    courseDetailViewModel.assignMentorToCourse(mentorAssignment);}
+//TODO: ELse if we're trying to delete a mentor/course relationship .. fucking delete it.
+                }
                 }
 
                 startCourseListActivity();

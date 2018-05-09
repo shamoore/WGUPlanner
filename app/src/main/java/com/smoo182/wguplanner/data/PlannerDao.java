@@ -130,8 +130,8 @@ public interface PlannerDao {
     @Query("SELECT * from Mentor where name = :name")
     LiveData<Mentor> getMentorByName(String name);
 
-    @Query("SELECT * from Assessment where id = :id")
-    Assessment getAssesmentById(int id);
+    @Query("SELECT * from Assessment where name = :name")
+    LiveData<Assessment> getAssesmentByName(String name);
 
     @Query("SELECT * from Note where id = :id")
     Note getNoteById(int id);
@@ -145,4 +145,6 @@ public interface PlannerDao {
     @Query("SELECT COUNT(*) FROM MentorCourses where mentorName = :mentorName AND courseCode = :courseCode")
     int isMentorAssigned(String mentorName, String courseCode);
 
+    @Query("SELECT code from Course")
+    LiveData<String[]> getCourseCodes();
 }
