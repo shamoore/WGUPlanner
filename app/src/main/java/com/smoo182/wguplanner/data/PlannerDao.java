@@ -56,7 +56,10 @@ public interface PlannerDao {
 
 
 
-    @Query("SELECT m.name, m.email, m.phone, mc.courseCode FROM  Mentor m LEFT JOIN MentorCourses mc on m.name = mc.mentorName WHERE mc.mentorName = m.name AND  mc.courseCode = :courseCode OR mc.courseCode is NULL")
+    @Query("SELECT m.name, m.email, m.phone, mc.courseCode FROM  Mentor m JOIN  MentorCourses mc on m.name = mc.mentorName " +
+            "WHERE (mc.courseCode = :courseCode OR mc.courseCode is null)" +
+            "UNION " +
+            "SELECT m.name, m.email, m.phone, mc.courseCode FROM MentorCourses mc JOIN Mentor m on mc.mentorName = m.name" )
     LiveData<List<MentorAssignment>> getMentorsByCourse(String courseCode);
 
 

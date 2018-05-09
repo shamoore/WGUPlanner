@@ -12,7 +12,7 @@ public class MentorAssignment extends Mentor {
     }
 
     public String getCourseCode() {
-        return courseCode;
+        return this.courseCode;
     }
 
     public void setCourseCode(String courseCode) {

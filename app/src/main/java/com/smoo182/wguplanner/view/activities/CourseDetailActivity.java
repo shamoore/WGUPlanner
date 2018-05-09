@@ -58,7 +58,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
     private AssessmentListAdapter assessmentListAdapter;
     private MentorListAdapter mentorListAdapter;
 
-    private String courseCodeExtra;
+    private String courseCodeExtra ="";
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -161,14 +161,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
 
         });
 
-
-
     }
-
-
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
@@ -331,7 +324,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
 
 
             holder.subListText.setText(currentMentor.getName() + "\nE: " + currentMentor.getEmail() + "\nP: "+ currentMentor.getPhone());
-            if (currentMentor.getCourseCode().equals(courseCodeExtra)) {
+            if (currentMentor.getCourseCode() != null) {
                 holder.toggle.setChecked(true);
                 holder.checkmark.setVisibility(View.VISIBLE);
             } else {
