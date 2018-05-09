@@ -8,7 +8,10 @@ import com.smoo182.wguplanner.data.PlannerRepository;
 import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.data.datatypes.Mentor;
+import com.smoo182.wguplanner.data.datatypes.MentorAssignment;
+import com.smoo182.wguplanner.data.datatypes.MentorCourses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,17 +36,25 @@ public class CourseDetailViewModel extends ViewModel {
         return plannerRepository.getAssessmentsByCourse(courseCodeExtra);
     }
 
-    public void assignMentorToCourse(Mentor listMentor, String courseCodeExtra) {
-        plannerRepository.assignMentorToCourse(listMentor, courseCodeExtra);
+    public void assignMentorToCourse(MentorAssignment mentorAssignment) {
+        MentorCourses mentorCourse = new MentorCourses(mentorAssignment.getCourseCode(), mentorAssignment.getName());
+                new AssignMentorToCourseTask().execute(mentorCourse);
     }
 
     public void unAssignMentorFromCourse(Mentor listMentor, String courseCodeExtra) {
         plannerRepository.unAssignMentorFromCourse(listMentor, courseCodeExtra );
     }
 
-    public boolean IsMentorAssigned(Mentor mentor, String courseCode) {
-        return plannerRepository.isMentorAssigned(mentor, courseCode);
+
+    public LiveData<List<MentorAssignment>> getMentorsByCourse(String courseCodeExtra) {
+        return plannerRepository.getMentorsByCourse(courseCodeExtra);
     }
+
+
+    public LiveData<List<Mentor>> getMentors(){
+        return plannerRepository.getListofMentors();
+    }
+
 
     private class AddCourseTask extends AsyncTask<Course, Void, Void> {
 
@@ -59,6 +70,15 @@ public class CourseDetailViewModel extends ViewModel {
         @Override
         protected Void doInBackground(Course... courses) {
             plannerRepository.deleteCourse(courses[0]);
+            return null;
+        }
+    }
+
+    private class AssignMentorToCourseTask extends  AsyncTask<MentorCourses, Void, Void> {
+
+        @Override
+        protected Void doInBackground(MentorCourses... mentorCourses) {
+            plannerRepository.assignMentorToCourse(mentorCourses[0]);
             return null;
         }
     }

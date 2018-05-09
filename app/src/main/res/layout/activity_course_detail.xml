@@ -44,13 +44,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/lv_course_mentors"
+        android:id="@+id/rv_course_mentors"
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="630dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"></android.support.v7.widget.RecyclerView>
 
     <TextView
         android:id="@+id/text_course_title"

@@ -4,13 +4,15 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity
+@Entity( primaryKeys = {"courseCode", "mentorName"})
 public class MentorCourses {
-
-    @PrimaryKey
     @NonNull
     private String courseCode;
+    @NonNull
     private String mentorName;
+
+
+
 
     public MentorCourses(String courseCode, String mentorName) {
         this.courseCode = courseCode;

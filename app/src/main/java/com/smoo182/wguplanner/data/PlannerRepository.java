@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.data.datatypes.Mentor;
+import com.smoo182.wguplanner.data.datatypes.MentorAssignment;
 import com.smoo182.wguplanner.data.datatypes.MentorCourses;
 import com.smoo182.wguplanner.data.datatypes.Note;
 import com.smoo182.wguplanner.data.datatypes.Quote;
@@ -49,7 +50,12 @@ public class PlannerRepository {
     public LiveData<List<Assessment>> getAssessmentsByCourse(String courseCode){
         return plannerDao.getAssessmentsByCourse(courseCode);
     }
-    public LiveData<List<Mentor>> getMentorsByCourse(String courseCode){
+
+    public LiveData<List<Course>> getCoursesByAssignedMentor(String mentorNameExtra) {
+        return plannerDao.getCoursesByAssignedMentor(mentorNameExtra);
+    }
+
+    public LiveData<List<MentorAssignment>> getMentorsByCourse(String courseCode){
         return plannerDao.getMentorsByCourse(courseCode);
     }
 
@@ -121,20 +127,13 @@ public class PlannerRepository {
 
     public void createNewQuote(Quote quote) { plannerDao.insertQuote(quote); }
 
-    public void assignMentorToCourse(Mentor listMentor, String courseCodeExtra) {
-        plannerDao.insertMentorCourses(new MentorCourses(listMentor.getName(), courseCodeExtra));
+    public void assignMentorToCourse(MentorCourses mentorCourse) {
+        plannerDao.insertMentorCourses(mentorCourse);
     }
 
     public void unAssignMentorFromCourse(Mentor listMentor, String courseCodeExtra) {
         plannerDao.deleteMentorCourses(new MentorCourses(listMentor.getEmail(), courseCodeExtra));
     }
 
-    public boolean isMentorAssigned(Mentor mentor, String courseCode) {
-        boolean assigned = false;
-        if(plannerDao.isMentorAssigned(mentor.getName(), courseCode)>0){
-            assigned = true;
-        }
-        return assigned;
-    }
 
 }

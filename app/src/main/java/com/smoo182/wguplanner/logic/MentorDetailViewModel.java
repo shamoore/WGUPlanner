@@ -33,6 +33,10 @@ public class MentorDetailViewModel extends ViewModel {
         return this.plannerRepository.getCoursesByMentor(mentorNameExtra);
     }
 
+    public LiveData<List<Course>> getCoursesByAssignedMentor(String mentorNameExtra) {
+        return this.plannerRepository.getCoursesByAssignedMentor(mentorNameExtra);
+    }
+
 
     private class AddMentorTask extends AsyncTask<Mentor, Void, Void> {
         @Override

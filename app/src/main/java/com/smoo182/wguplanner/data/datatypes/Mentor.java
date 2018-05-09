@@ -21,6 +21,9 @@ public class Mentor {
         this.phone = phone;
     }
 
+    public Mentor() {
+    }
+
     public String getName() {
         return name;
     }

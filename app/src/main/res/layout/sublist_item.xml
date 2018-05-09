@@ -15,11 +15,11 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="58dp"
         android:ellipsize="end"
-        android:padding="8dp"
-        android:maxLines ="2"
-        android:text="C196: Mobile App Development"
+        android:padding="5dp"
+        android:maxLines ="3"
+        android:text="C196: Mobile App Development\ntest\n test3"
         android:textAlignment="viewStart"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
     <Switch
         android:id="@+id/termToggle"

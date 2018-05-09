@@ -27,6 +27,8 @@ import com.smoo182.wguplanner.R;
 import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.data.datatypes.Mentor;
+import com.smoo182.wguplanner.data.datatypes.MentorAssignment;
+import com.smoo182.wguplanner.data.datatypes.MentorCourses;
 import com.smoo182.wguplanner.logic.CourseDetailViewModel;
 
 import java.util.List;
@@ -46,7 +48,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
     private RecyclerView courseMentors;
 
     public List<Assessment> listOfAssessments;
-    public List<Mentor> listOfMentors;
+    public List<MentorAssignment> listOfMentors;
 
     private TextView zeroStateAssessments;
     private TextView zeroStateMentors;
@@ -107,6 +109,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
         courseStartDate = findViewById(R.id.editText_startdate);
         courseStopDate = findViewById(R.id.editText_enddate);
         courseAssessments = findViewById(R.id.rv_course_assessments);
+        courseMentors = findViewById(R.id.rv_course_mentors);
         zeroStateAssessments = findViewById(R.id.text_no_assessments);
         zeroStateMentors = findViewById(R.id.text_no_mentors);
         shareNotes = findViewById(R.id.button_share);
@@ -140,7 +143,14 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
             }
         });
 
-
+        courseDetailViewModel.getMentorsByCourse(courseCodeExtra).observe(this, new Observer<List<MentorAssignment>>() {
+            @Override
+            public void onChanged(@Nullable List<MentorAssignment> mentors) {
+                if(listOfMentors == null) {
+                    setCourseMentors(mentors);
+                }
+            }
+        });
         courseDetailViewModel.getAssessmentsByCourse(courseCodeExtra).observe(this, new Observer<List<Assessment>>() {
             @Override
             public void onChanged(@Nullable List<Assessment> assessments) {
@@ -151,7 +161,14 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
 
         });
 
+
+
     }
+
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
@@ -166,6 +183,11 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
             case R.id.action_add:
 
                 courseDetailViewModel.addCourse(activeCourse);
+
+                for (MentorAssignment mentorAssignment: listOfMentors ) {
+                    courseDetailViewModel.assignMentorToCourse(mentorAssignment);
+                }
+
                 startCourseListActivity();
                 return true;
             case R.id.action_delete:
@@ -184,13 +206,14 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
             zeroStateAssessments.setVisibility(View.VISIBLE);
         } else {
             this.listOfAssessments = assessments;
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            courseAssessments.setLayoutManager(layoutManager);
+            LinearLayoutManager assessmentsLayoutManager = new LinearLayoutManager(this);
+            courseAssessments.setLayoutManager(assessmentsLayoutManager);
             assessmentListAdapter = new AssessmentListAdapter();
+            courseAssessments.setAdapter(assessmentListAdapter);
 
             DividerItemDecoration itemDecoration = new DividerItemDecoration(
                     courseAssessments.getContext(),
-                    layoutManager.getOrientation()
+                    assessmentsLayoutManager.getOrientation()
             );
 
             courseAssessments.addItemDecoration(itemDecoration);
@@ -198,6 +221,33 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
             itemTouchHelper.attachToRecyclerView(courseAssessments);
         }
     }
+
+    private void setCourseMentors(List<MentorAssignment> mentors){
+        if (mentors.size() == 0) {
+            zeroStateMentors.setVisibility(View.VISIBLE);
+        } else {
+            this.listOfMentors = mentors;
+            LinearLayoutManager mentorLayoutManager = new LinearLayoutManager(this);
+            courseMentors.setLayoutManager(mentorLayoutManager);
+            mentorListAdapter = new MentorListAdapter();
+            courseMentors.setAdapter(mentorListAdapter);
+
+            DividerItemDecoration itemDecoration = new DividerItemDecoration(
+                    courseMentors.getContext(),
+                    mentorLayoutManager.getOrientation()
+            );
+
+            courseMentors.addItemDecoration(itemDecoration);
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+            itemTouchHelper.attachToRecyclerView(courseMentors);
+        }
+    }
+
+
+
+
+
+
 
     private class AssessmentListAdapter extends RecyclerView.Adapter<AssessmentListAdapter.AssessmentListViewHolder> {
 
@@ -272,11 +322,11 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
         }
 
         public void onBindViewHolder(@NonNull MentorListAdapter.MentorListViewHolder holder, int position) {
-            Mentor currentMentor = listOfMentors.get(position);
+            MentorAssignment currentMentor = listOfMentors.get(position);
 
 
-            holder.subListText.setText(currentMentor.getName());
-            if (courseDetailViewModel.IsMentorAssigned(currentMentor, courseCodeExtra)) {
+            holder.subListText.setText(currentMentor.getName() + "\nE: " + currentMentor.getEmail() + "\nP: "+ currentMentor.getPhone());
+            if (currentMentor.getCourseCode().equals(courseCodeExtra)) {
                 holder.toggle.setChecked(true);
                 holder.checkmark.setVisibility(View.VISIBLE);
             } else {
@@ -288,7 +338,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
 
         @Override
         public int getItemCount() {
-            return listOfAssessments.size();
+            return listOfMentors.size();
         }
 
         class MentorListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -309,15 +359,15 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
 
             @Override
             public void onClick(View v) {
-                Mentor listMentor = listOfMentors.get(this.getAdapterPosition());
+                MentorAssignment listMentor = listOfMentors.get(this.getAdapterPosition());
                 if (toggle.isChecked()) {
                     toggle.setChecked(false);
                     checkmark.setVisibility(View.INVISIBLE);
-                    courseDetailViewModel.unAssignMentorFromCourse(listMentor, courseCodeExtra);
+                    listMentor.setCourseCode(null);
                 } else {
                     toggle.setChecked(true);
                     checkmark.setVisibility(View.VISIBLE);
-                    courseDetailViewModel.assignMentorToCourse(listMentor, courseCodeExtra);
+                    listMentor.setCourseCode(courseCodeExtra);
 
                 }
             }
@@ -328,3 +378,4 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
         startActivity(new Intent(this, CourseListActivity.class));
     }
 }
+

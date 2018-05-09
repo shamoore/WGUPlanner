@@ -10,11 +10,13 @@ import android.arch.persistence.room.Query;
 import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.data.datatypes.Mentor;
+import com.smoo182.wguplanner.data.datatypes.MentorAssignment;
 import com.smoo182.wguplanner.data.datatypes.MentorCourses;
 import com.smoo182.wguplanner.data.datatypes.Note;
 import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.data.datatypes.Term;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -50,11 +52,23 @@ public interface PlannerDao {
     @Query("SELECT * FROM Assessment where courseCode= :courseCode OR courseCode is NULL")
     LiveData<List<Assessment>> getAssessmentsByCourse(String courseCode);
 
-    @Query("SELECT m.name, m.email, m.phone FROM Mentor m INNER JOIN MentorCourses mc where mc.courseCode = :courseCode")
-    LiveData<List<Mentor>> getMentorsByCourse(String courseCode);
+
+
+
+
+    @Query("SELECT m.name, m.email, m.phone, mc.courseCode FROM  Mentor m LEFT JOIN MentorCourses mc on m.name = mc.mentorName WHERE mc.mentorName = m.name AND  mc.courseCode = :courseCode OR mc.courseCode is NULL")
+    LiveData<List<MentorAssignment>> getMentorsByCourse(String courseCode);
+
+
+
+
 
     @Query("SELECT c.code, c.name, c.note, c.startDate, c.endDate, c.termTitle FROM Course c INNER JOIN MentorCourses mc where mc.mentorName = :mentorName")
     LiveData<List<Course>> getCoursesByMentor(String mentorName);
+
+    @Query("SELECT c.code, c.name, c.note, c.startDate, c.endDate, c.termTitle FROM Course c INNER JOIN MentorCourses mc where mc.mentorName = :mentorName")
+    LiveData<List<Course>> getCoursesByAssignedMentor(String mentorName);
+
 
     @Query("SELECT * FROM Note where courseId = :courseId")
     LiveData<List<Note>> getNotesByCourse(int courseId);
