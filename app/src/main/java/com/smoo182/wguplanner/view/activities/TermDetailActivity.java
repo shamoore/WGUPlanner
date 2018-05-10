@@ -122,16 +122,16 @@ public class TermDetailActivity extends BaseSecondaryActivity {
             }
         });
 
+        termDetailViewModel.getCoursesByTerm(termTitleExtra).observe(this, new
+                Observer<List<Course>>() {
 
-        termDetailViewModel.getCoursesByTerm(termTitleExtra).observe(this, new Observer<List<Course>>() {
-
-            @Override
-            public void onChanged(@Nullable List<Course> courses) {
-                if (listOfCourses == null) {
-                    setCourseTerms(courses);
-                }
-            }
-        });
+                    @Override
+                    public void onChanged(@Nullable List<Course> courses) {
+                        if (listOfCourses == null) {
+                            setCourseTerms(courses);
+                        }
+                    }
+                });
     }
 
 
@@ -146,12 +146,17 @@ public class TermDetailActivity extends BaseSecondaryActivity {
 
         switch (menuItem.getItemId()) {
             case R.id.action_add:
-
-                termDetailViewModel.addTerm(activeTerm);
-                if(listOfCourses != null){
-                    for(Course course: listOfCourses){ termDetailViewModel.addCourse(course); }}
-                startTermListActivity();
-                return true;
+                if(validate(activeTerm)) {
+                    termDetailViewModel.addTerm(activeTerm);
+                    if (listOfCourses != null) {
+                        for (Course course : listOfCourses) {
+                            termDetailViewModel.addCourse(course);
+                        }
+                    }
+                    startTermListActivity();
+                    return true;
+                }
+                return false;
             case R.id.action_delete:
                 termDetailViewModel.deleteTerm(activeTerm);
                 startTermListActivity();
@@ -168,10 +173,9 @@ public class TermDetailActivity extends BaseSecondaryActivity {
 
     public void setCourseTerms(List<Course> listOfCourses) {
 
-        if(listOfCourses.size()==0){
+        if (listOfCourses.size() == 0) {
             zeroState.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
 
             this.listOfCourses = listOfCourses;
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -203,12 +207,11 @@ public class TermDetailActivity extends BaseSecondaryActivity {
 
         public void onBindViewHolder(SubListAdapter.SubListViewHolder holder, int position) {
             Course currentCourse = listOfCourses.get(position);
-            holder.subListText.setText(currentCourse.getCode()+ ": "+ currentCourse.getName());
-            if(currentCourse.getTermTitle() == null){
+            holder.subListText.setText(currentCourse.getCode() + ": " + currentCourse.getName());
+            if (currentCourse.getTermTitle() == null) {
                 holder.toggle.setChecked(false);
                 holder.checkmark.setVisibility(View.INVISIBLE);
-            }
-            else{
+            } else {
                 holder.toggle.setChecked(true);
                 holder.checkmark.setVisibility(View.VISIBLE);
             }
@@ -251,15 +254,33 @@ public class TermDetailActivity extends BaseSecondaryActivity {
 
 
     }
-@Override
-     void returnDate(final Calendar calendar) {
+
+    @Override
+    void returnDate(final Calendar calendar) {
         String formattedDate = dateFormat.format(calendar.getTime());
-    if (lastActiveButton == termStartDate) {
-        termStartDate.setText(formattedDate);
-    } else if (lastActiveButton == termStopDate) {
-        termStopDate.setText(formattedDate);
+        if (lastActiveButton == termStartDate) {
+            termStartDate.setText(formattedDate);
+        } else if (lastActiveButton == termStopDate) {
+            termStopDate.setText(formattedDate);
+        }
     }
-}
+
+    boolean validate(Term activeTerm){
+        boolean valid= true;
+        if (activeTerm.getTitle().isEmpty()) {
+            termTitle.setError("Required");
+            valid = false;
+        }
+        if (activeTerm.getStartDate().isEmpty()) {
+            termStartDate.setError("Required");
+            valid = false;
+        }
+        if (activeTerm.getEndDate().isEmpty()) {
+            termStopDate.setError("Required");
+            valid = false;
+        }
+        return valid;
+    }
 
 }
 

@@ -52,7 +52,7 @@
         android:layout_marginTop="235dp"
         android:ems="10"
         android:hint="ex. 555-555-5555"
-        android:inputType="textAutoComplete"
+        android:inputType="phone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -100,7 +100,7 @@
         android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="ex. johndoe@example.org"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

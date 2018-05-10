@@ -31,6 +31,9 @@ import com.smoo182.wguplanner.data.datatypes.MentorAssignment;
 import com.smoo182.wguplanner.data.datatypes.MentorCourses;
 import com.smoo182.wguplanner.logic.CourseDetailViewModel;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -58,7 +61,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
     private AssessmentListAdapter assessmentListAdapter;
     private MentorListAdapter mentorListAdapter;
 
-    private String courseCodeExtra ="";
+    private String courseCodeExtra = "";
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -90,7 +93,8 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
 
         Intent i = getIntent();
         courseCodeExtra = i.getStringExtra(EXTRA_COURSE_CODE);
-        courseDetailViewModel.getCourseByCode(courseCodeExtra).observe(this, new Observer<Course>() {
+        courseDetailViewModel.getCourseByCode(courseCodeExtra).observe(this, new Observer<Course>
+                () {
             @Override
             public void onChanged(@Nullable Course course) {
                 if (course != null) {
@@ -134,31 +138,36 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
             @Override
             public void onClick(View v) {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                String shareString = "Course Notes for" + courseCode.getText().toString() + ": " + courseTitle.getText().toString() + "\r\n" + courseNote.getText().toString();
+                String shareString = "Course Notes for" + courseCode.getText().toString() + ": "
+                        + courseTitle.getText().toString() + "\r\n" + courseNote.getText()
+                        .toString();
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareString);
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, courseCode.getText().toString() + " Notes");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, courseCode.getText().toString() + " " +
+                        "Notes");
                 shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(Intent.createChooser(shareIntent, "Share Notes"));
             }
         });
-        courseDetailViewModel.getMentorsByCourse(courseCodeExtra).observe(this, new Observer<List<MentorAssignment>>() {
-            @Override
-            public void onChanged(@Nullable List<MentorAssignment> mentors) {
-                if(listOfMentors == null) {
-                    setCourseMentors(mentors);
-                }
-            }
-        });
-        courseDetailViewModel.getAssessmentsByCourse(courseCodeExtra).observe(this, new Observer<List<Assessment>>() {
-            @Override
-            public void onChanged(@Nullable List<Assessment> assessments) {
-                if (listOfAssessments == null) {
-                    setCourseAssessments(assessments);
-                }
-            }
+        courseDetailViewModel.getMentorsByCourse(courseCodeExtra).observe(this, new
+                Observer<List<MentorAssignment>>() {
+                    @Override
+                    public void onChanged(@Nullable List<MentorAssignment> mentors) {
+                        if (listOfMentors == null) {
+                            setCourseMentors(mentors);
+                        }
+                    }
+                });
+        courseDetailViewModel.getAssessmentsByCourse(courseCodeExtra).observe(this, new
+                Observer<List<Assessment>>() {
+                    @Override
+                    public void onChanged(@Nullable List<Assessment> assessments) {
+                        if (listOfAssessments == null) {
+                            setCourseAssessments(assessments);
+                        }
+                    }
 
-        });
+                });
 
     }
 
@@ -173,20 +182,24 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
 
         switch (menuItem.getItemId()) {
             case R.id.action_add:
+                if (validate(activeCourse)) {
 
-                courseDetailViewModel.addCourse(activeCourse);
+                    courseDetailViewModel.addCourse(activeCourse);
 
-                if(listOfMentors.size()>0){
-                for (MentorAssignment mentorAssignment: listOfMentors ) {
+                    if (listOfMentors.size() > 0) {
+                        for (MentorAssignment mentorAssignment : listOfMentors) {
 
-                    if(mentorAssignment.getCourseCode() != null){
-                    courseDetailViewModel.assignMentorToCourse(mentorAssignment);}
+                            if (mentorAssignment.getCourseCode() != null) {
+                                courseDetailViewModel.assignMentorToCourse(mentorAssignment);
+                            }
 //TODO: ELse if we're trying to delete a mentor/course relationship .. fucking delete it.
-                }
-                }
+                        }
+                    }
 
-                startCourseListActivity();
-                return true;
+                    startCourseListActivity();
+                    return true;
+                }
+                return false;
             case R.id.action_delete:
                 courseDetailViewModel.deleteCourse(activeCourse);
                 startCourseListActivity();
@@ -195,6 +208,24 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
                 startCourseListActivity();
                 return super.onOptionsItemSelected(menuItem);
         }
+    }
+
+    private boolean validate(Course activeCourse) {
+        boolean valid = true;
+        if (activeCourse.getCode().isEmpty()) {
+            courseCode.setError("Required");
+            valid = false;
+        }
+
+        if (activeCourse.getStartDate().isEmpty()) {
+            courseStartDate.setError("Required");
+            valid = false;
+        }
+        if (activeCourse.getEndDate().isEmpty()) {
+            courseStopDate.setError("Required");
+            valid = false;
+        }
+        return valid;
     }
 
 
@@ -219,7 +250,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
         }
     }
 
-    private void setCourseMentors(List<MentorAssignment> mentors){
+    private void setCourseMentors(List<MentorAssignment> mentors) {
         if (mentors.size() == 0) {
             zeroStateMentors.setVisibility(View.VISIBLE);
         } else {
@@ -241,19 +272,17 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
     }
 
 
+    private class AssessmentListAdapter extends RecyclerView.Adapter<AssessmentListAdapter
+            .AssessmentListViewHolder> {
 
-
-
-
-
-    private class AssessmentListAdapter extends RecyclerView.Adapter<AssessmentListAdapter.AssessmentListViewHolder> {
-
-        public AssessmentListAdapter.AssessmentListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public AssessmentListAdapter.AssessmentListViewHolder onCreateViewHolder(@NonNull
+                                                                                         ViewGroup parent, int viewType) {
             View v = layoutInflater.inflate(R.layout.sublist_item, parent, false);
             return new AssessmentListViewHolder(v);
         }
 
-        public void onBindViewHolder(@NonNull AssessmentListAdapter.AssessmentListViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull AssessmentListAdapter.AssessmentListViewHolder
+                                             holder, int position) {
             Assessment currentAssessment = listOfAssessments.get(position);
 
             String type = "OA";
@@ -277,7 +306,8 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
             return listOfAssessments.size();
         }
 
-        class AssessmentListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class AssessmentListViewHolder extends RecyclerView.ViewHolder implements View
+                .OnClickListener {
 
             private TextView subListText;
             private Switch toggle;
@@ -311,18 +341,23 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
     }
 
 
-    private class MentorListAdapter extends RecyclerView.Adapter<MentorListAdapter.MentorListViewHolder> {
+    private class MentorListAdapter extends RecyclerView.Adapter<MentorListAdapter
+            .MentorListViewHolder> {
 
-        public MentorListAdapter.MentorListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public MentorListAdapter.MentorListViewHolder onCreateViewHolder(@NonNull ViewGroup
+                                                                                 parent, int
+                                                                                 viewType) {
             View v = layoutInflater.inflate(R.layout.sublist_item, parent, false);
             return new MentorListViewHolder(v);
         }
 
-        public void onBindViewHolder(@NonNull MentorListAdapter.MentorListViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull MentorListAdapter.MentorListViewHolder holder, int
+                position) {
             MentorAssignment currentMentor = listOfMentors.get(position);
 
 
-            holder.subListText.setText(currentMentor.getName() + "\nE: " + currentMentor.getEmail() + "\nP: "+ currentMentor.getPhone());
+            holder.subListText.setText(currentMentor.getName() + "\nE: " + currentMentor.getEmail
+                    () + "\nP: " + currentMentor.getPhone());
             if (currentMentor.getCourseCode() != null) {
                 holder.toggle.setChecked(true);
                 holder.checkmark.setVisibility(View.VISIBLE);

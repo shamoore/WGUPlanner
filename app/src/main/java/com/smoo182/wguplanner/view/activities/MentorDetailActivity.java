@@ -3,6 +3,7 @@ package com.smoo182.wguplanner.view.activities;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.persistence.room.util.StringUtil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,14 +75,16 @@ public class MentorDetailActivity extends BaseSecondaryActivity {
         mentorCourseList = (RecyclerView) findViewById(R.id.rv_mentor_courses);
         layoutInflater = getLayoutInflater();
 
-        mentorDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get(MentorDetailViewModel.class);
+        mentorDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get
+                (MentorDetailViewModel.class);
         Intent i = getIntent();
         mentorNameExtra = i.getStringExtra(EXTRA_MENTOR_NAME);
-        mentorDetailViewModel.getMentorByName(mentorNameExtra).observe(this, new Observer<Mentor>() {
+        mentorDetailViewModel.getMentorByName(mentorNameExtra).observe(this, new Observer<Mentor>
+                () {
 
             @Override
             public void onChanged(@Nullable Mentor mentor) {
-                if(mentor != null){
+                if (mentor != null) {
                     mentorName.setText(mentor.getName());
                     mentorEmail.setText(mentor.getEmail());
                     mentorPhone.setText(mentor.getPhone());
@@ -91,15 +96,17 @@ public class MentorDetailActivity extends BaseSecondaryActivity {
         mentorPhone = findViewById(R.id.editText_mentor_phone);
         zeroState = findViewById(R.id.text_zero_state);
 
+        mentorPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
-        mentorDetailViewModel.getCoursesByMentor(mentorNameExtra).observe(this, new Observer<List<Course>>() {
-            @Override
-            public void onChanged(@Nullable List<Course> courses) {
-                if(mentorCourses == null) {
-                    setMentorCourses(courses);
-                }
-            }
-        });
+        mentorDetailViewModel.getCoursesByMentor(mentorNameExtra).observe(this, new
+                Observer<List<Course>>() {
+                    @Override
+                    public void onChanged(@Nullable List<Course> courses) {
+                        if (mentorCourses == null) {
+                            setMentorCourses(courses);
+                        }
+                    }
+                });
     }
 
     public boolean onOptionsItemSelected(MenuItem menuItem) {
@@ -111,10 +118,12 @@ public class MentorDetailActivity extends BaseSecondaryActivity {
 
         switch (menuItem.getItemId()) {
             case R.id.action_add:
-
-                mentorDetailViewModel.addMentor(activeMentor);
-                startMentorListActivity();
-                return true;
+                if (validate(activeMentor)) {
+                    mentorDetailViewModel.addMentor(activeMentor);
+                    startMentorListActivity();
+                    return true;
+                }
+                return false;
             case R.id.action_delete:
                 mentorDetailViewModel.deleteMentor(activeMentor);
                 startMentorListActivity();
@@ -122,6 +131,15 @@ public class MentorDetailActivity extends BaseSecondaryActivity {
             default:
                 startMentorListActivity();
                 return super.onOptionsItemSelected(menuItem);
+        }
+    }
+
+    private boolean validate(Mentor activeMentor) {
+        if (activeMentor.getName().isEmpty()) {
+            mentorName.setError("Required");
+            return false;
+        } else {
+            return true;
         }
     }
 
