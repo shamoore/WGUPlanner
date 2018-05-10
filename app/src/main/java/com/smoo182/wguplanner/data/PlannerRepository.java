@@ -56,7 +56,6 @@ public class PlannerRepository {
     }
 
     public LiveData<List<MentorAssignment>> getMentorsByCourse(String courseCode){
-
              return plannerDao.getMentorsByCourse(courseCode);
     }
 

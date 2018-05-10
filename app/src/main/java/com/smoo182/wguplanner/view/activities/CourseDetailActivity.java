@@ -142,7 +142,6 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
                 startActivity(Intent.createChooser(shareIntent, "Share Notes"));
             }
         });
-
         courseDetailViewModel.getMentorsByCourse(courseCodeExtra).observe(this, new Observer<List<MentorAssignment>>() {
             @Override
             public void onChanged(@Nullable List<MentorAssignment> mentors) {
