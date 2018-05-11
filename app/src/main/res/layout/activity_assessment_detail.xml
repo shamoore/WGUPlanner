@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.activities.AssessmentDetailActivity">
-
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="1500dp">
 
     <TextView
         android:id="@+id/text_assessment_course"
@@ -20,16 +22,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <AutoCompleteTextView
-        android:id="@+id/actv_assessment_course"
+    <Spinner
+        android:id="@+id/spinner_assessment_course"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="120dp"
         android:layout_marginTop="315dp"
         android:ems="10"
-        android:hint="ex. C196"
         android:gravity="center_vertical"
-        android:inputType="textAutoComplete|textAutoCorrect"
+        android:inputType="textAutoComplete"
         android:popupBackground="@color/colorWindowBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -83,7 +84,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText2_term_desc"
+        android:id="@+id/editText_assessment_status"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:layout_marginStart="120dp"
@@ -132,5 +133,11 @@
             android:text="Objective" />
     </RadioGroup>
 
-
+    <TextView
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="700dp"
+        android:text="Bottom"/>
 </android.support.constraint.ConstraintLayout>
+</ScrollView>

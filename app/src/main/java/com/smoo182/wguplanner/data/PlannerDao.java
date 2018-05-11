@@ -1,6 +1,7 @@
 package com.smoo182.wguplanner.data;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -16,7 +17,6 @@ import com.smoo182.wguplanner.data.datatypes.Note;
 import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.data.datatypes.Term;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao
