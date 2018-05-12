@@ -5,8 +5,13 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.smoo182.wguplanner.PlannerApplication;
@@ -20,6 +25,7 @@ public class HomeActivity extends BasePrimaryActivity {
 
     private TextView contentTextView;
     private TextView authorTextView;
+    private Button demoData;
 
     private LayoutInflater layoutInflater;
 
@@ -40,12 +46,11 @@ public class HomeActivity extends BasePrimaryActivity {
     }
 
     public void populateScreen(){
+        ((PlannerApplication) getApplication()).getApplicationComponent().inject(this);
+
         contentTextView = (TextView) findViewById(R.id.text_quote);
         authorTextView = (TextView) findViewById(R.id.text_quote_author);
         layoutInflater = getLayoutInflater();
-
-        ((PlannerApplication) getApplication()).getApplicationComponent().inject(this);
-
         homeViewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel.class);
         homeViewModel.InsertQuotes();
         homeViewModel.getRandomQuote().observe(this, new Observer<Quote>() {
@@ -58,4 +63,6 @@ public class HomeActivity extends BasePrimaryActivity {
 
 
     }
+
+
 }

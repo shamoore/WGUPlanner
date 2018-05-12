@@ -5,13 +5,15 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
+import static android.arch.persistence.room.ForeignKey.NO_ACTION;
+import static android.arch.persistence.room.ForeignKey.SET_NULL;
 
-@Entity(foreignKeys = @ForeignKey(entity = Course.class, parentColumns = "code", childColumns = "courseCode", onDelete = CASCADE))
+@Entity(foreignKeys = @ForeignKey(entity = Course.class, parentColumns = "code", childColumns = "courseCode", onDelete = SET_NULL))
 public class Assessment {
     @PrimaryKey (autoGenerate = true)
     private int id;
     private String name;
-    private Boolean type;
+    private Boolean type; ///true for OA false for PA
     private String status;
     private String courseCode;
 

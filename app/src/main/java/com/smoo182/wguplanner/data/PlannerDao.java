@@ -144,4 +144,5 @@ public interface PlannerDao {
 
     @Query("SELECT code from Course")
     LiveData<String[]> getCourseCodes();
+
 }

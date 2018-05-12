@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -117,6 +118,8 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
         zeroStateAssessments = findViewById(R.id.text_no_assessments);
         zeroStateMentors = findViewById(R.id.text_no_mentors);
         shareNotes = findViewById(R.id.button_share);
+
+        courseCode.setFilters(new InputFilter[] { new InputFilter.AllCaps()});
 
         courseStartDate.setOnClickListener(new View.OnClickListener() {
             @Override

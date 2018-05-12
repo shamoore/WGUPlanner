@@ -25,6 +25,7 @@ public class PlannerRepository {
         this.plannerDao = plannerDao;
     }
 
+
 // Get Lists
     public LiveData<List<Term>> getListOfTerms(){
         return plannerDao.getTermList();

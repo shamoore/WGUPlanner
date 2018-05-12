@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,15 +33,17 @@ import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.logic.AssessmentDetailViewModel;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class AssessmentDetailActivity extends BaseSecondaryActivity implements AdapterView.OnItemSelectedListener {
+public class AssessmentDetailActivity extends BaseSecondaryActivity  {
 
     private static final String EXTRA_ASSESSMENT_NAME = "EXTRA_ASSESSMENT_NAME";
 
@@ -50,9 +53,9 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity implements A
     private RadioButton radioPA;
     private RadioButton radioOA;
     private RadioGroup radioGroupType;
-    private String[] courseList = new String[]{};
+    private String[] coursesArray = new String[]{};
     private String assignedCourse;
-    Spinner courseCodeSearch;
+    AutoCompleteTextView courseCodeSearch;
 
     private LayoutInflater layoutInflater;
     private ArrayAdapter<String> adapter;
@@ -76,7 +79,7 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity implements A
                 editTextName.getText().toString(),
                 radioOA.isActivated(),
                 editTextStatus.getText().toString(),
-                assignedCourse);
+                courseCodeSearch.getText().toString());
 
         switch (menuItem.getItemId()) {
             case R.id.action_add:
@@ -116,16 +119,12 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity implements A
 
         editTextName = findViewById(R.id.editText_assessment_title);
         editTextStatus = findViewById(R.id.editText_assessment_status);
-        courseCodeSearch = findViewById(R.id.spinner_assessment_course);
+        courseCodeSearch = findViewById(R.id.actv_assessment_course);
         radioOA = findViewById(R.id.radioButtonOA);
         radioPA = findViewById(R.id.radioButtonPA);
         radioGroupType = findViewById(R.id.radioGropuAssessmentType);
 
-
-
-
-
-
+        courseCodeSearch.setFilters(new InputFilter[] { new InputFilter.AllCaps()});
         assessmentDetailViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(AssessmentDetailViewModel.class);
 
@@ -133,9 +132,19 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity implements A
             @Override
             public void onChanged(@Nullable String[] strings) {
                 if(strings != null){
-                courseList = strings;}
+                    setCourseStrings(strings);
+                }
+            }
+
+            private void setCourseStrings(String[] courseList) {
+                coursesArray = courseList;
+                adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, courseList);
+                courseCodeSearch.setThreshold(1);
+                courseCodeSearch.setAdapter(adapter);
             }
         });
+
+
 
         Intent i = getIntent();
         assessmentNameExtra = i.getStringExtra(EXTRA_ASSESSMENT_NAME);
@@ -145,27 +154,17 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity implements A
                 if(assessment != null){
                     editTextName.setText(assessment.getName());
                     editTextStatus.setText(assessment.getStatus());
-                    if(assessment.getType()){ radioOA.toggle();}
-                    else{ radioPA.toggle(); }
+                    if(assessment.getType()){ radioOA.setChecked(true);}
+                    else{ radioPA.setChecked(true);}
+                    courseCodeSearch.setText(assessment.getCourseCode());
             }
         }
 
     });
 
-        courseCodeSearch.setOnItemSelectedListener(this);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, courseList);
-        courseCodeSearch.setAdapter(adapter);
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        assignedCourse = courseList[position];
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-    }
 
     public boolean validate(Assessment activeAssessment){
         boolean valid = true;
@@ -174,16 +173,17 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity implements A
             editTextName.setError("Required");
             valid = false;
         }
-        if(activeAssessment.getCourseCode().isEmpty())
-        {
-            editTextStatus.setError("Required");
-            valid = false;
-        }
         if(!radioOA.isChecked() & !radioPA.isChecked())
         {
             radioOA.setError("Type must be selected");
             valid = false;
         }
+
+
+        if(!Arrays.asList(coursesArray).contains(activeAssessment.getCourseCode()))
+        {
+            courseCodeSearch.setError("Please Choose a valid course from the list. If no courses are listed, please add some.");
+            valid = false;}
         return valid;
     }
 }

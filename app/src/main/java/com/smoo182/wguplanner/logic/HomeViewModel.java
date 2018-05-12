@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 
 import com.smoo182.wguplanner.data.PlannerRepository;
 import com.smoo182.wguplanner.data.datatypes.Quote;
-import com.smoo182.wguplanner.data.datatypes.Term;
 
 import javax.inject.Inject;
 
@@ -15,11 +14,13 @@ public class HomeViewModel extends ViewModel {
     private PlannerRepository plannerRepository;
 
     @Inject
-    HomeViewModel(PlannerRepository plannerRepository){
+    HomeViewModel(PlannerRepository plannerRepository) {
         this.plannerRepository = plannerRepository;
     }
 
-    public LiveData<Quote> getRandomQuote() {return this.plannerRepository.getRandomQuote();}
+    public LiveData<Quote> getRandomQuote() {
+        return this.plannerRepository.getRandomQuote();
+    }
 
     public void InsertQuotes() {
         new AddQuoteTask().execute(new Quote("“If you hear a voice within you say ‘you cannot paint,’ then by all means paint, and that voice will be silenced.”", "– Vincent Van Gogh"));
@@ -40,7 +41,8 @@ public class HomeViewModel extends ViewModel {
         new AddQuoteTask().execute(new Quote("“It always seems impossible until it's done. ”", "– Nelson Mandela"));
     }
 
-    private class AddQuoteTask extends AsyncTask<Quote, Void, Void>{
+
+    private class AddQuoteTask extends AsyncTask<Quote, Void, Void> {
 
         @Override
         protected Void doInBackground(Quote... quote) {
@@ -49,3 +51,5 @@ public class HomeViewModel extends ViewModel {
         }
     }
 }
+
+
