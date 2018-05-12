@@ -41,8 +41,9 @@ public class CourseDetailViewModel extends ViewModel {
                 new AssignMentorToCourseTask().execute(mentorCourse);
     }
 
-    public void unAssignMentorFromCourse(Mentor listMentor, String courseCodeExtra) {
-        plannerRepository.unAssignMentorFromCourse(listMentor, courseCodeExtra );
+    public void unAssignMentorFromCourse(MentorAssignment mentorAssignment) {
+        MentorCourses mentorCourse = new MentorCourses(mentorAssignment.getCourseCode(), mentorAssignment.getName());
+            new UnAssignMentorFromCourseTask().execute(mentorCourse);
     }
 
 
@@ -79,6 +80,15 @@ public class CourseDetailViewModel extends ViewModel {
         @Override
         protected Void doInBackground(MentorCourses... mentorCourses) {
             plannerRepository.assignMentorToCourse(mentorCourses[0]);
+            return null;
+        }
+    }
+
+    private class UnAssignMentorFromCourseTask extends  AsyncTask<MentorCourses, Void, Void> {
+
+        @Override
+        protected Void doInBackground(MentorCourses... mentorCourses) {
+            plannerRepository.unAssignMentorFromCourse(mentorCourses[0]);
             return null;
         }
     }

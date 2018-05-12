@@ -133,8 +133,8 @@ public class PlannerRepository {
         plannerDao.insertMentorCourses(mentorCourse);
     }
 
-    public void unAssignMentorFromCourse(Mentor listMentor, String courseCodeExtra) {
-        plannerDao.deleteMentorCourses(new MentorCourses(listMentor.getEmail(), courseCodeExtra));
+    public void unAssignMentorFromCourse(MentorCourses mentorCourse) {
+        plannerDao.deleteMentorCourses(mentorCourse);
     }
 
 

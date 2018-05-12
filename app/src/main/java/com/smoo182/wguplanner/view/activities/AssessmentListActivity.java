@@ -23,14 +23,13 @@ import com.smoo182.wguplanner.PlannerApplication;
 import com.smoo182.wguplanner.R;
 import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.logic.AssessmentListViewModel;
-import com.smoo182.wguplanner.logic.MentorListViewModel;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 public class AssessmentListActivity extends BasePrimaryActivity {
-    private static final String EXTRA_ASSESSMENT_TITLE = "EXTRA_ASSESSMENT_TITLE";
+    private static final String EXTRA_ASSESSMENT_NAME = "EXTRA_ASSESSMENT_NAME";
     private List<Assessment> listOfAssessments;
     private LayoutInflater layoutInflater;
     private RecyclerView recyclerView;
@@ -82,7 +81,7 @@ public class AssessmentListActivity extends BasePrimaryActivity {
 
 public void startDetailActivity(String assessmentTitle, View viewRot){
         Intent i = new Intent(this, AssessmentDetailActivity.class);
-        i.putExtra(EXTRA_ASSESSMENT_TITLE, assessmentTitle);
+        i.putExtra(EXTRA_ASSESSMENT_NAME, assessmentTitle);
         if(assessmentTitle != null){
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
                     new Pair<View, String>(viewRot.findViewById(R.id.list_item_title),
@@ -104,9 +103,6 @@ public void setListOfAssessments(List<Assessment> listAssessments){
 
     DividerItemDecoration itemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
     recyclerView.addItemDecoration(itemDecoration);
-
-    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-    itemTouchHelper.attachToRecyclerView(recyclerView);
 }
 
 public void onClick(View view){}
@@ -124,7 +120,7 @@ private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomVie
     public void onBindViewHolder(@NonNull CustomAdapter.CustomViewHolder holder, int position) {
         Assessment currentAssessment = listOfAssessments.get(position);
         holder.title.setText(currentAssessment.getName());
-        holder.subTitle.setText(assessmenttype(currentAssessment.getType()) + " for " + currentAssessment.getCourseCode());
+        holder.subTitle.setText(assessmentType(currentAssessment.getType()) + " for " + currentAssessment.getCourseCode());
 
     }
 
@@ -133,7 +129,7 @@ private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomVie
         return listOfAssessments.size();
     }
 
-    private String assessmenttype(boolean type){
+    private String assessmentType(boolean type){
         if(type) return "PA";
         else return "OA";
     }

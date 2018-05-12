@@ -186,16 +186,20 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
         switch (menuItem.getItemId()) {
             case R.id.action_add:
                 if (validate(activeCourse)) {
-
                     courseDetailViewModel.addCourse(activeCourse);
-
-                    if (listOfMentors.size() > 0) {
+                    if(listOfMentors != null){
+                    if ( listOfMentors.size() > 0) {
                         for (MentorAssignment mentorAssignment : listOfMentors) {
 
                             if (mentorAssignment.getCourseCode() != null) {
                                 courseDetailViewModel.assignMentorToCourse(mentorAssignment);
                             }
-//TODO: ELse if we're trying to delete a mentor/course relationship .. fucking delete it.
+                            else{
+                                mentorAssignment.setCourseCode(activeCourse.getCode());
+                                courseDetailViewModel.unAssignMentorFromCourse(mentorAssignment);
+                            }
+                        }
+
                         }
                     }
 
@@ -248,8 +252,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
             );
 
             courseAssessments.addItemDecoration(itemDecoration);
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-            itemTouchHelper.attachToRecyclerView(courseAssessments);
+
         }
     }
 

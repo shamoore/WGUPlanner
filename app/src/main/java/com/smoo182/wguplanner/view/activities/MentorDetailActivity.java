@@ -163,8 +163,7 @@ public class MentorDetailActivity extends BaseSecondaryActivity {
             );
 
             mentorCourseList.addItemDecoration(itemDecoration);
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-            itemTouchHelper.attachToRecyclerView(mentorCourseList);
+
         }
 
     }

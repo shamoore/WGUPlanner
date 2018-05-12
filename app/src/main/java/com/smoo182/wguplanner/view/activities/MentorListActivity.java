@@ -116,9 +116,6 @@ public class MentorListActivity extends BasePrimaryActivity {
         );
 
         recyclerView.addItemDecoration(itemDecoration);
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     public void onClick(View view){}

@@ -3,6 +3,7 @@ package com.smoo182.wguplanner.data.datatypes;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 import static android.arch.persistence.room.ForeignKey.NO_ACTION;
@@ -10,8 +11,8 @@ import static android.arch.persistence.room.ForeignKey.SET_NULL;
 
 @Entity(foreignKeys = @ForeignKey(entity = Course.class, parentColumns = "code", childColumns = "courseCode", onDelete = SET_NULL))
 public class Assessment {
-    @PrimaryKey (autoGenerate = true)
-    private int id;
+    @PrimaryKey
+    @NonNull
     private String name;
     private Boolean type; ///true for OA false for PA
     private String status;
@@ -22,14 +23,6 @@ public class Assessment {
         this.type = type;
         this.status = status;
         this.courseCode = courseCode;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {

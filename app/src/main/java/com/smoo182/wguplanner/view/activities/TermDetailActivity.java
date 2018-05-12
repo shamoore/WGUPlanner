@@ -189,8 +189,7 @@ public class TermDetailActivity extends BaseSecondaryActivity {
             );
 
             termCourseList.addItemDecoration(itemDecoration);
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-            itemTouchHelper.attachToRecyclerView(termCourseList);
+
         }
     }
 
