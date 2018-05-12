@@ -55,7 +55,12 @@ public class MentorListActivity extends BasePrimaryActivity {
     @Override
     void populateScreen() {
         FloatingActionButton addFab = findViewById(R.id.fab_add_mentor);
-        addFab.setOnClickListener(addFabListener);
+        addFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MentorListActivity.this, MentorDetailActivity.class));
+            }
+        });
         Toolbar toolbar = (Toolbar) findViewById(R.id.details_toolbar);
         toolbar.setTitle("Mentor List");
         setSupportActionBar(toolbar);
@@ -118,7 +123,6 @@ public class MentorListActivity extends BasePrimaryActivity {
 
     public void onClick(View view){}
 
-    private View.OnClickListener addFabListener = v -> startActivity(new Intent(MentorListActivity.this, MentorDetailActivity.class));
 
     private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder>{
 

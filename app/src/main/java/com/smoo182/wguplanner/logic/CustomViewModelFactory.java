@@ -36,6 +36,8 @@ public class CustomViewModelFactory implements ViewModelProvider.Factory {
             return (T) new MentorDetailViewModel(repository);
         else if(modelClass.isAssignableFrom(AssessmentDetailViewModel.class))
             return (T) new AssessmentDetailViewModel(repository);
+        else if(modelClass.isAssignableFrom(AssessmentListViewModel.class))
+            return (T) new AssessmentListViewModel(repository);
         else {
             throw new IllegalArgumentException("ViewModel Not Found");
         }

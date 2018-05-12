@@ -1,49 +1,31 @@
 package com.smoo182.wguplanner.view.activities;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.smoo182.wguplanner.PlannerApplication;
 import com.smoo182.wguplanner.R;
 import com.smoo182.wguplanner.data.datatypes.Assessment;
-import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.logic.AssessmentDetailViewModel;
-import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import javax.inject.Inject;
 
-public class AssessmentDetailActivity extends BaseSecondaryActivity  {
+public class AssessmentDetailActivity extends BaseSecondaryActivity {
 
     private static final String EXTRA_ASSESSMENT_NAME = "EXTRA_ASSESSMENT_NAME";
 
@@ -65,7 +47,7 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity  {
 
     private AssessmentDetailViewModel assessmentDetailViewModel;
 
-    public AssessmentDetailActivity newInstance(String assessmentName){
+    public AssessmentDetailActivity newInstance(String assessmentName) {
         AssessmentDetailActivity assessmentDetailActivity = new AssessmentDetailActivity();
         Bundle args = new Bundle();
         args.putString(EXTRA_ASSESSMENT_NAME, assessmentName);
@@ -83,7 +65,7 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity  {
 
         switch (menuItem.getItemId()) {
             case R.id.action_add:
-                if(validate(activeAssessment)) {
+                if (validate(activeAssessment)) {
                     assessmentDetailViewModel.addAssessment(activeAssessment);
                     startAssessmentListActivity();
                     return true;
@@ -124,14 +106,14 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity  {
         radioPA = findViewById(R.id.radioButtonPA);
         radioGroupType = findViewById(R.id.radioGropuAssessmentType);
 
-        courseCodeSearch.setFilters(new InputFilter[] { new InputFilter.AllCaps()});
+        courseCodeSearch.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         assessmentDetailViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(AssessmentDetailViewModel.class);
 
         assessmentDetailViewModel.getCourseCodes().observe(this, new Observer<String[]>() {
             @Override
             public void onChanged(@Nullable String[] strings) {
-                if(strings != null){
+                if (strings != null) {
                     setCourseStrings(strings);
                 }
             }
@@ -145,45 +127,40 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity  {
         });
 
 
-
         Intent i = getIntent();
         assessmentNameExtra = i.getStringExtra(EXTRA_ASSESSMENT_NAME);
         assessmentDetailViewModel.getAssessmentByTitle(assessmentNameExtra).observe(this, new Observer<Assessment>() {
             @Override
             public void onChanged(@Nullable Assessment assessment) {
-                if(assessment != null){
+                if (assessment != null) {
                     editTextName.setText(assessment.getName());
                     editTextStatus.setText(assessment.getStatus());
-                    if(assessment.getType()){ radioOA.setChecked(true);}
-                    else{ radioPA.setChecked(true);}
+                    if (assessment.getType()) {
+                        radioOA.setChecked(true);
+                    } else {
+                        radioPA.setChecked(true);
+                    }
                     courseCodeSearch.setText(assessment.getCourseCode());
+                }
             }
-        }
 
-    });
-
-
+        });
     }
 
-
-    public boolean validate(Assessment activeAssessment){
+    public boolean validate(Assessment activeAssessment) {
         boolean valid = true;
-        if(activeAssessment.getName().isEmpty())
-        {
+        if (activeAssessment.getName().isEmpty()) {
             editTextName.setError("Required");
             valid = false;
         }
-        if(!radioOA.isChecked() & !radioPA.isChecked())
-        {
+        if (!radioOA.isChecked() & !radioPA.isChecked()) {
             radioOA.setError("Type must be selected");
             valid = false;
         }
-
-
-        if(!Arrays.asList(coursesArray).contains(activeAssessment.getCourseCode()))
-        {
+        if (!Arrays.asList(coursesArray).contains(activeAssessment.getCourseCode())) {
             courseCodeSearch.setError("Please Choose a valid course from the list. If no courses are listed, please add some.");
-            valid = false;}
+            valid = false;
+        }
         return valid;
     }
 }

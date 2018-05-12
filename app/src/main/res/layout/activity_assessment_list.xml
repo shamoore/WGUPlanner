@@ -17,15 +17,6 @@
          android:layout_marginStart="-16dp"
          app:menu="@menu/bottom_navigation" />
 
-     <TextView
-         android:id="@+id/textView"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignParentTop="true"
-         android:layout_centerHorizontal="true"
-         android:layout_marginTop="153dp"
-         android:text="Assessment List Goes Here" />
-
      <android.support.design.widget.FloatingActionButton
          android:id="@+id/fab_add_assessment"
          android:layout_width="50dp"
@@ -52,5 +43,13 @@
          app:titleTextColor="@color/colorWindowBackground"
          tools:title="Assessment List" />
 
+     <android.support.v7.widget.RecyclerView
+         android:id="@+id/rv_assessment_list"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_below="@id/details_toolbar"
+         android:layout_above="@id/navigation"
+         android:layout_margin="8dp"
+         />
 
 </RelativeLayout>
