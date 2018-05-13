@@ -10,8 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -38,6 +41,8 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity {
     private String[] coursesArray = new String[]{};
     private String assignedCourse;
     AutoCompleteTextView courseCodeSearch;
+    public Button goalDate;
+    public CheckBox reminder;
 
     private LayoutInflater layoutInflater;
     private ArrayAdapter<String> adapter;
@@ -59,14 +64,22 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         Assessment activeAssessment = new Assessment(
                 editTextName.getText().toString(),
-                radioOA.isActivated(),
+                radioOA.isChecked(),
                 editTextStatus.getText().toString(),
-                courseCodeSearch.getText().toString());
+                courseCodeSearch.getText().toString(),
+                goalDate.getText().toString(),
+                reminder.isChecked());
 
         switch (menuItem.getItemId()) {
             case R.id.action_add:
                 if (validate(activeAssessment)) {
                     assessmentDetailViewModel.addAssessment(activeAssessment);
+
+                    if(reminder.isChecked()){
+                    setReminder(activeAssessment);}
+                    else{
+                        removeReminder(activeAssessment);
+                    }
                     startAssessmentListActivity();
                     return true;
                 }
@@ -80,6 +93,16 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity {
                 return super.onOptionsItemSelected(menuItem);
         }
     }
+
+    private void removeReminder(Assessment activeAssessment) {
+        assessmentDetailViewModel.removeAssessmentReminder(activeAssessment);
+    }
+
+    private void setReminder(Assessment activeAssessment) {
+
+        assessmentDetailViewModel.addAssessmentReminder(activeAssessment);
+    }
+
 
     private void startAssessmentListActivity() {
         startActivity(new Intent(this, AssessmentListActivity.class));
@@ -105,6 +128,18 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity {
         radioOA = findViewById(R.id.radioButtonOA);
         radioPA = findViewById(R.id.radioButtonPA);
         radioGroupType = findViewById(R.id.radioGropuAssessmentType);
+        goalDate = findViewById(R.id.button_goal_date);
+        reminder = findViewById(R.id.checkbox_remind);
+
+
+        goalDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                lastActiveButton = goalDate;
+                datePicker(v);
+            }
+        });
 
         courseCodeSearch.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         assessmentDetailViewModel = ViewModelProviders.of(this, viewModelFactory)
@@ -136,11 +171,13 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity {
                     editTextName.setText(assessment.getName());
                     editTextStatus.setText(assessment.getStatus());
                     if (assessment.getType()) {
-                        radioOA.setChecked(true);
-                    } else {
                         radioPA.setChecked(true);
+                    } else {
+                        radioOA.setChecked(true);
                     }
                     courseCodeSearch.setText(assessment.getCourseCode());
+                    goalDate.setText(assessment.getGoalDate());
+                    reminder.setChecked(assessment.isReminderSet());
                 }
             }
 
@@ -161,6 +198,12 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity {
             courseCodeSearch.setError("Please Choose a valid course from the list. If no courses are listed, please add some.");
             valid = false;
         }
+        if(reminder.isChecked()){
+           if(activeAssessment.getGoalDate().isEmpty()) {
+                reminder.setError("Goal Date must be set for a reminder to be set.");
+                valid = false;
+           }
+           }
         return valid;
     }
 }

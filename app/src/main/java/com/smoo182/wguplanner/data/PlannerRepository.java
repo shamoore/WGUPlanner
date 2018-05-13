@@ -1,17 +1,19 @@
 package com.smoo182.wguplanner.data;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 
 import com.smoo182.wguplanner.data.datatypes.Assessment;
 import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.data.datatypes.Mentor;
 import com.smoo182.wguplanner.data.datatypes.MentorAssignment;
 import com.smoo182.wguplanner.data.datatypes.MentorCourses;
-import com.smoo182.wguplanner.data.datatypes.Note;
+import com.smoo182.wguplanner.data.datatypes.Reminder;
 import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.data.datatypes.Term;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -61,10 +63,6 @@ public class PlannerRepository {
              return plannerDao.getMentorsByCourse(courseCode);
     }
 
-    public LiveData<List<Note>> getNotesByCourse(int courseId){
-        return plannerDao.getNotesByCourse(courseId);
-    }
-
 
 //Inserts
 
@@ -80,8 +78,8 @@ public class PlannerRepository {
         plannerDao.insertMentor(mentor);
     }
 
-    public void createNewNote(Note note){
-        plannerDao.insertNote(note);
+    public void createNewReminder(Reminder reminder){
+        plannerDao.insertReminder(reminder);
     }
 
 //Deletes
@@ -102,8 +100,8 @@ public class PlannerRepository {
         plannerDao.deleteMentor(mentor);
     }
 
-    public void deleteNote(Note note){
-        plannerDao.deleteNote(note);
+    public void deleteNote(Reminder reminder){
+        plannerDao.deleteReminder(reminder);
     }
 
 
@@ -121,10 +119,6 @@ public class PlannerRepository {
        return plannerDao.getAssesmentByName(name);
     }
 
-    public void getNoteById(int id){
-        plannerDao.getNoteById(id);
-    }
-
     public LiveData<Term> getTermByTitle(String termTitleExtra) { return plannerDao.getTermByTitle(termTitleExtra); }
 
     public void createNewQuote(Quote quote) { plannerDao.insertQuote(quote); }
@@ -140,5 +134,52 @@ public class PlannerRepository {
 
     public LiveData<String[]> getCourseCodes() {
         return plannerDao.getCourseCodes();
+    }
+
+    public void addAssessmentReminder(Assessment assessment) {
+        Reminder reminder = new Reminder(assessment.getName(), assessment.getGoalDate(), "Assessment");
+        createNewReminder(reminder);
+    }
+
+    public void deleteAssessmentReminder(Assessment assessment) {
+        Reminder reminder = new Reminder(assessment.getName(), assessment.getGoalDate(), "Assessment");
+        deleteReminder(reminder);
+    }
+
+    public LiveData<List<Reminder>> getTodaysReminders() {
+
+        Calendar calendar = Calendar.getInstance();
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+
+
+       String todaysDate = dateFormat.format(calendar.getTime());
+       return plannerDao.getTodaysReminders(todaysDate);
+
+    }
+
+    public void deleteReminder(Reminder reminder) {
+        plannerDao.deleteReminder(reminder);
+    }
+
+    public void deleteCourseEndReminder(Course cours) {
+        Reminder reminder = new Reminder(cours.getCode() +" " + cours.getName(), cours.getEndDate(), "Course Ends ");
+        deleteReminder(reminder);
+
+    }
+
+    public void deleteCourseStartReminder(Course cours) {
+        Reminder reminder = new Reminder(cours.getCode()+" " + cours.getName(), cours.getStartDate(), "Course Starts ");
+        deleteReminder(reminder);
+
+    }
+
+    public void addCourseStartReminder(Course cours) {
+        Reminder reminder = new Reminder(cours.getCode()+" " + cours.getName(), cours.getStartDate(), "Course Starts ");
+        createNewReminder(reminder);
+    }
+
+    public void addCourseEndReminder(Course cours) {
+        Reminder reminder = new Reminder(cours.getCode() +" " + cours.getName(), cours.getEndDate(), "Course Ends ");
+        createNewReminder(reminder);
     }
 }

@@ -56,6 +56,64 @@ public class CourseDetailViewModel extends ViewModel {
         return plannerRepository.getListofMentors();
     }
 
+    public void updateAssessmentFromCourse(Assessment assessment) {
+        new UpdateAssessment().execute(assessment);
+    }
+
+    public void removeCourseEndReminder(Course activeCourse) {
+        new removeCourseEndReminderTask().execute(activeCourse);
+    }
+
+    public void setCourseEndReminder(Course activeCourse) {
+        new setCourseEndReminderTask().execute(activeCourse);
+    }
+
+    public void removeCourseStartReminder(Course activeCourse) {
+        new removeCourseStartReminderTask().execute(activeCourse);
+    }
+
+    public void setCourseStartReminder(Course activeCourse) {
+        new setCourseStartReminderTask().execute(activeCourse);
+    }
+
+    private class removeCourseEndReminderTask extends AsyncTask<Course, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Course... courses) {
+            plannerRepository.deleteCourseEndReminder(courses[0]);
+            return null;
+        }
+    }
+
+    private class removeCourseStartReminderTask extends AsyncTask<Course, Void, Void>{
+        @Override
+        protected Void doInBackground(Course... courses) {
+            plannerRepository.deleteCourseStartReminder(courses[0]);
+            return null;
+        }
+    }
+
+    private class setCourseStartReminderTask extends  AsyncTask<Course, Void, Void>{
+        @Override
+        protected Void doInBackground(Course... courses) {
+            plannerRepository.addCourseStartReminder(courses[0]);
+            return null;
+        }
+    }
+
+    private class setCourseEndReminderTask extends AsyncTask<Course, Void, Void>{
+        @Override
+        protected Void doInBackground(Course... courses) {
+            plannerRepository.addCourseEndReminder(courses[0]);
+            return null;
+        }
+    }
+
+
+
+
+
+
 
     private class AddCourseTask extends AsyncTask<Course, Void, Void> {
 
@@ -89,6 +147,14 @@ public class CourseDetailViewModel extends ViewModel {
         @Override
         protected Void doInBackground(MentorCourses... mentorCourses) {
             plannerRepository.unAssignMentorFromCourse(mentorCourses[0]);
+            return null;
+        }
+    }
+
+    private class UpdateAssessment extends  AsyncTask<Assessment, Void, Void>{
+        @Override
+        protected Void doInBackground(Assessment... assessments) {
+            plannerRepository.createNewAssessment(assessments[0]);
             return null;
         }
     }

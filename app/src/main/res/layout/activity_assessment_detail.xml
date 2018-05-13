@@ -6,139 +6,165 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.activities.AssessmentDetailActivity">
-<android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="1500dp">
 
-    <TextView
-        android:id="@+id/text_assessment_course"
-        style="@style/FieldNameText"
-        android:layout_width="85dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="315dp"
-        android:text="Course"
-        android:textAlignment="viewEnd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <AutoCompleteTextView
-        android:id="@+id/actv_assessment_course"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="315dp"
-        android:ems="10"
-        android:hint="Ex. C196"
-        android:gravity="center_vertical"
-        android:inputType="textAutoComplete"
-        android:popupBackground="@color/colorWindowBackground"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_assessment_title"
-        style="@style/FieldNameText"
-        android:layout_width="85dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
-        android:text="Title"
-        android:textAlignment="viewEnd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_assessment_status"
-        style="@style/FieldNameText"
-        android:layout_width="85dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="150dp"
-        android:text="Status"
-        android:textAlignment="viewEnd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_assessment_type"
-        style="@style/FieldNameText"
-        android:layout_width="85dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="235dp"
-        android:text="Type"
-        android:textAlignment="viewEnd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editText_assessment_title"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="80dp"
-        android:ems="10"
-        android:hint="Ex. Project + Cert"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editText_assessment_status"
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="150dp"
-        android:ems="10"
-        android:hint="Ex. Passed, Failed, 2nd Attempt"
-        android:inputType="textMultiLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/details_toolbar"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/details_toolbar"
-        app:titleTextColor="@color/colorWindowBackground"
-        tools:title="Assessment Details" />
+        android:layout_height="wrap_content">
 
-    <RadioGroup
-        android:id="@+id/radioGropuAssessmentType"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="235dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/text_assessment_course"
+            style="@style/FieldNameText"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="375dp"
+            android:text="Course"
+            android:textAlignment="viewEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/radioButtonPA"
+        <TextView
+            android:id="@+id/text_assessment_goal_date"
+            style="@style/FieldNameText"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="310dp"
+            android:text="Goal Date"
+            android:textAlignment="viewEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <AutoCompleteTextView
+            android:id="@+id/actv_assessment_course"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Performance" />
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="375dp"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="Ex. C196"
+            android:inputType="textAutoComplete"
+            android:popupBackground="@color/colorWindowBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/radioButtonOA"
+        <TextView
+            android:id="@+id/text_assessment_title"
+            style="@style/FieldNameText"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="80dp"
+            android:text="Title"
+            android:textAlignment="viewEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_assessment_status"
+            style="@style/FieldNameText"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="150dp"
+            android:text="Status"
+            android:textAlignment="viewEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_assessment_type"
+            style="@style/FieldNameText"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="235dp"
+            android:text="Type"
+            android:textAlignment="viewEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editText_assessment_title"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="80dp"
+            android:ems="10"
+            android:hint="Ex. Project + Cert"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editText_assessment_status"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="150dp"
+            android:ems="10"
+            android:hint="Ex. Passed, Failed, 2nd Attempt"
+            android:inputType="textMultiLine"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/details_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/details_toolbar"
+            app:titleTextColor="@color/colorWindowBackground"
+            tools:title="Assessment Details" />
+
+        <RadioGroup
+            android:id="@+id/radioGropuAssessmentType"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="235dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/radioButtonPA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Performance" />
+
+            <RadioButton
+                android:id="@+id/radioButtonOA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Objective" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button_goal_date"
+            style="@style/button_date"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="310dp"
+            android:text="mm/dd/yy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/checkbox_remind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Objective" />
-    </RadioGroup>
+            android:layout_marginStart="235dp"
+            android:layout_marginTop="315dp"
+            android:text="Remind Me"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="5dp"
-        android:layout_height="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="700dp"
-        android:text="Bottom"/>
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 </ScrollView>

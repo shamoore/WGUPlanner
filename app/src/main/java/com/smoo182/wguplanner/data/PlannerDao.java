@@ -1,7 +1,6 @@
 package com.smoo182.wguplanner.data;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -13,7 +12,7 @@ import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.data.datatypes.Mentor;
 import com.smoo182.wguplanner.data.datatypes.MentorAssignment;
 import com.smoo182.wguplanner.data.datatypes.MentorCourses;
-import com.smoo182.wguplanner.data.datatypes.Note;
+import com.smoo182.wguplanner.data.datatypes.Reminder;
 import com.smoo182.wguplanner.data.datatypes.Quote;
 import com.smoo182.wguplanner.data.datatypes.Term;
 
@@ -38,8 +37,8 @@ public interface PlannerDao {
     @Query("SELECT * from Mentor")
     LiveData<List<Mentor>> getMentorList();
 
-    @Query("SELECT * from Note")
-    LiveData<List<Note>> getNoteList();
+    @Query("SELECT * from Reminder")
+    LiveData<List<Reminder>> getNoteList();
 
 
 
@@ -60,17 +59,11 @@ public interface PlannerDao {
     "LEFT OUTER JOIN (SELECT * from Mentorcourses sub where sub.courseCode = :courseCode) mc on mc.mentorName = m.name ")
     LiveData<List<MentorAssignment>> getMentorsByCourse(String courseCode);
 
-    @Query("SELECT c.code, c.name, c.note, c.startDate, c.endDate, c.termTitle FROM Course c INNER JOIN MentorCourses mc where mc.mentorName = :mentorName")
+    @Query("SELECT c.code, c.name, c.note, c.startDate, c.endDate, c.termTitle, c.startReminder, c.endReminder FROM Course c INNER JOIN MentorCourses mc where mc.mentorName = :mentorName")
     LiveData<List<Course>> getCoursesByMentor(String mentorName);
 
-    @Query("SELECT c.code, c.name, c.note, c.startDate, c.endDate, c.termTitle FROM Course c INNER JOIN MentorCourses mc where mc.mentorName = :mentorName")
+    @Query("SELECT c.code, c.name, c.note, c.startDate, c.endDate, c.termTitle, c.startReminder, c.endReminder FROM Course c INNER JOIN MentorCourses mc where mc.mentorName = :mentorName")
     LiveData<List<Course>> getCoursesByAssignedMentor(String mentorName);
-
-
-    @Query("SELECT * FROM Note where courseId = :courseId")
-    LiveData<List<Note>> getNotesByCourse(int courseId);
-
-
 
 
     //Inserts. Replacing will allow edit to use the same methods.
@@ -87,7 +80,7 @@ public interface PlannerDao {
     void insertAssessment(Assessment assessment);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertNote(Note note);
+    void insertReminder(Reminder reminder);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertQuote(Quote quote);
@@ -111,7 +104,7 @@ public interface PlannerDao {
     void deleteAssessment(Assessment assessment);
 
     @Delete
-    void deleteNote(Note note);
+    void deleteReminder(Reminder reminder);
 
     @Delete
     void deleteMentorCourses(MentorCourses mentorCourses);
@@ -130,9 +123,6 @@ public interface PlannerDao {
     @Query("SELECT * from Assessment where name = :name")
     LiveData<Assessment> getAssesmentByName(String name);
 
-    @Query("SELECT * from Note where id = :id")
-    Note getNoteById(int id);
-
     @Query("SELECT * from Term where title = :termTitleExtra")
     LiveData<Term> getTermByTitle(String termTitleExtra);
 
@@ -144,5 +134,8 @@ public interface PlannerDao {
 
     @Query("SELECT code from Course")
     LiveData<String[]> getCourseCodes();
+
+    @Query("Select * from reminder where date = :todaysDate")
+    LiveData<List<Reminder>> getTodaysReminders(String todaysDate);
 
 }

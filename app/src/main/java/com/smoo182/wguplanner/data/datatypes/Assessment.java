@@ -9,20 +9,24 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 import static android.arch.persistence.room.ForeignKey.NO_ACTION;
 import static android.arch.persistence.room.ForeignKey.SET_NULL;
 
-@Entity(foreignKeys = @ForeignKey(entity = Course.class, parentColumns = "code", childColumns = "courseCode", onDelete = SET_NULL))
+@Entity(foreignKeys = @ForeignKey(entity = Course.class, parentColumns = "code", childColumns = "courseCode", onDelete = NO_ACTION))
 public class Assessment {
     @PrimaryKey
     @NonNull
     private String name;
-    private Boolean type; ///true for OA false for PA
+    private Boolean type; ///true for pA false for oA
     private String status;
     private String courseCode;
+    private String goalDate;
+    private boolean reminderSet;
 
-    public Assessment(String name, Boolean type, String status, String courseCode) {
+    public Assessment(String name, Boolean type, String status, String courseCode, String goalDate, boolean reminderSet) {
         this.name = name;
         this.type = type;
         this.status = status;
         this.courseCode = courseCode;
+        this.goalDate = goalDate;
+        this.reminderSet = reminderSet;
     }
 
     public String getName() {
@@ -48,4 +52,20 @@ public class Assessment {
     public String getCourseCode(){ return this.courseCode;}
 
     public void setCourseCode(String courseCode){ this.courseCode = courseCode; }
+
+    public String getGoalDate() {
+        return goalDate;
+    }
+
+    public void setGoalDate(String goalDate) {
+        this.goalDate = goalDate;
+    }
+
+    public boolean isReminderSet() {
+        return reminderSet;
+    }
+
+    public void setReminderSet(boolean reminderSet) {
+        this.reminderSet = reminderSet;
+    }
 }

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -50,6 +51,8 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
     private EditText courseNote;
     private RecyclerView courseAssessments;
     private RecyclerView courseMentors;
+    private CheckBox courseStartReminder;
+    private CheckBox courseStopReminder;
 
     public List<Assessment> listOfAssessments;
     public List<MentorAssignment> listOfMentors;
@@ -104,6 +107,8 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
                     courseStartDate.setText(course.getStartDate());
                     courseStopDate.setText(course.getEndDate());
                     courseNote.setText(course.getNote());
+                    courseStartReminder.setChecked(course.isStartReminder());
+                    courseStopReminder.setChecked(course.isEndReminder());
                 }
             }
         });
@@ -118,6 +123,8 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
         zeroStateAssessments = findViewById(R.id.text_no_assessments);
         zeroStateMentors = findViewById(R.id.text_no_mentors);
         shareNotes = findViewById(R.id.button_share);
+        courseStartReminder = findViewById(R.id.checkBox_start_date);
+        courseStopReminder = findViewById(R.id.checkBox_end_date);
 
         courseCode.setFilters(new InputFilter[] { new InputFilter.AllCaps()});
 
@@ -181,7 +188,9 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
                 courseTitle.getText().toString(),
                 courseNote.getText().toString(),
                 courseStartDate.getText().toString(),
-                courseStopDate.getText().toString());
+                courseStopDate.getText().toString(),
+                courseStartReminder.isChecked(),
+                courseStopReminder.isChecked());
 
         switch (menuItem.getItemId()) {
             case R.id.action_add:
@@ -202,6 +211,27 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
 
                         }
                     }
+                    if(listOfAssessments != null){
+                        if ( listOfAssessments.size() > 0) {
+                            for (Assessment assessment : listOfAssessments) {
+                                courseDetailViewModel.updateAssessmentFromCourse(assessment);
+                            }
+                        }
+                    }
+
+                    if(activeCourse.isStartReminder()){
+                        setCourseStartReminder(activeCourse);
+                    }
+                    else {
+                        removeCourseStartReminder(activeCourse);
+                    }
+                    if(activeCourse.isEndReminder()){
+                        setCourseEndReminder(activeCourse);
+                    }
+                    else {
+                        removeCourseEndReminder(activeCourse);}
+
+
 
                     startCourseListActivity();
                     return true;
@@ -216,6 +246,24 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
                 return super.onOptionsItemSelected(menuItem);
         }
     }
+
+    private void removeCourseEndReminder(Course activeCourse) {
+        courseDetailViewModel.removeCourseEndReminder(activeCourse);
+    }
+
+    private void setCourseEndReminder(Course activeCourse) {
+        courseDetailViewModel.setCourseEndReminder(activeCourse);
+    }
+
+    private void removeCourseStartReminder(Course activeCourse) {
+        courseDetailViewModel.removeCourseStartReminder(activeCourse);
+    }
+
+    private void setCourseStartReminder(Course activeCourse) {
+        courseDetailViewModel.setCourseStartReminder(activeCourse);
+    }
+
+
 
     private boolean validate(Course activeCourse) {
         boolean valid = true;
@@ -272,8 +320,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
             );
 
             courseMentors.addItemDecoration(itemDecoration);
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-            itemTouchHelper.attachToRecyclerView(courseMentors);
+
         }
     }
 
@@ -291,9 +338,9 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
                                              holder, int position) {
             Assessment currentAssessment = listOfAssessments.get(position);
 
-            String type = "OA";
+            String type = "PA";
             if (!currentAssessment.getType()) {
-                type = "PA";
+                type = "OA";
             }
 
             holder.subListText.setText(type + ": " + currentAssessment.getName());
@@ -335,7 +382,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
                 if (toggle.isChecked()) {
                     toggle.setChecked(false);
                     checkmark.setVisibility(View.INVISIBLE);
-                    listAssessment.setCourseCode(courseCodeExtra);
+                    listAssessment.setCourseCode(null);
 
                 } else {
                     toggle.setChecked(true);

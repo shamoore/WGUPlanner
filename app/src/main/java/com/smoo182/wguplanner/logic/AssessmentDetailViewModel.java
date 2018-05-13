@@ -29,6 +29,14 @@ public class AssessmentDetailViewModel extends ViewModel {
      return plannerRepository.getCourseCodes();
     }
 
+    public void addAssessmentReminder(Assessment activeAssessment) {
+     new AddAssessmentReminderTask().execute(activeAssessment);
+    }
+
+    public void removeAssessmentReminder(Assessment activeAssessment) {
+     new RemoveAssessmentReminderTask().execute(activeAssessment);
+    }
+
     private class AddAssessmentTask extends AsyncTask<Assessment, Void, Void>{
 
      @Override
@@ -47,7 +55,22 @@ public class AssessmentDetailViewModel extends ViewModel {
      }
  }
 
+ private class AddAssessmentReminderTask extends  AsyncTask<Assessment, Void, Void>{
+
+     @Override
+     protected Void doInBackground(Assessment... assessments) {
+         plannerRepository.addAssessmentReminder(assessments[0]);
+         return null;
+     }
+ }
 
 
+    private class RemoveAssessmentReminderTask extends AsyncTask<Assessment, Void, Void> {
+        @Override
+        protected Void doInBackground(Assessment... assessments) {
+            plannerRepository.deleteAssessmentReminder(assessments[0]);
+            return null;
+        }
+    }
 }
 

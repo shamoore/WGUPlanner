@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -148,11 +149,14 @@ public class TermListActivity extends BasePrimaryActivity {
                 private TextView title;
                 private TextView subTitle;
                 private ViewGroup container;
+                private ImageView imageView;
 
                 public CustomViewHolder(View itemView) {
                     super(itemView);
                     this.title = (TextView) itemView.findViewById(R.id.list_item_title);
                     this.subTitle = (TextView) itemView.findViewById(R.id.list_item_subtitle);
+                    this.imageView = itemView.findViewById(R.id.imageView);
+                    this.imageView.setImageResource(R.drawable.ic_action_dates);
                     this.container = (ViewGroup) itemView.findViewById(R.id.root_list_item);
                     this.container.setOnClickListener(this);
                 }

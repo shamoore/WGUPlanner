@@ -17,6 +17,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.smoo182.wguplanner.PlannerApplication;
@@ -139,14 +140,18 @@ private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomVie
         private TextView title;
         private TextView subTitle;
         private ViewGroup container;
+        private ImageView imageView;
 
         public CustomViewHolder(View itemView) {
             super(itemView);
 
             this.title = itemView.findViewById(R.id.list_item_title);
             this.subTitle = itemView.findViewById(R.id.list_item_subtitle);
+            this.imageView = itemView.findViewById(R.id.imageView);
+            this.imageView.setImageResource(R.drawable.ic_action_course);
             this.container = itemView.findViewById(R.id.root_list_item);
             this.container.setOnClickListener(this);
+
         }
 
         @Override

@@ -6,6 +6,11 @@ import android.os.AsyncTask;
 
 import com.smoo182.wguplanner.data.PlannerRepository;
 import com.smoo182.wguplanner.data.datatypes.Quote;
+import com.smoo182.wguplanner.data.datatypes.Reminder;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -49,6 +54,23 @@ public class HomeViewModel extends ViewModel {
             plannerRepository.createNewQuote(quote[0]);
             return null;
         }
+    }
+
+    public void DeleteReminders(Reminder reminder){
+        new  DeleteRemindersTask().execute(reminder);
+    }
+
+    private class DeleteRemindersTask extends AsyncTask<Reminder, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Reminder... reminders) {
+            plannerRepository.deleteReminder(reminders[0]);
+            return null;
+        }
+    }
+
+    public LiveData<List<Reminder>> getTodaysReminders(){
+        return this.plannerRepository.getTodaysReminders();
     }
 }
 

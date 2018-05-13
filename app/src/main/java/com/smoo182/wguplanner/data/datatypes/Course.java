@@ -5,6 +5,7 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import static android.arch.persistence.room.ForeignKey.NO_ACTION;
 import static android.arch.persistence.room.ForeignKey.SET_NULL;
 
 @Entity (foreignKeys = @ForeignKey(entity = Term.class, parentColumns = "title", childColumns = "termTitle", onDelete = SET_NULL))
@@ -17,14 +18,18 @@ public class Course {
     private String startDate;
     private String endDate;
     private String termTitle;
+    private boolean startReminder;
+    private boolean endReminder;
 
-    public Course(String code, String name, String note, String startDate, String endDate) {
+    public Course(String code, String name, String note, String startDate, String endDate, boolean startReminder, boolean endReminder) {
 
         this.code = code;
         this.name = name;
         this.note = note;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.startReminder = startReminder;
+        this.endReminder = endReminder;
     }
 
     public String getTermTitle() { return termTitle; }
@@ -71,5 +76,20 @@ public class Course {
         this.endDate = endDate;
     }
 
+    public boolean isStartReminder() {
+        return startReminder;
+    }
+
+    public void setStartReminder(boolean startReminder) {
+        this.startReminder = startReminder;
+    }
+
+    public boolean isEndReminder() {
+        return endReminder;
+    }
+
+    public void setEndReminder(boolean endReminder) {
+        this.endReminder = endReminder;
+    }
 }
 
