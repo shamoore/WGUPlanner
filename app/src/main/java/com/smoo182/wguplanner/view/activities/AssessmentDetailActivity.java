@@ -43,6 +43,7 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity {
     AutoCompleteTextView courseCodeSearch;
     public Button goalDate;
     public CheckBox reminder;
+    private Assessment originalAssessment;
 
     private LayoutInflater layoutInflater;
     private ArrayAdapter<String> adapter;
@@ -74,6 +75,12 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity {
             case R.id.action_add:
                 if (validate(activeAssessment)) {
                     assessmentDetailViewModel.addAssessment(activeAssessment);
+
+                    ///Because I'm using the name as the primary key, I do not want to create duplicates when I actually intended to edit the original.
+                    //If I have an original name, and its not the same as my new name, delete my original and put my new one in its place.
+                    if (originalAssessment != null && !originalAssessment.getName().equals(activeAssessment.getName())) {
+                        assessmentDetailViewModel.deleteAssessment(originalAssessment);
+                    }
 
                     if(reminder.isChecked()){
                     setReminder(activeAssessment);}
@@ -171,13 +178,14 @@ public class AssessmentDetailActivity extends BaseSecondaryActivity {
                     editTextName.setText(assessment.getName());
                     editTextStatus.setText(assessment.getStatus());
                     if (assessment.getType()) {
-                        radioPA.setChecked(true);
-                    } else {
                         radioOA.setChecked(true);
+                    } else {
+                        radioPA.setChecked(true);
                     }
                     courseCodeSearch.setText(assessment.getCourseCode());
                     goalDate.setText(assessment.getGoalDate());
                     reminder.setChecked(assessment.isReminderSet());
+                    originalAssessment = assessment;
                 }
             }
 

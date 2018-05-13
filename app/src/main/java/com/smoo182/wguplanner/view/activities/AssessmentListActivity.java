@@ -131,8 +131,8 @@ private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomVie
     }
 
     private String assessmentType(boolean type){
-        if(type) return "PA";
-        else return "OA";
+        if(type) return "OA";
+        else return "PA";
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

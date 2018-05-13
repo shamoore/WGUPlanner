@@ -135,7 +135,7 @@ public class MentorListActivity extends BasePrimaryActivity {
         public void onBindViewHolder(@NonNull CustomAdapter.CustomViewHolder holder, int position) {
             Mentor currentMentor = listOfMentors.get(position);
             holder.title.setText(currentMentor.getName());
-            holder.subTitle.setText("Email: " + currentMentor.getEmail() +", Phone: "+ currentMentor.getPhone());
+            holder.subTitle.setText("Email: " + currentMentor.getEmail() +"\r\nPhone: "+ currentMentor.getPhone());
         }
 
         @Override

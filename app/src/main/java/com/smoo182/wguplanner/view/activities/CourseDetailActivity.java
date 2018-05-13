@@ -53,6 +53,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
     private RecyclerView courseMentors;
     private CheckBox courseStartReminder;
     private CheckBox courseStopReminder;
+    private Course originalCourse;
 
     public List<Assessment> listOfAssessments;
     public List<MentorAssignment> listOfMentors;
@@ -109,6 +110,7 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
                     courseNote.setText(course.getNote());
                     courseStartReminder.setChecked(course.isStartReminder());
                     courseStopReminder.setChecked(course.isEndReminder());
+                    originalCourse = course;
                 }
             }
         });
@@ -191,11 +193,17 @@ public class CourseDetailActivity extends BaseSecondaryActivity {
                 courseStopDate.getText().toString(),
                 courseStartReminder.isChecked(),
                 courseStopReminder.isChecked());
-
         switch (menuItem.getItemId()) {
             case R.id.action_add:
                 if (validate(activeCourse)) {
                     courseDetailViewModel.addCourse(activeCourse);
+
+                    ///Because I'm using the code as the primary key, I do not want to create duplicates when I actually intended to edit the original.
+                    //If I have an original code, and its not the same as my new code, delete my original and put my new one in its place.
+                    if (originalCourse != null && !originalCourse.getCode().equals(originalCourse.getCode())) {
+                        courseDetailViewModel.deleteCourse(originalCourse);
+                    }
+
                     if(listOfMentors != null){
                     if ( listOfMentors.size() > 0) {
                         for (MentorAssignment mentorAssignment : listOfMentors) {

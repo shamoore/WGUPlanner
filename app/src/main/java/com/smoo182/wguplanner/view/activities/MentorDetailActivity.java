@@ -43,6 +43,7 @@ public class MentorDetailActivity extends BaseSecondaryActivity {
     private EditText mentorPhone;
     private RecyclerView mentorCourseList;
     private TextView zeroState;
+    private Mentor originalMentor;
 
     private List<Course> mentorCourses;
     private SubListAdapter adapter;
@@ -89,6 +90,7 @@ public class MentorDetailActivity extends BaseSecondaryActivity {
                     mentorName.setText(mentor.getName());
                     mentorEmail.setText(mentor.getEmail());
                     mentorPhone.setText(mentor.getPhone());
+                    originalMentor = mentor;
                 }
             }
         });
@@ -121,6 +123,11 @@ public class MentorDetailActivity extends BaseSecondaryActivity {
             case R.id.action_add:
                 if (validate(activeMentor)) {
                     mentorDetailViewModel.addMentor(activeMentor);
+                    ///Because I'm using the name as the primary key, I do not want to create duplicates when I actually intended to edit the original.
+                    //If I have an original name, and its not the sme as my new name, delete my original and put my new one in its place.
+                    if (originalMentor != null && !originalMentor.getName().equals(activeMentor.getName())) {
+                        mentorDetailViewModel.deleteMentor(originalMentor);
+                    }
                     startMentorListActivity();
                     return true;
                 }

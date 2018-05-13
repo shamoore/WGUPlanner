@@ -1,8 +1,10 @@
 package com.smoo182.wguplanner.view.activities;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,13 +12,11 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -27,10 +27,8 @@ import com.smoo182.wguplanner.data.datatypes.Course;
 import com.smoo182.wguplanner.data.datatypes.Term;
 import com.smoo182.wguplanner.logic.TermDetailViewModel;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -48,6 +46,8 @@ public class TermDetailActivity extends BaseSecondaryActivity {
     private RecyclerView termCourseList;
     private TextView zeroState;
     private SubListAdapter adapter;
+    private TextView courses;
+    private Term originalTerm;
 
 
     private LayoutInflater layoutInflater;
@@ -93,6 +93,7 @@ public class TermDetailActivity extends BaseSecondaryActivity {
                     termDescription.setText(term.getDescription());
                     termStartDate.setText(term.getStartDate());
                     termStopDate.setText(term.getEndDate());
+                    originalTerm = term;
                 }
             }
         });
@@ -102,6 +103,7 @@ public class TermDetailActivity extends BaseSecondaryActivity {
         termStopDate = findViewById(R.id.editText_enddate);
         termCourseList = findViewById(R.id.rv_term_courses);
         zeroState = findViewById(R.id.text_zero_state);
+        courses = findViewById(R.id.text_term_courses);
 
 
         termStartDate.setOnClickListener(new View.OnClickListener() {
@@ -146,8 +148,13 @@ public class TermDetailActivity extends BaseSecondaryActivity {
 
         switch (menuItem.getItemId()) {
             case R.id.action_add:
-                if(validate(activeTerm)) {
+                if (validate(activeTerm)) {
                     termDetailViewModel.addTerm(activeTerm);
+                    ///Because I'm using the title as the primary key, I do not want to create duplicates when I actually intended to edit the original.
+                    //If I have an original title, and its not the sme as my new title, delete my original and put my new one in its place.
+                    if (originalTerm != null && !originalTerm.getTitle().equals(activeTerm.getTitle())) {
+                        termDetailViewModel.deleteTerm(originalTerm);
+                    }
                     if (listOfCourses != null) {
                         for (Course course : listOfCourses) {
                             termDetailViewModel.addCourse(course);
@@ -158,14 +165,20 @@ public class TermDetailActivity extends BaseSecondaryActivity {
                 }
                 return false;
             case R.id.action_delete:
-                termDetailViewModel.deleteTerm(activeTerm);
-                startTermListActivity();
-                return true;
+                if (!deleteValidate(activeTerm)) {
+                    return false;
+                } else {
+                    termDetailViewModel.deleteTerm(activeTerm);
+                    startTermListActivity();
+                    return true;
+                }
+
             default:
                 startTermListActivity();
                 return super.onOptionsItemSelected(menuItem);
         }
     }
+
 
     private void startTermListActivity() {
         startActivity(new Intent(this, TermListActivity.class));
@@ -246,7 +259,7 @@ public class TermDetailActivity extends BaseSecondaryActivity {
                 } else {
                     toggle.setChecked(true);
                     checkmark.setVisibility(View.VISIBLE);
-                    listCourse.setTermTitle(termTitleExtra);
+                    listCourse.setTermTitle(termTitle.getText().toString());
                 }
             }
         }
@@ -264,8 +277,8 @@ public class TermDetailActivity extends BaseSecondaryActivity {
         }
     }
 
-    boolean validate(Term activeTerm){
-        boolean valid= true;
+    boolean validate(Term activeTerm) {
+        boolean valid = true;
         if (activeTerm.getTitle().isEmpty()) {
             termTitle.setError("Required");
             valid = false;
@@ -280,6 +293,30 @@ public class TermDetailActivity extends BaseSecondaryActivity {
         }
         return valid;
     }
+
+    private boolean deleteValidate(Term activeTerm) {
+        boolean valid = true;
+        for (Course course : listOfCourses) {
+            if (listOfCourses.size() > 0) {
+                if (course.getTermTitle() != null && !course.getTermTitle().isEmpty()) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(TermDetailActivity.this).create();
+                    alertDialog.setTitle("You cannot delete this term.");
+                    alertDialog.setMessage("Terms with courses assigned cannot be deleted. Please unassign all courses and try again.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                    valid = false;
+                }
+            }
+        }
+        return valid;
+    }
+
 
 }
 
